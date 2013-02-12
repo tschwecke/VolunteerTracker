@@ -455,7 +455,7 @@
 					$('#loginButton').button("enable");
 
 					if(error) {
-//						loginErrorSvc.showErrors([validationErrorCodes.LOGIN_CREDENTIALS_INCORRECT]);
+						loginErrorSvc.showErrors([validationErrorCodes.LOGIN_CREDENTIALS_INCORRECT]);
 					}
 					else {
 						sessionMgr.setAccessToken(accessToken);

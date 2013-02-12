@@ -287,7 +287,7 @@ var SessionMgr = function() {
 
     //Attach an event handler so that if we get a 401 we know the user's sessions has aexpiored and we send them back to the login screen
     $('div#login').ajaxError(function(evt, response, settings) {
-        if(response.status == 401) {
+        if(response.status == 401 && self.isAuthenticated()) {
             loginSvc.logout();
         }
     });
