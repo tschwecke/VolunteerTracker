@@ -1,0 +1,220 @@
+﻿.loginBoxContainer {
+	height: 300px;
+}
+		
+.loginBoxContainer .validationErrorBox {
+	position: absolute;
+	left: 50%;
+	margin-left: -150px;
+	top: 15px;
+	width: 300px;
+}
+		
+.loginBox {
+	position: relative;
+	left: 50%;
+	top: 50%;
+	margin-left: -71px;
+	margin-top: -80px;
+}
+		
+.loginBox h1 {
+	font-size: 18px;
+}
+		
+#password {
+	margin-bottom: 10px;
+}
+		
+.hiddenTab {
+	display: none;
+}
+		
+div.createProfile {
+	margin-top: 20px;
+}
+
+.profile {
+	display: table;
+}
+		
+.profileColumn {
+	display: table-cell;
+	padding-right: 10px;
+}
+		
+.innerProfileColumn {
+	display: table;
+}
+
+.profileRow {
+	display: table-row;
+}
+
+.profileHeader {
+	text-align: right;
+	display: table-cell;
+	padding-right: 5px;
+}
+
+.profileValue {
+	display: table-cell;
+	padding: 1px;
+}
+
+.profileRow #relationshipToOrganization {
+	margin-top: 25px;
+}
+		
+.profileRow #preferPhone {
+	margin-top: 25px;
+}
+		
+.profileRow #familyId {
+	margin-top: 25px;
+	width: 55px;
+}
+		
+.familyIdDescription {
+	width: 195px;
+}
+		
+.profileRow #profileSaveButton {
+	margin-top: 40px;
+}
+		
+.validationFailed {
+	border-color: red;
+	border-width: 1px;
+}
+		
+.interests {
+	display: table;
+}
+		
+.interestsColumn {
+	display: table-cell;
+	padding-right: 10px;
+}
+
+ul.interests {
+	list-style-type: none;
+	padding-left: 0px;
+	display: inline;
+}
+		
+p.availabilityDescription {
+	margin-left: 30px;
+	text-align: center;
+	width: 300px;
+}
+		
+table.availability {
+	border-spacing: 0px;
+}
+
+table.availability th.rowHeader {
+	text-align: right;
+	padding-right: 4px;
+}
+		
+table.availability th {
+	border-width: 1px;
+	border-style: none;
+	padding: 0px;
+	margin: 0px;
+	height: 16px;
+}
+
+table.availability td {
+	border-left-width: 1px;
+	border-top-width: 1px;
+	border-left-style: solid;
+	border-top-style: solid;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+	height: 16px;
+}
+		
+td.lastColumn {
+	border-right-width: 1px;
+	border-right-style: solid;		
+}
+
+tr.lastRow td {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;		
+}
+
+table.availability th.empty {
+	border-width: 0px;
+	border-style: none;
+}
+		
+table.availability th.columnHeader {
+	width: 80px;
+}
+		
+#interestsSaveButton {
+	margin-left: 265px;
+	margin-top: 20px;
+}
+		
+div.interests {
+	display: inline;
+}
+		
+div.availability {
+	display: inline;
+}
+		
+span.timeSelected {
+	position:relative;
+	left:50%;
+	margin-left:-8px;
+}
+		
+.hours {
+	display: table;
+}
+		
+.hoursColumn {
+	display: table-cell;
+	padding-right: 10px;
+}
+		
+.innerHoursColumn {
+	display: table;
+}
+
+.hoursRow {
+	display: table-row;
+}
+
+.hoursHeader {
+	text-align: right;
+	display: table-cell;
+	padding-right: 5px;
+}
+
+.hoursValue {
+	display: table-cell;
+	padding: 1px;
+}
+		
+.hoursRow #detailedHoursButton {
+	margin-top: 8px;
+}
+		
+input#hours {
+	width: 75px;
+}
+		
+input#hoursDate {
+	width: 75px;
+}
+		
+.totalHours {
+	font-weight: bold;
+}

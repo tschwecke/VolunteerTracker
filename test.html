@@ -1,0 +1,129 @@
+<html>
+<style>
+	#div1 {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		height: 100px;
+		width: 100px;
+		background-color: lightblue;
+		border-style:solid;
+		border-width:1px;
+	}
+	#div2 {
+		position: absolute;
+		top: 300px;
+		left: 300px;
+		height: 100px;
+		width: 100px;
+		background-color: lightblue;
+		border-style:solid;
+		border-width:1px;
+		//-webkit-transform: rotate(27deg);
+	}
+	#connection {
+		z-index: -99;
+		position: relative;
+		top: 55px;
+		left: 60px;
+		height: 10px;
+		width: 410px;
+		background-color: lightyellow;
+		border-style:solid;
+		border-width:1px;
+		-webkit-transform: rotate(45deg);
+		-webkit-transform-origin:0% 50%;
+	}
+	.request {
+		width:3px;
+		height:3px;
+		background:red;
+		position:absolute;
+		-webkit-animation:req1 500ms; /* Safari and Chrome */
+		-webkit-animation-timing-function: linear; /* Safari and Chrome */
+		-webkit-animation-iteration-count: infinite;
+		-webkit-animation-iteration-direction: alternate;
+	}
+	
+	#request1 { -webkit-animation-delay: 0ms; -webkit-animation-name: req1; }
+	#request2 { -webkit-animation-delay: 25ms; -webkit-animation-name: req2; }
+	#request3 { -webkit-animation-delay: 50ms; -webkit-animation-name: req3; }
+	#request4 { -webkit-animation-delay: 75ms; -webkit-animation-name: req4; }
+	#request5 { -webkit-animation-delay: 100ms; -webkit-animation-name: req1; }
+	#request6 { -webkit-animation-delay: 125ms; -webkit-animation-name: req2; }
+	#request7 { -webkit-animation-delay: 150ms; -webkit-animation-name: req3; }
+	#request8 { -webkit-animation-delay: 175ms; -webkit-animation-name: req4; }
+	#request9 { -webkit-animation-delay: 200ms; -webkit-animation-name: req1; }
+	#request10 { -webkit-animation-delay: 2250ms; -webkit-animation-name: req2; }
+	#request11 { -webkit-animation-delay: 250ms; -webkit-animation-name: req3; }
+	#request12 { -webkit-animation-delay: 275ms; -webkit-animation-name: req4; }
+	#request13 { -webkit-animation-delay: 300ms; -webkit-animation-name: req2; }
+	#request14 { -webkit-animation-delay: 325ms; -webkit-animation-name: req3; }
+	#request15 { -webkit-animation-delay: 350ms; -webkit-animation-name: req4; }
+	#request16 { -webkit-animation-delay: 375ms; -webkit-animation-name: req1; }
+	#request17 { -webkit-animation-delay: 400ms; -webkit-animation-name: req2; }
+	#request18 { -webkit-animation-delay: 425ms; -webkit-animation-name: req3; }
+	#request19 { -webkit-animation-delay: 450ms; -webkit-animation-name: req4; }
+	#request20 { -webkit-animation-delay: 475ms; -webkit-animation-name: req1; }
+
+	@-webkit-keyframes req1 /* Safari and Chrome */
+	{
+		0%   {left:0% top:0%;}
+		35%  {left:25%; top:90%;}
+		55%  {left:50%; top:0%;}
+		80%  {left:75%; top:90%;}
+		100% {left:100%; top:0%;}
+	}
+	@-webkit-keyframes req2 /* Safari and Chrome */
+	{
+		0%   {left:0% top:90%;}
+		25%  {left:25%; top:0%;}
+		50%  {left:50%; top:90%;}
+		75%  {left:75%; top:0%;}
+		100% {left:100%; top:90%;}
+	}
+	@-webkit-keyframes req3 /* Safari and Chrome */
+	{
+		0%   {left:0% top:40%;}
+		15%  {left:25%; top:60%;}
+		45%  {left:50%; top:40%;}
+		70%  {left:75%; top:60%;}
+		100% {left:100%; top:40%;}
+	}
+	@-webkit-keyframes req4 /* Safari and Chrome */
+	{
+		0%   {left:0% top:60%;}
+		15%  {left:25%; top:40%;}
+		40%  {left:50%; top:60%;}
+		85%  {left:75%; top:40%;}
+		100% {left:100%; top:60%;}
+	}
+</style>
+
+<body>
+	<div id="div1"></div>
+	<div id="div2"></div>
+	<div id="connection">
+		<div id="request1" class="request"></div>
+		<div id="request2" class="request"></div>
+		<div id="request3" class="request"></div>
+		<div id="request4" class="request"></div>
+		<div id="request5" class="request"></div>
+		<div id="request6" class="request"></div>
+		<div id="request7" class="request"></div>
+		<div id="request8" class="request"></div>
+		<div id="request9" class="request"></div>
+		<div id="request10" class="request"></div>
+		<div id="request11" class="request"></div>
+		<div id="request12" class="request"></div>
+		<div id="request13" class="request"></div>
+		<div id="request14" class="request"></div>
+		<div id="request15" class="request"></div>
+		<div id="request16" class="request"></div>
+		<div id="request17" class="request"></div>
+		<div id="request18" class="request"></div>
+		<div id="request19" class="request"></div>
+		<div id="request20" class="request"></div>
+	</div>
+</body>
+</html>

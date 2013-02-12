@@ -1,0 +1,526 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Aspen View Academy - Volunteers</title>
+	<link rel="stylesheet" href="jquery/themes/base/jquery.ui.all.css" />
+	<link rel="stylesheet" href="jquery/demos/demos.css" />
+	<link rel="stylesheet" href="styles/volunteer.css" />
+	<link rel="stylesheet" href="styles/jquery-impromptu.css" />
+</head>
+<body>
+<noscript>
+	This site requires javascript to run properly.  Please enable javascript in your browser and reload the page.
+</noscript>
+<div class="demo">
+
+	<div id="login" ui-widget>
+		<div class="loginBoxContainer">
+			<div class="ui-widget validationErrorBox" style="display:none;">
+				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+					<strong>There was a problem with your login:</strong><span class="validationErrorMsg"></span></p>
+				</div>
+			</div>
+
+			<div class="loginBox">
+				<h1>Volunteer Login</h1>
+				<div>Email Address</div>
+				<div><input type="textbox" id="loginEmailAddress" /></div>
+				<div>Password</div>
+				<div><input type="password" id="loginPassword" /></div>
+				<div class="loginButton"><button id="loginButton">Login</button></div>
+				<div class="createProfile">Don't have a login?  <a id="createProfileLink" href="javascript: void(0);">Create your volunteer profile.</a></div> 
+			</div>
+		</div>
+	</div>
+
+    <div id="tabs">
+	    <ul>
+			<li><a href="#profileTab">My Volunteer Profile</a></li>
+			<li><a href="#interestsTab">My Interests & Availability</a></li>
+			<li class="hiddenTab"><a href="#opportunitiesTab">Search Opportunities</a></li>
+			<li id="hoursTabLI" class="hiddenTab"><a href="#hoursTab">My Volunteer Hours</a></li>
+			<li id="adminTabLI" class="hiddenTab"><a href="#adminTab">Admin</a></li>
+		    <span class="logout" style="float: right; margin-top: 5px;"><a id="logoutLink" href="javascript: void(0);">Logout</a></span>
+	    </ul>
+	    <div id="profileTab">
+		    <div class="profile">
+			    <div class="ui-widget validationErrorBox" style="display:none;">
+					<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+						<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+						<strong>Please correct the following errors before saving:</strong><span class="validationErrorMsg"></span></p>
+					</div>
+			    </div>
+			    <div>
+				    <div class="profileColumn">
+					    <div class="innerProfileColumn">
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="email">*Email Address</label></div>
+							    <div class="profileValue">
+								    <input type="text" id="email"/>
+							    </div>
+						    </div>
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="confirmEmail">*Confirm Email Address</label></div>
+							    <div class="profileValue"><input type="text" id="confirmEmail" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="firstName">*First Name</label></div>
+							    <div class="profileValue"><input type="text" id="firstName" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="lastName">*Last Name</label></div>
+							    <div class="profileValue"><input type="text" id="lastName" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="streetAddress">*Street Address</label></div>
+							    <div class="profileValue"><input type="text" id="streetAddress" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="city">*City</label></div>
+							    <div class="profileValue"><input type="text" id="city" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="state">*State</label></div>
+							    <div class="profileValue">
+								    <select id="state" size="1">
+									    <option value="AL">Alabama</option>
+									    <option value="AK">Alaska</option>
+									    <option value="AZ">Arizona</option>
+									    <option value="AR">Arkansas</option>
+									    <option value="CA">California</option>
+									    <option selected value="CO">Colorado</option>
+									    <option value="CT">Connecticut</option>
+									    <option value="DE">Delaware</option>
+									    <option value="FL">Florida</option>
+									    <option value="GA">Georgia</option>
+									    <option value="HI">Hawaii</option>
+									    <option value="ID">Idaho</option>
+									    <option value="IL">Illinois</option>
+									    <option value="IN">Indiana</option>
+									    <option value="IA">Iowa</option>
+									    <option value="KS">Kansas</option>
+									    <option value="KY">Kentucky</option>
+									    <option value="LA">Louisiana</option>
+									    <option value="ME">Maine</option>
+									    <option value="MD">Maryland</option>
+									    <option value="MA">Massachusetts</option>
+									    <option value="MI">Michigan</option>
+									    <option value="MN">Minnesota</option>
+									    <option value="MS">Mississippi</option>
+									    <option value="MO">Missouri</option>
+									    <option value="MT">Montana</option>
+									    <option value="NE">Nebraska</option>
+									    <option value="NV">Nevada</option>
+									    <option value="NH">New Hampshire</option>
+									    <option value="NJ">New Jersey</option>
+									    <option value="NM">New Mexico</option>
+									    <option value="NY">New York</option>
+									    <option value="NC">North Carolina</option>
+									    <option value="ND">North Dakota</option>
+									    <option value="OH">Ohio</option>
+									    <option value="OK">Oklahoma</option>
+									    <option value="OR">Oregon</option>
+									    <option value="PA">Pennsylvania</option>
+									    <option value="RI">Rhode Island</option>
+									    <option value="SC">South Carolina</option>
+									    <option value="SD">South Dakota</option>
+									    <option value="TN">Tennessee</option>
+									    <option value="TX">Texas</option>
+									    <option value="UT">Utah</option>
+									    <option value="VT">Vermont</option>
+									    <option value="VA">Virginia</option>
+									    <option value="WA">Washington</option>
+									    <option value="WV">West Virginia</option>
+									    <option value="WI">Wisconsin</option>
+									    <option value="WY">Wyoming</option>
+								    </select>
+							    </div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="zipcode">*Zip</label></div>
+							    <div class="profileValue"><input type="text" id="zipcode" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="primaryPhoneNbr">*Primary Phone #</label></div>
+							    <div class="profileValue"><input type="text" id="primaryPhoneNbr" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="primaryPhoneType">*Primary Phone Type</label></div>
+							    <div class="profileValue">
+								    <select id="primaryPhoneType">
+									    <option value="">Select...</option>
+									    <option value="home">Home</option>
+									    <option value="cell">Cell</option>
+									    <option value="work">Work</option>
+									    <option value="other">Other</option>
+								    </select>
+							    </div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="bestTimePrimary">*Best Time to Call Primary</label></div>
+							    <div class="profileValue">
+								    <select id="bestTimePrimary">
+									    <option value="">Select...</option>
+									    <option value="morning">Morning</option>
+									    <option value="afternoon">Afternoon</option>
+									    <option value="evening">Evening</option>
+									    <option value="any">Any</option>
+								    </select>
+							    </div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader"><label for="secondaryPhoneNbr">Secondary Phone #</label></div>
+							    <div class="profileValue"><input type="text" id="secondaryPhoneNbr" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader"><label for="secondaryPhoneType">Secondary Phone Type</label></div>
+							    <div class="profileValue">
+								    <select id="secondaryPhoneType">
+									    <option value="">Select...</option>
+									    <option value="home">Home</option>
+									    <option value="cell">Cell</option>
+									    <option value="work">Work</option>
+									    <option value="other">Other</option>
+								    </select>
+							    </div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader"><label for="bestTimeSecondary">Best Time to Call Secondary</label></div>
+							    <div class="profileValue">
+								    <select id="bestTimeSecondary">
+									    <option value="">Select...</option>
+									    <option value="morning">Morning</option>
+									    <option value="afternoon">Afternoon</option>
+									    <option value="evening">Evening</option>
+									    <option value="any">Any</option>
+								    </select>
+							    </div>
+						    </div> 
+					    </div>
+				    </div>
+				    <div class="profileColumn">
+					    <div class="innerProfileColumn">
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="password">*Password</label></div>
+							    <div class="profileValue"><input type="password" id="password" /></div>
+						    </div>
+						    <div class="profileRow">
+							    <div class="profileHeader required"><label for="confirmPassword">*Confirm Password</label></div>
+							    <div class="profileValue"><input type="password" id="confirmPassword" /></div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader"><label for="relationshipToOrganization">Relationship to Organization</label></div>
+							    <div class="profileValue">
+								    <select id="relationshipToOrganization">
+									    <option value="">Select...</option>
+									    <option value="parent">Parent</option>
+									    <option value="grandparent">Grandparent</option>
+									    <option value="friend">Friend</option>
+									    <option value="other">Other</option>
+								    </select>
+		
+							    </div>
+						    </div> 
+						    <div class="profileRow">
+							    <div class="profileHeader">Preferred Contact Method</div>
+							    <div class="profileValue">
+								    <div><label><input type="checkbox" id="preferPhone" />Phone</label></div>
+								    <div><label><input type="checkbox" id="preferEmail" />Email</label></div>
+							    </div>
+						    </div>
+						    <div class="profileRow">
+							    <div class="profileHeader"><label for="familyId">Family ID</label></div>
+							    <div class="profileValue"><input type="text" id="familyId" /></div>
+						    </div> 						
+						    <div class="profileRow">
+							    <div class="profileHeader"></div>
+							    <div class="profileValue familyIdDescription">If someone in your family has already created a volunteer profile, enter their family ID here.  Otherwise leave it blank and a new ID will be created for you.</div>
+						    </div> 						
+						    <div class="profileRow">
+							    <div class="profileHeader"></div>
+							    <div class="profileValue"><button id="profileSaveButton">Save</button></div>
+						    </div> 
+					    </div>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+	    <div id="interestsTab">
+		    <div class="interests">
+			    <div class="ui-widget validationErrorBox" style="display:none;">
+				    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+					    <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+					    <strong>Please correct the following errors before saving:</strong><span class="validationErrorMsg"></span></p>
+				    </div>
+			    </div>	
+			    <div>
+				    <div class="interestsColumn">
+					    <p class="interestsDescription">Areas of Interest - check all that apply</p>
+					    <ul class="interests" id="interestsList"></ul>
+				    </div>
+
+				    <div class="interestsColumn">
+					    <p class="availabilityDescription">Please indicate when you are most likely to be available to volunteer.</p>
+					    <table class="availability">
+						    <thead>
+							    <tr>
+								    <th class="empty" />
+								    <th class="columnHeader">Morning</th>
+								    <th class="columnHeader">Afternoon</th>
+								    <th class="columnHeader">Evening</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+							    <tr>
+								    <th class="rowHeader">Monday</th>
+								    <td data-day="monday" data-time="morning"><span /></td>
+								    <td data-day="monday" data-time="afternoon"><span /></td>
+								    <td data-day="monday" data-time="evening" class="lastColumn"><span /></td>
+							    </tr>
+							    <tr>
+								    <th class="rowHeader">Tuesday</th>
+								    <td data-day="tuesday" data-time="morning"><span /></td>
+								    <td data-day="tuesday" data-time="afternoon"><span /></td>
+								    <td data-day="tuesday" data-time="evening" class="lastColumn"><span /></td>
+							    </tr>
+							    <tr>
+								    <th class="rowHeader">Wednesday</th>
+								    <td data-day="wednesday" data-time="morning"><span /></td>
+								    <td data-day="wednesday" data-time="afternoon"><span /></td>
+								    <td data-day="wednesday" data-time="evening" class="lastColumn"><span /></td>
+							    </tr>
+							    <tr>
+								    <th class="rowHeader">Thursday</th>
+								    <td data-day="thursday" data-time="morning"><span /></td>
+								    <td data-day="thursday" data-time="afternoon"><span /></td>
+								    <td data-day="thursday" data-time="evening" class="lastColumn"><span /></td>
+							    </tr>
+							    <tr>
+								    <th class="rowHeader">Friday</th>
+								    <td data-day="friday" data-time="morning"><span /></td>
+								    <td data-day="friday" data-time="afternoon"><span /></td>
+								    <td data-day="friday" data-time="evening" class="lastColumn"><span /></td>
+							    </tr>
+							    <tr>
+								    <th class="rowHeader">Saturday</th>
+								    <td data-day="saturday" data-time="morning"><span /></td>
+								    <td data-day="saturday" data-time="afternoon"><span /></td>
+								    <td data-day="saturday" data-time="evening" class="lastColumn"><span /></td>
+							    </tr>
+							    <tr class="lastRow">
+								    <th class="rowHeader">Sunday</th>
+								    <td data-day="sunday" data-time="morning"><span /></td>
+								    <td data-day="sunday" data-time="afternoon"><span /></td>
+								    <td data-day="sunday" data-time="evening" class="lastColumn"><span /></td>
+							    </tr>
+						    </tbody>
+					    </table>
+					    <button id="interestsSaveButton">Save</button>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+	    <div id="opportunitiesTab">
+	    </div>
+	    <div id="hoursTab">
+		    <div class="hours">
+			    <div class="ui-widget validationErrorBox" style="display:none;">
+				    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+					    <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+					    <strong>Please correct the following errors before saving:</strong><span class="validationErrorMsg"></span></p>
+				    </div>
+			    </div>	
+			    <div>
+				    <div class="hoursColumn">
+					    <div class="innerHoursColumn">
+						    <div class="hoursRow">
+							    <div class="hoursHeader required"><label for="hoursDate">*Date</label></div>
+							    <div class="hoursValue"><input type="text" id="hoursDate"/></div>
+						    </div>
+						    <div class="hoursRow">
+							    <div class="hoursHeader required"><label for="hours">*Hours</label></div>
+							    <div class="hoursValue"><input type="text" id="hours"/></div>
+						    </div>
+						    <div class="hoursRow">
+							    <div class="hoursHeader required"><label for="hoursArea">*Area of Work</label></div>
+							    <div class="hoursValue">
+								    <select id="hoursArea">
+									    <option value="">Select...</option>
+								    </select>
+							    </div>
+						    </div>
+						    <div class="hoursRow">
+							    <div class="hoursHeader required"><label for="hoursDescription">*Description</label></div>
+							    <div class="hoursValue" style="vertical-align:top;"><textarea id="hoursDescription" rows="5" cols="40"></textarea></div>
+						    </div>
+						    <div class="hoursRow">
+							    <div class="hoursHeader"></div>
+							    <div class="hoursValue"><button id="submitHoursButton">Submit Hours</button></div>
+						    </div> 
+					    </div>
+				    </div>
+				    <div class="hoursColumn">
+					    <div class="innerHoursColumn">
+						    <div class="hoursRow">
+							    <div class="hoursHeader">Total Personal Volunteer Hours:</div>
+							    <div id="personalTotalHours" class="hoursValue totalHours">Not Available</div>
+						    </div>
+						    <div class="hoursRow">
+							    <div class="hoursHeader">Total Family Volunteer Hours:</div>
+							    <div id="familyTotalHours" class="hoursValue totalHours">Not Available</div>
+						    </div>
+						    <div class="hoursRow">
+							    <div class="hoursHeader"><button id="detailedHoursButton">View Detailed Volunteer Time</button></div>
+							    <div class="hoursValue"></div>
+						    </div> 
+					    </div>
+				    </div>
+			    </div>
+		    </div>		
+	    </div>
+        <div id="adminTab">
+            <div id="admin">
+	            <ul>
+		            <li><a href="#adminVolunteersTab">Volunteers</a></li>
+		            <li><a href="#adminHoursTab">Hours</a></li>
+	            </ul>
+	            <div id="adminVolunteersTab">
+                    <table id="adminVolunteerList">
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Email Address</th>
+                            <th>Status</th>
+                            <th>Approved Hours</th>
+                        </tr>
+                    </table>
+                </div>
+	            <div id="adminHoursTab">
+                    <p>Pending Hours</p>
+                   <table id="adminPendingHoursList">
+                        <tr>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Date</th>
+                            <th>Number of Hours</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="jquery/jquery-1.7.2.js"></script>
+<script src="jquery/ui/jquery.ui.core.js"></script>
+<script src="jquery/ui/jquery.ui.widget.js"></script>
+<script src="jquery/ui/jquery.ui.tabs.js"></script>
+<script src="jquery/ui/jquery.ui.button.js"></script>
+<script src="jquery/ui/jquery.ui.datepicker.js"></script>
+<script src="scripts/Impromptu.js"></script>
+<script src="scripts/volunteer.js"></script>
+<script>
+	$(function () {
+		$("#loginButton").button();
+		$("#userName").focus();
+		$(".loginBox").keypress(function (e) {  
+			if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+				$('#loginButton').click();
+				return true;
+			}
+		});
+
+		$("#createProfileLink").bind("click", function() {
+			UserMgrFactory.getUserMgr().init();
+		});
+
+		$("#loginButton").click(function () {
+			loginErrorSvc.hideErrors();
+			var credentials = loginSvc.getCredentialsFromForm();
+			var errors = loginSvc.validate(credentials);
+			if(errors.length > 0) {
+				loginErrorSvc.showErrors(errors);
+			}
+			else {
+				$('#loginButton').button("disable");
+				loginSvc.getAccessToken(credentials, function(error, accessToken) {
+					$('#loginButton').button("enable");
+
+					if(error) {
+//						loginErrorSvc.showErrors([validationErrorCodes.LOGIN_CREDENTIALS_INCORRECT]);
+					}
+					else {
+						sessionMgr.setAccessToken(accessToken);
+
+						UserMgrFactory.getUserMgr().init();
+					}
+				});
+			}
+		});
+
+		$("#tabs").hide();
+
+		$("#tabs").tabs();
+
+		$("#admin").tabs();
+
+		$("#profileSaveButton").button();
+		$("#profileSaveButton").click(function () {
+		UserMgrFactory.getUserMgr().saveProfile();
+		});
+
+		$("#interestsSaveButton").button();
+		$("#interestsSaveButton").click(function () {
+		UserMgrFactory.getUserMgr().saveInterestsAndAvailability();
+		});
+
+		$("table.availability td").click(function () {
+			$(this).find("span").toggleClass("ui-icon ui-icon-bullet timeSelected");
+
+		});
+		$("#hoursDate").datepicker();
+
+		$("#submitHoursButton").button();
+		$("#submitHoursButton").click(function () {
+			UserMgrFactory.getUserMgr().saveHours();
+		});
+
+		$("#detailedHoursButton").button();
+		$("#detailedHoursButton").hide();
+
+		$("#loginEmailAddress").focus();
+
+		$("#logoutLink").click(function () {
+			loginSvc.logout();
+		});
+
+		if(sessionMgr.isAuthenticated()) {
+			UserMgrFactory.getUserMgr().init();
+		}
+    });
+
+	var sessionMgr = new SessionMgr();
+	var loginSvc = new LoginSvc($("div#login"));
+	var loginErrorSvc = new ErrorSvc($("div#login"));
+	var volunteerSvc = new VolunteerSvc($("div.profile"));
+	var profileSvc = new ProfileSvc($("div.profile"));
+	var profileErrorSvc = new ErrorSvc($("div.profile"));
+	var interestsSvc = new InterestsSvc($("div.interests"));
+	var availabilitySvc = new AvailabilitySvc($("div.interests"));
+	var volunteerHoursSvc = new VolunteerHoursSvc($("div.hours"));
+	var volunteerHoursErrorSvc = new ErrorSvc($("div.hours"));
+	var adminVolunteerSvc = new AdminVolunteerSvc($("div#adminVolunteersTab"));
+	var adminHoursSvc = new AdminHoursSvc($("div#adminHoursTab"));
+	var rightSvc = new RightSvc();
+</script>
+
+</body>
+</html>
