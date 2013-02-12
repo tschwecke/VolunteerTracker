@@ -56,7 +56,7 @@
 	    var availabilities = availabilitySvc.getFromForm();
 	    interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
 	        availabilitySvc.save(sessionMgr.getVolunteerId(), availabilities, function () {
-				$.prompt('Your profile has been created. Once your status has been changed to "approved" you will be able to submit hours.');
+				notificationMgr.notify('Your profile has been created. Once your status has been changed to "approved" you will be able to submit hours.');
 	            $("#interestsSaveButton").button("enable");
 
 	        });
@@ -1008,6 +1008,14 @@ var RightSvc = function() {
 			}
 		});
 	};
+};
+
+var NotificationMgr = function() {
+    var self = this;
+
+    this.notify = function(message) {
+        $.prompt(message);
+    };
 };
 
 var hasValue = function(value) {
