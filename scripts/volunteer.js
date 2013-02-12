@@ -160,6 +160,7 @@ var ExistingUserMgr = function() {
             volunteerSvc.update(volunteer, function(error, data) {
                 currentVolunteer = volunteer;
 	            profileSvc.update(volunteer.id, profile, function () {
+					notificationMgr.notify("Your volunteer profile has been saved.");
 	                $("#profileSaveButton").button("enable");
 	            });
             });
@@ -175,6 +176,7 @@ var ExistingUserMgr = function() {
 	    var availabilities = availabilitySvc.getFromForm();
 	    interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
 	        availabilitySvc.save(sessionMgr.getVolunteerId(), availabilities, function () {
+				notificationMgr.notify("Your interests and availability have been saved.");
 	            $("#interestsSaveButton").button("enable");
 	        });
 	    });
@@ -187,6 +189,7 @@ var ExistingUserMgr = function() {
 	        $("#submitHoursButton").button("disable");
 	        volunteerHoursErrorSvc.hideErrors();
 	        volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
+				notificationMgr.notify("Your hours have been saved.");
 	            $("#submitHoursButton").button("enable");
 	            volunteerHoursSvc.clearForm();
 	        });
@@ -884,7 +887,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
             var volunteerId = eventObject.target.dataset.volunteerid;
             var roleId = eventObject.target.value;
             self.updateRole(volunteerId, roleId, function() {
-                alert('Status Updated');
+                notificationMgr.notify('The volunteer status has been updated.');
             });
         });
 	};
@@ -951,7 +954,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
             var hoursId = eventObject.target.dataset.hoursid;
             var status = eventObject.target.value;
             self.updateStatus(volunteerId, hoursId, status, function() {
-                alert('Status Updated');
+                notificationMgr.notify('The hours status has been updated.');
             });
         });
 	};

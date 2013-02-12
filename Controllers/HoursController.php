@@ -55,8 +55,6 @@ class HoursController extends BaseController {
 	}
 
 	public function create($volunteerId) {
-echo time();
-var_dump($volunteerId);
 		$authenticatedUserId = $this->getAuthenticatedUserId();
 
 		$authorizationMgr = new AuthorizationMgr();
