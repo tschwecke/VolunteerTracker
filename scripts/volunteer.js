@@ -291,12 +291,14 @@ var SessionMgr = function() {
     //Attach an event handler so that if we get a 401 we know the user's sessions has aexpiored and we send them back to the login screen
     $('div#login').ajaxError(function(evt, response, settings) {
         if(response.status == 401 && self.isAuthenticated()) {
-            loginSvc.logout();
+			notificationMgr.notify("You're session has expired.", function() {
+            	loginSvc.logout();
+			});
         }
     });
 };
 
-var LoginSvc = function (loginDiv) {
+var LoginSvc = function(loginDiv) {
 	this.getCredentialsFromForm = function () {
         var credentials = {
             emailAddress: loginDiv.find("#loginEmailAddress").val(),
@@ -1016,8 +1018,13 @@ var RightSvc = function() {
 var NotificationMgr = function() {
     var self = this;
 
-    this.notify = function(message) {
-        $.prompt(message);
+    this.notify = function(message, callback) {
+		var options = {};
+		if(callback) {
+			options.submit = callback;
+		}
+
+        $.prompt(message, options);
     };
 };
 
