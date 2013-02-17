@@ -6,7 +6,7 @@ class Dal {
 //	protected static $MYSQL_USERNAME = "schweckeblogtest";
 //	protected static $MYSQL_PWD = "BlogPwd1";
 //	protected static $MYSQL_DB = "schweckeblogtest";
-	
+
 	protected static $MYSQL_HOST = "localhost";
 	protected static $MYSQL_USERNAME = "root";
 	protected static $MYSQL_PWD = "";
@@ -76,7 +76,7 @@ class Dal {
 		return $results;
 	}
 
-	private static function createConnection() {
+	public static function createConnection() {
 		$mysqli = new mysqli(Dal::$MYSQL_HOST, Dal::$MYSQL_USERNAME, Dal::$MYSQL_PWD, Dal::$MYSQL_DB);
 		if ($mysqli->connect_errno) {
 			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
