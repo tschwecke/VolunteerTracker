@@ -906,7 +906,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
     this.updateRole = function(volunteerId, roleId, callback) {
 		$.ajax("restservices/volunteers/" + volunteerId + "/role", {
 			type: "PUT",
-			data: JSON.stringify({"Id": roleId}),
+			data: JSON.stringify({"id": roleId}),
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
 			}
