@@ -12,9 +12,9 @@ SELECT
     i.Interest_PK as 'Selected',
     i.Interest_PK
 FROM
-    `InterestArea` ia
+    `interestarea` ia
 LEFT OUTER JOIN 
-    `Interest` i ON ia.InterestArea_PK = i.InterestArea_PK AND i.Volunteer_PK = volunteer_PK
+    `interest` i ON ia.InterestArea_PK = i.InterestArea_PK AND i.Volunteer_PK = volunteer_PK
 ORDER BY 
     ia.SortOrder;
     

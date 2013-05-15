@@ -20,66 +20,66 @@ $res = $app->response();
 $res['Content-Type'] = 'application/json';
 
 //Access Token
-$app->post('/services/accessToken', function() {
+$app->post('/restservices/accessToken', function() {
 	$controller = new AccessTokenController();
 	$controller->getWithEmailAndPassword();
 });
 
 //Volunteer
-$app->get('/services/volunteers/:volunteerId', function($volunteerId) {
+$app->get('/restservices/volunteers/:volunteerId', function($volunteerId) {
 	$controller = new VolunteerController();
 	$controller->getById($volunteerId);
 });
 
-$app->get('/services/volunteers', function() {
+$app->get('/restservices/volunteers', function() {
 	$controller = new VolunteerController();
 	$controller->getAll();
 });
 
-$app->post('/services/volunteers', function() {
+$app->post('/restservices/volunteers', function() {
 	$controller = new VolunteerController();
 	$controller->create();
 });
 
-$app->put('/services/volunteers/:volunteerId', function($volunteerId) {
+$app->put('/restservices/volunteers/:volunteerId', function($volunteerId) {
 	$controller = new VolunteerController();
 	$controller->update($volunteerId);
 });
 
-$app->put('/services/volunteers/:volunteerId/role', function($volunteerId) {
+$app->put('/restservices/volunteers/:volunteerId/role', function($volunteerId) {
 	$controller = new VolunteerController();
 	$controller->updateRole($volunteerId);
 });
 
 //Profile
-$app->get('/services/volunteers/:volunteerId/profile', function($volunteerId) {
+$app->get('/restservices/volunteers/:volunteerId/profile', function($volunteerId) {
 	$controller = new ProfileController();
 	$controller->getByVolunteerId($volunteerId);
 });
 
-$app->post('/services/volunteers/:volunteerId/profile', function($volunteerId) {
+$app->post('/restservices/volunteers/:volunteerId/profile', function($volunteerId) {
 	$controller = new ProfileController();
 	$controller->create($volunteerId);
 });
 
-$app->put('/services/volunteers/:volunteerId/profile', function($volunteerId) {
+$app->put('/restservices/volunteers/:volunteerId/profile', function($volunteerId) {
 	$controller = new ProfileController();
 	$controller->update($volunteerId);
 });
 
 //Interest Areas
 
-$app->get('/services/interestAreas', function() {
+$app->get('/restservices/interestAreas', function() {
 	$controller = new InterestAreaController();
 	$controller->getAll();
 });
 
-$app->post('/services/interestAreas', function() {
+$app->post('/restservices/interestAreas', function() {
 	$controller = new InterestAreaController();
 	$controller->create();
 });
 
-$app->put('/services/interestAreas/:id', function($id) {
+$app->put('/restservices/interestAreas/:id', function($id) {
 	$controller = new InterestAreaController();
 	$controller->update($id);
 });
@@ -87,17 +87,17 @@ $app->put('/services/interestAreas/:id', function($id) {
 
 //Interests
 
-$app->get('/services/volunteers/:volunteerId/interests', function($volunteerId) {
+$app->get('/restservices/volunteers/:volunteerId/interests', function($volunteerId) {
 	$controller = new InterestController();
 	$controller->getByVolunteerId($volunteerId);
 });
 
-$app->post('/services/volunteers/:volunteerId/interests', function($volunteerId) {
+$app->post('/restservices/volunteers/:volunteerId/interests', function($volunteerId) {
 	$controller = new InterestController();
 	$controller->create($volunteerId);
 });
 
-$app->put('/services/volunteers/:volunteerId/interests/:interestId', function($volunteerId, $interestId) {
+$app->put('/restservices/volunteers/:volunteerId/interests/:interestId', function($volunteerId, $interestId) {
 	$controller = new InterestController();
 	$controller->create($volunteerId);
 });
@@ -105,12 +105,12 @@ $app->put('/services/volunteers/:volunteerId/interests/:interestId', function($v
 
 //Selected Interests
 
-$app->get('/services/volunteers/:volunteerId/selectedInterests', function($volunteerId) {
+$app->get('/restservices/volunteers/:volunteerId/selectedInterests', function($volunteerId) {
 	$controller = new SelectedInterestController();
 	$controller->getByVolunteerId($volunteerId);
 });
 
-$app->put('/services/volunteers/:volunteerId/selectedInterests', function($volunteerId) {
+$app->put('/restservices/volunteers/:volunteerId/selectedInterests', function($volunteerId) {
 	$controller = new SelectedInterestController();
 	$controller->setForVolunteerId($volunteerId);
 });
@@ -118,12 +118,12 @@ $app->put('/services/volunteers/:volunteerId/selectedInterests', function($volun
 
 //Availability
 
-$app->get('/services/volunteers/:volunteerId/availability', function($volunteerId) {
+$app->get('/restservices/volunteers/:volunteerId/availability', function($volunteerId) {
 	$controller = new AvailabilityController();
 	$controller->getByVolunteerId($volunteerId);
 });
 
-$app->put('/services/volunteers/:volunteerId/availability', function($volunteerId) {
+$app->put('/restservices/volunteers/:volunteerId/availability', function($volunteerId) {
 	$controller = new AvailabilityController();
 	$controller->setForVolunteerId($volunteerId);
 });
@@ -131,27 +131,27 @@ $app->put('/services/volunteers/:volunteerId/availability', function($volunteerI
 
 //Hours
 
-$app->get('/services/volunteers/:volunteerId/hours', function($volunteerId) {
+$app->get('/restservices/volunteers/:volunteerId/hours', function($volunteerId) {
 	$controller = new HoursController();
 	$controller->getByVolunteerId($volunteerId);
 });
 
-$app->get('/services/hours/pending', function() {
+$app->get('/restservices/hours/pending', function() {
 	$controller = new HoursController();
 	$controller->getPendingHours();
 });
 
-$app->get('/services/hours/approvedTotals', function() {
+$app->get('/restservices/hours/approvedTotals', function() {
 	$controller = new HoursController();
 	$controller->getApprovedTotals();
 });
 
-$app->post('/services/volunteers/:volunteerId/hours', function($volunteerId) {
+$app->post('/restservices/volunteers/:volunteerId/hours', function($volunteerId) {
 	$controller = new HoursController();
 	$controller->create($volunteerId);
 });
 
-$app->put('/services/volunteers/:volunteerId/hours/:hoursId/status', function($volunteerId, $hoursId) {
+$app->put('/restservices/volunteers/:volunteerId/hours/:hoursId/status', function($volunteerId, $hoursId) {
 	$controller = new HoursController();
 	$controller->updateStatus($hoursId);
 });
@@ -159,7 +159,7 @@ $app->put('/services/volunteers/:volunteerId/hours/:hoursId/status', function($v
 
 //Rights
 
-$app->get('/services/roles/:roleId/rights', function($roleId) {
+$app->get('/restservices/roles/:roleId/rights', function($roleId) {
 	$controller = new RightController();
 	$controller->getByRoleId($roleId);
 });

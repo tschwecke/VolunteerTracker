@@ -14,7 +14,7 @@ class AuthenticationFilter extends \Slim\Middleware
 	$httpMethod = $req->getMethod();
 	$resourceUri = strtolower($req->getResourceUri());
 
-	if($httpMethod == "POST" && ($resourceUri == '/services/volunteers' || $resourceUri == '/services/accesstoken')) {
+	if($httpMethod == "POST" && ($resourceUri == '/restservices/volunteers' || $resourceUri == '/restservices/accesstoken')) {
 		$this->next->call();
 		return;
 	}
