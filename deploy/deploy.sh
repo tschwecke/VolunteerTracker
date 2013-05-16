@@ -1,62 +1,15 @@
 #!/bin/bash
-ftp -n devsite1.aspenviewacademy.org << EOT
-ascii
-user schwecke pRuTe5T2
-prompt
-passive
-cd devsite1
-cd volunteer
-lcd ..
-mput *.*
-put .htaccess
 
-mkdir Controllers
-cd Controllers
-lcd Controllers
-mput *.php
-cd ..
-lcd ..
-
-mkdir Domain
-cd Domain
-lcd Domain
-mput *.php
-cd ..
-lcd ..
-
-mkdir Middleware
-cd Middleware
-lcd Middleware
-mput *.php
-cd ..
-lcd ..
-
-mkdir Models
-cd Models
-lcd Models
-mput *.php
-cd ..
-lcd ..
-
-mkdir scripts
-cd scripts
-lcd scripts
-mput *.*
-cd ..
-lcd ..
-
-mkdir styles
-cd styles
-lcd styles
-mput *.*
-cd ..
-lcd ..
-
-mkdir Util
-cd Util
-lcd Util
-mput *.php
-cd ..
-lcd ..
-
+ncftpput -f deploy/ftp.config /devsite1/volunteer .htaccess
+ncftpput -f deploy/ftp.config /devsite1/volunteer services.php
+ncftpput -f deploy/ftp.config /devsite1/volunteer Volunteer.html
+ncftpput -f deploy/ftp.config /devsite1/volunteer config.ini
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer Controllers
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer Domain
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer Middleware
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer Models
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer scripts
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer Slim
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer styles
+ncftpput -R -f deploy/ftp.config /devsite1/volunteer Util
 

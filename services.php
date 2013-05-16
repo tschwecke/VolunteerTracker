@@ -1,4 +1,5 @@
 <?php
+require_once 'Util/Config.php';
 require_once 'Controllers/AccessTokenController.php';
 require_once 'Controllers/AvailabilityController.php';
 require_once 'Controllers/HoursController.php';
@@ -9,6 +10,8 @@ require_once 'Controllers/RightController.php';
 require_once 'Controllers/SelectedInterestController.php';
 require_once 'Controllers/VolunteerController.php';
 require_once 'Middleware/AuthenticationFilter.php';
+
+Config::load('config.ini');
 
 require_once 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
@@ -167,163 +170,3 @@ $app->get('/restservices/roles/:roleId/rights', function($roleId) {
 
 $app->run();
 
-/*
-           routes.MapRoute(
-                "GetAccessToken",
-                "service.aspx/accessToken",
-                new { controller = "AccessToken", action = "GetWithEmailAndPassword" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
-                "CreateVolunteer",
-                "services.aspx/volunteers",
-                new { controller = "Volunteer", action = "Create" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
-                "UpdateVolunteer",
-                "services.aspx/volunteers/{volunteerId}",
-                new { controller = "Volunteer", action = "Update" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "UpdateVolunteerRole",
-                "services.aspx/volunteers/{volunteerId}/role",
-                new { controller = "Volunteer", action = "UpdateRole" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "GetVolunteer",
-                "services.aspx/volunteers/{volunteerId}",
-                new { controller = "Volunteer", action = "GetById" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "GetVolunteers",
-                "services.aspx/volunteers",
-                new { controller = "Volunteer", action = "GetAll" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "GetProfileByVolunteerId",
-                "services.aspx/volunteers/{volunteerId}/profile",
-                new { controller = "Profile", action = "GetByVolunteerId" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-            
-            routes.MapRoute(
-                "CreateProfile",
-                "services.aspx/volunteers/{volunteerId}/profile",
-                new { controller = "Profile", action = "Create" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
-                "UpdateProfile",
-                "services.aspx/volunteers/{volunteerId}/profile",
-                new { controller = "Profile", action = "Update" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "GetAllInterestAreas",
-                "services.aspx/interestAreas",
-                new { controller = "InterestArea", action = "GetAll" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "CreateInterestArea",
-                "services.aspx/interestAreas",
-                new { controller = "InterestArea", action = "Create" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
-                "UpdateInterestArea",
-                "services.aspx/interestAreas/{id}",
-                new { controller = "InterestArea", action = "Update" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "GetInterestsByVolulnteerId",
-                "services.aspx/volunteers/{volunteerId}/interests",
-                new { controller = "Interest", action = "GetByVolunteerId" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "CreateInterest",
-                "service.aspx/volunteer/{volunteerId}/interests",
-                new { controller = "Interest", action = "Create" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
-                "UpdateInterest",
-                "services.aspx/volunteers/{volunteerId}/interests/{interestId}",
-                new { controller = "Interest", action = "Update" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-
-            routes.MapRoute(
-                "GetSelectedInterestsByVolunteerId",
-                "services.aspx/volunteers/{volunteerId}/selectedInterests",
-                new { controller = "SelectedInterest", action = "GetByVolunteerId" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "SetSelectedInterestsByVolunteerId",
-                "services.aspx/volunteers/{volunteerId}/selectedInterests",
-                new { controller = "SelectedInterest", action = "SetForVolunteerId" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "GetAllAvailabilitiesByVolunteerId",
-                "services.aspx/volunteers/{volunteerId}/availability",
-                new { controller = "Availability", action = "GetByVolunteerId" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "SetAvailabilitiesByVolunteerId",
-                "services.aspx/volunteers/{volunteerId}/availability",
-                new { controller = "Availability", action = "SetForVolunteerId" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "GetAllHoursByVolunteerId",
-                "services.aspx/volunteers/{volunteerId}/hours",
-                new { controller = "Hours", action = "GetByVolunteerId" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "GetAllPendingHours",
-                "services.aspx/hours/pending",
-                new { controller = "Hours", action = "GetPendingHours" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "GetApprovedHoursTotals",
-                "services.aspx/hours/approvedTotals",
-                new { controller = "Hours", action = "GetApprovedTotals" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "CreateHours",
-                "services.aspx/volunteers/{volunteerId}/hours",
-                new { controller = "Hours", action = "Create" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
-                "UpdateHoursStatus",
-                "services.aspx/volunteers/{volunteerId}/hours/{hoursId}/status",
-                new { controller = "Hours", action = "UpdateStatus" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "CreateSchema",
-                "services.aspx/createSchema",
-                new { controller = "DbSchema", action = "CreateSchema" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
-                "GetRightsByRoleId",
-                "services.aspx/roles/{roleId}/rights",
-                new { controller = "Right", action = "GetByRoleId" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-        }
-*/

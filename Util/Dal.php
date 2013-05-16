@@ -1,16 +1,18 @@
 <?php
 
+require_once 'Util/Config.php';
+
 class Dal {
 
-//	protected static $MYSQL_HOST = "schweckeblogtest.db.9792020.hostedresource.com";
-//	protected static $MYSQL_USERNAME = "schweckeblogtest";
-//	protected static $MYSQL_PWD = "BlogPwd1";
-//	protected static $MYSQL_DB = "schweckeblogtest";
+//	protected static $MYSQL_HOST = Config::get('MYSQL_HOST');
+//	protected static $MYSQL_USERNAME = Config::get('MYSQL_USERNAME');
+//	protected static $MYSQL_PWD = Config::get('MYSQL_PWD');
+//	protected static $MYSQL_DB = Config::get('MYSQL_DB');
 
-	protected static $MYSQL_HOST = "localhost";
-	protected static $MYSQL_USERNAME = "root";
-	protected static $MYSQL_PWD = "";
-	protected static $MYSQL_DB = "volunteerDb";
+//	protected static $MYSQL_HOST = "localhost";
+//	protected static $MYSQL_USERNAME = "root";
+//	protected static $MYSQL_PWD = "";
+//	protected static $MYSQL_DB = "volunteerDb";
 
 	public static function execute($procName) {
 		$arg_list = func_get_args();
@@ -77,7 +79,8 @@ class Dal {
 	}
 
 	public static function createConnection() {
-		$mysqli = new mysqli(Dal::$MYSQL_HOST, Dal::$MYSQL_USERNAME, Dal::$MYSQL_PWD, Dal::$MYSQL_DB);
+		$mysqli = new mysqli(Config::get('MYSQL_HOST'), Config::get('MYSQL_USERNAME'), Config::get('MYSQL_PWD'), Config::get('MYSQL_DB'));
+//		$mysqli = new mysqli(Dal::$MYSQL_HOST, Dal::$MYSQL_USERNAME, Dal::$MYSQL_PWD, Dal::$MYSQL_DB);
 		if ($mysqli->connect_errno) {
 			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 			exit();			
