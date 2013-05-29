@@ -14,13 +14,13 @@ BEGIN
 
 UPDATE `volunteer`
 SET
-    `FirstName` = firstName,
-    `LastName` = lastName,
-    `EmailAddress` = emailAddress,
-    `PasswordHash` = passwordHash,
-    `Salt` = salt,
-    `Role_PK` = role_PK
-WHERE `Volunteer_PK` = volunteer_PK;
+    `volunteer`.`FirstName` = firstName,
+    `volunteer`.`LastName` = lastName,
+    `volunteer`.`EmailAddress` = emailAddress,
+    `volunteer`.`PasswordHash` = passwordHash,
+    `volunteer`.`Salt` = salt,
+    `volunteer`.`Role_PK` = role_PK
+WHERE `volunteer`.`Volunteer_PK` = volunteer_PK;
 
 
 

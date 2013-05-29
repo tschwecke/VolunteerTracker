@@ -20,21 +20,21 @@ BEGIN
 
 UPDATE `profile`
 SET
-    `FamilyId` = familyId,
-    `StreetAddress` = streetAddress,
-    `City` = city,
-    `State` = state,
-    `ZipCode` = zipCode,
-    `PrimaryPhoneNbr` = primaryPhoneNbr,
-    `PrimaryPhoneType` = primaryPhoneType,
-    `BestTimePrimary` = bestTimePrimary,
-    `SecondaryPhoneNbr` = secondaryPhoneNbr,
-    `SecondaryPhoneType` = secondaryPhoneType,
-    `BestTimeSecondary` = bestTimeSecondary,
-    `PreferEmail` = preferEmail,
-    `PreferPhone` = preferPhone,
-    `RelationshipToOrganization` = relationshipToOrganization
-WHERE`Profile_PK` = profile_PK;
+    `profile`.`FamilyId` = familyId,
+    `profile`.`StreetAddress` = streetAddress,
+    `profile`.`City` = city,
+    `profile`.`State` = state,
+    `profile`.`ZipCode` = zipCode,
+    `profile`.`PrimaryPhoneNbr` = primaryPhoneNbr,
+    `profile`.`PrimaryPhoneType` = primaryPhoneType,
+    `profile`.`BestTimePrimary` = bestTimePrimary,
+    `profile`.`SecondaryPhoneNbr` = secondaryPhoneNbr,
+    `profile`.`SecondaryPhoneType` = secondaryPhoneType,
+    `profile`.`BestTimeSecondary` = bestTimeSecondary,
+    `profile`.`PreferEmail` = preferEmail,
+    `profile`.`PreferPhone` = preferPhone,
+    `profile`.`RelationshipToOrganization` = relationshipToOrganization
+WHERE `profile`.`Profile_PK` = profile_PK;
 
 
 END$$

@@ -12,12 +12,12 @@ CREATE PROCEDURE `Volunteer_Insert` (firstName varchar(50),
 BEGIN
 
 INSERT INTO `volunteer`
-(`FirstName`,
-`LastName`,
-`EmailAddress`,
-`PasswordHash`,
-`Salt`,
-`Role_PK`)
+(`volunteer`.`FirstName`,
+`volunteer`.`LastName`,
+`volunteer`.`EmailAddress`,
+`volunteer`.`PasswordHash`,
+`volunteer`.`Salt`,
+`volunteer`.`Role_PK`)
 VALUES
 (
 firstName,

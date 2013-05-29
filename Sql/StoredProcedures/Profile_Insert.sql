@@ -18,21 +18,21 @@ CREATE PROCEDURE `Profile_Insert` (volunteer_PK int,
                                         relationshipToOrganization varchar(25))
 BEGIN
 INSERT INTO `profile`
-(`Volunteer_PK`,
-`FamilyId`,
-`StreetAddress`,
-`City`,
-`State`,
-`ZipCode`,
-`PrimaryPhoneNbr`,
-`PrimaryPhoneType`,
-`BestTimePrimary`,
-`SecondaryPhoneNbr`,
-`SecondaryPhoneType`,
-`BestTimeSecondary`,
-`PreferEmail`,
-`PreferPhone`,
-`RelationshipToOrganization`)
+(`profile`.`Volunteer_PK`,
+`profile`.`FamilyId`,
+`profile`.`StreetAddress`,
+`profile`.`City`,
+`profile`.`State`,
+`profile`.`ZipCode`,
+`profile`.`PrimaryPhoneNbr`,
+`profile`.`PrimaryPhoneType`,
+`profile`.`BestTimePrimary`,
+`profile`.`SecondaryPhoneNbr`,
+`profile`.`SecondaryPhoneType`,
+`profile`.`BestTimeSecondary`,
+`profile`.`PreferEmail`,
+`profile`.`PreferPhone`,
+`profile`.`RelationshipToOrganization`)
 VALUES
 (
 volunteer_PK,
