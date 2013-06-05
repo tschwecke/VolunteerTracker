@@ -5,8 +5,8 @@ CREATE PROCEDURE `Hours_Select_ApprovedTotals` ()
 BEGIN
 
 SELECT
-    h.`Volunteer_PK`,
-    SUM(NbrOfHours)
+    h.`Volunteer_PK` as 'Id',
+    SUM(NbrOfHours) as 'Hours'
 FROM `hours` h
 WHERE h.`Status` = 'Approved'
 GROUP BY h.`Volunteer_PK`;
