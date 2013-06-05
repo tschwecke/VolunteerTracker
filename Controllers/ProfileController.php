@@ -41,7 +41,7 @@ class ProfileController extends BaseController {
 			$profile->familyId = $this->getAvailableFamilyId();
 		}
 		else {
-			if(count($svc->getByFamilyId($profile->familyId))) {
+			if(count($svc->getByFamilyId($profile->familyId)) == 0) {
 				$this->sendResponse(400, array('message'=>'The provided Family Id does not exist.'));
 				return;
 			}
