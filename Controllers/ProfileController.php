@@ -87,7 +87,7 @@ class ProfileController extends BaseController {
 
 		while (!$found)
 		{
-			$familyId = rand(0, 999999);
+			$familyId = rand(100000, 999999);
 			$profiles = $svc->getByFamilyId($familyId);
 
 			if (count($profiles) == 0)
