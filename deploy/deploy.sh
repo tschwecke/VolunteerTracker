@@ -8,7 +8,7 @@ fi
 
 if [ "$1" == "prod" ];
 then
-	DEPLOYMENT_PATH="/site/volunteer"
+	DEPLOYMENT_PATH="/volunteer"
 else
 	DEPLOYMENT_PATH="/devsite1/volunteer"
 fi

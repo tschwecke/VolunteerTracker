@@ -485,6 +485,6 @@ VALUES
 ('Admin',
 'Admin',
 'admin@admin.com',
-'LDRYekbWXJazZzNDN4tLtbrtkdY=',
-'4ef0f568-71ec-4e06-9876-b771448d8097',
+'1274b2dbaabbabba975f0a1ec70f7ef4e909b03bfae106d925568414dc23a740',
+'51bfd0336e086',
 3);$$

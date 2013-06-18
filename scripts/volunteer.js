@@ -273,7 +273,7 @@ var SessionMgr = function() {
     };
 
     //Attach an event handler so that the access token is always added to every request
-    $("div#login").ajaxSend(function(evt, request, settings){
+    $(document).ajaxSend(function(evt, request, settings){
         var token = self.getAccessToken();
         if(token) {
             request.setRequestHeader("X-Authentication", token);
@@ -281,7 +281,7 @@ var SessionMgr = function() {
     });
 
     //Attach an event handler so that we always grab a new access token if it is sent on a response
-    $('div#login').ajaxSuccess(function(evt, response, settings) {
+    $(document).ajaxSuccess(function(evt, response, settings) {
         var newAccessToken = response.getResponseHeader("X-Authentication");
         if(newAccessToken) {
             self.setAccessToken(newAccessToken);
@@ -289,7 +289,7 @@ var SessionMgr = function() {
     });
 
     //Attach an event handler so that if we get a 401 we know the user's sessions has aexpiored and we send them back to the login screen
-    $('div#login').ajaxError(function(evt, response, settings) {
+    $(document).ajaxError(function(evt, response, settings) {
         if(response.status == 401 && self.isAuthenticated()) {
 			notificationMgr.notify("You're session has expired.", function() {
             	loginSvc.logout();
