@@ -1057,8 +1057,8 @@ var convertStringToDate = function(dateString) {
 };
 
 var convertJsonDateToDate = function(jsonDateString) {
-    var milliseconds = parseInt(jsonDateString.match(/\d+/)[0], 10);
-    var date = new Date(milliseconds);
+	//The date will be in the format yyyy-mm-dd, which we can just pass to the date constructor
+    var date = new Date(jsonDateString);
     return date;
 };
 
