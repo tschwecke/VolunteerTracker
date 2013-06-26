@@ -5,16 +5,16 @@ CREATE PROCEDURE `Hours_Select_ByFamilyId` (familyId int)
 BEGIN
 
 SELECT
-    h.`Hours_PK`,
-    h.`Volunteer_PK`,
-    h.`InterestArea_PK`,
-    h.`Date`,
-    h.`NbrOfHours`,
-    h.`Description`,
-    h.`Status`
+    h.Hours_PK,
+    h.Volunteer_PK,
+    h.InterestArea_PK,
+    h.Date,
+    h.NbrOfHours,
+    h.Description,
+    h.Status
 FROM `hours` h
-INNER JOIN `volunteer` v ON h.Volunteer_PK = v.Volunteer_PK
-WHERE v.FamilyId = familyId;
+INNER JOIN `profile` p ON h.Volunteer_PK = p.Volunteer_PK
+WHERE p.FamilyId = familyId;
 
 END$$
 

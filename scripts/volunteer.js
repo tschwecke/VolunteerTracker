@@ -782,7 +782,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 	};
 		
 	this.getHoursByVolunteer = function(volunteerId, callback) {
-		$.ajax("restservices/volunteers/" + volunteerId + "/hours", {
+		$.ajax("restservices/volunteers/" + volunteerId + "/familyHours", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);

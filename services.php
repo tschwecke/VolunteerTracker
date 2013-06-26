@@ -139,6 +139,11 @@ $app->get('/restservices/volunteers/:volunteerId/hours', function($volunteerId) 
 	$controller->getByVolunteerId($volunteerId);
 });
 
+$app->get('/restservices/volunteers/:volunteerId/familyHours', function($volunteerId) {
+	$controller = new HoursController();
+	$controller->getFamilyHoursByVolunteerId($volunteerId);
+});
+
 $app->get('/restservices/hours/pending', function() {
 	$controller = new HoursController();
 	$controller->getPendingHours();

@@ -22,6 +22,26 @@ class HoursController extends BaseController {
 		$this->sendResponse(200, $hours);
 	}
 
+	public function getFamilyHoursByVolunteerId($volunteerId) {
+		
+		$authenticatedUserId = $this->getAuthenticatedUserId();
+
+		$authorizationMgr = new AuthorizationMgr();
+		if (!$authorizationMgr->hasRight($authenticatedUserId, "Read", "Hours", $volunteerId)) {
+			$this->sendResponse(403);				
+			return;
+		}
+
+		//Look up the family id for this volunteer
+		$profileSvc = new ProfileSvc();
+		$profile = $profileSvc->getByVolunteerId($volunteerId);
+
+		$svc = new HoursSvc();
+		$hours = $svc->getByFamilyId($profile->familyId);
+
+		$this->sendResponse(200, $hours);
+	}
+
 	public function getPendingHours() {
 		
 		$authenticatedUserId = $this->getAuthenticatedUserId();
