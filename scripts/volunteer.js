@@ -542,7 +542,10 @@ var ProfileSvc = function(profileDiv) {
 			
 		//Best Time to Call Primary
 		if(!hasValue(profile.bestTimePrimary)) errors.push(validationErrorCodes.BEST_TIME_PRIMARY_REQUIRED);
-			
+
+		//Family ID
+		if(!hasValue(profile.familyId)) errors.push(validationErrorCodes.FAMILY_ID_REQUIRED);
+						
 		return errors;
 	};
 		
@@ -650,7 +653,8 @@ var validationErrorCodes = {
 	LOGIN_EMAIL_INVALID: {id:25, elementId: "loginEmailAddress", message: "Please enter a valid email address."},
 	LOGIN_PASSWORD_REQUIRED: {id:26, elementId: "loginPassword", message: "Please enter your password."},
 	LOGIN_CREDENTIALS_INCORRECT: {id:27, elementId: "none", message: "Your login credentials are incorrect.  Please try again."},
-    CANT_CHANGE_AT_SAME_TIME: {id:28, elementId: "none", message: "You cannot change your First Name, Last Name and Email Address all at the same time.  Please try again."}
+    CANT_CHANGE_AT_SAME_TIME: {id:28, elementId: "none", message: "You cannot change your First Name, Last Name and Email Address all at the same time.  Please try again."},
+	FAMILY_ID_REQUIRED: {id:29, elementId: "familyId", message: "Family ID is required."}
 };
 	
 	
@@ -908,7 +912,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 			type: "PUT",
 			data: JSON.stringify({"id": roleId}),
 			success: function(data, textStatus, jqXHR) {
-				callback(null, data);
+			callback(null, data);
 			}
 		});
     };

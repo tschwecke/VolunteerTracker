@@ -37,16 +37,6 @@ class ProfileController extends BaseController {
 		$profile = $this->deserializeRequestBody("Profile");
 		$svc = new ProfileSvc();
 
-		if($profile->familyId == -1) {
-			$profile->familyId = $this->getAvailableFamilyId();
-		}
-		else {
-			if(count($svc->getByFamilyId($profile->familyId)) == 0) {
-				$this->sendResponse(400, array('message'=>'The provided Family Id does not exist.'));
-				return;
-			}
-		}
-
 		$svc->save($profile);
  
 		$this->sendResponse(200, $profile);
