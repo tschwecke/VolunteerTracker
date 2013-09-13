@@ -1,29 +1,59 @@
-﻿.loginBoxContainer {
-	height: 300px;
+﻿body {
+	background-image: url('http://aspenviewacademy.org/site/templates/vision/images/bg/checkered_pattern2.png');
+}
+
+.outerContainer {
+	background-color: #ffffff;
+	border-radius: 5px;
+	width: 900px;
+	text-align: left;
+	padding: 3px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+.logo {
+	position: absolute;
+}
+
+.title {
+	width: 100%;
+	text-align: center;
+	margin: 5px;
+	margin-bottom: 25px;
+	font-size: 1.6em;
+}
+
+#avaLogo {
+	width: 71px;
+	height: 96px;
+}
+
+#logoutLink {
+	font-size: .8em;
+}
+
+.loginBoxContainer {
+	margin-bottom: 20px;
 }
 		
 .loginBoxContainer .validationErrorBox {
-	position: absolute;
+	position: relative;
 	left: 50%;
 	margin-left: -150px;
-	top: 15px;
-	width: 300px;
+	width: 400px;
 }
 		
 .loginBox {
 	position: relative;
 	left: 50%;
-	top: 50%;
 	margin-left: -71px;
-	margin-top: -80px;
 }
 		
 .loginBox h1 {
 	font-size: 18px;
-}
-		
-#password {
-	margin-bottom: 10px;
 }
 		
 .hiddenTab {
@@ -70,37 +100,25 @@ div.createProfile {
 	margin-top: 25px;
 }
 		
-.profileRow #familyId {
-	margin-top: 25px;
-	width: 55px;
-}
-		
-.familyIdDescription {
-	width: 195px;
-}
-		
 .profileRow #profileSaveButton {
-	margin-top: 97px;
+	margin-top: 20px;
 }
-		
+
+.profile .validationErrorBox {
+	margin-bottom: 10px;	
+}
+
 .validationFailed {
 	border-color: red;
 	border-width: 1px;
 }
 		
-.interests {
-	display: table;
-}
-		
-.interestsColumn {
-	display: table-cell;
-	padding-right: 10px;
-}
-
 ul.interests {
 	list-style-type: none;
 	padding-left: 0px;
-	display: inline;
+	margin-right: 70px;
+	display: inline-block;
+	vertical-align: top;
 }
 		
 p.availabilityDescription {

@@ -12,6 +12,8 @@ SELECT
     v.EmailAddress,
     v.PasswordHash,
     v.Salt,
+    v.FamilyId,
+    v.PrimaryPhoneNbr,
     v.Role_PK
 FROM 
     volunteer v

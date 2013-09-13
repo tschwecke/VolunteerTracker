@@ -33,11 +33,11 @@ class HoursController extends BaseController {
 		}
 
 		//Look up the family id for this volunteer
-		$profileSvc = new ProfileSvc();
-		$profile = $profileSvc->getByVolunteerId($volunteerId);
+		$volunteerSvc = new VolunteerSvc();
+		$volunteer = $volunteerSvc->getById($volunteerId);
 
 		$svc = new HoursSvc();
-		$hours = $svc->getByFamilyId($profile->familyId);
+		$hours = $svc->getByFamilyId($volunteer->familyId);
 
 		$this->sendResponse(200, $hours);
 	}

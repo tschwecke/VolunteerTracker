@@ -9,7 +9,8 @@ BEGIN
 UPDATE `interest`
 SET
     `interest`.`Volunteer_PK` = volunteer_PK,
-    `interest`.`InterestArea_PK` = interestArea_PK
+    `interest`.`InterestArea_PK` = interestArea_PK,
+	`interest`.`sys_LastUpdate` = NOW()
 WHERE `interest`.`Interest_PK` = interest_PK;
 
 

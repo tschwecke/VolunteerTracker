@@ -45,6 +45,8 @@ class VolunteerSvc {
 								$volunteer->emailAddress,
 								$volunteer->passwordHash,
 								$volunteer->salt,
+								$volunteer->familyId,
+								$volunteer->primaryPhoneNbr,
 								$volunteer->roleId);
 		}
 		else {
@@ -53,6 +55,8 @@ class VolunteerSvc {
 				                            $volunteer->emailAddress,
 				                            $volunteer->passwordHash,
 				                            $volunteer->salt,
+				                            $volunteer->familyId,
+				                            $volunteer->primaryPhoneNbr,
 				                            $volunteer->roleId);
 
 			$volunteer->id = $results[0]['NewId'];
@@ -74,5 +78,9 @@ class VolunteerSvc {
 			echo 'Volunteer validation failed: property lastName missing';
 			exit();			
 		}
-        }
+		if(!property_exists($volunteer, 'familyId')) {
+			echo 'Volunteer validation failed: property familyId missing';
+			exit();			
+		}
+	}
 }

@@ -12,6 +12,8 @@ SELECT
     `volunteer`.`EmailAddress`,
     `volunteer`.`PasswordHash`,
     `volunteer`.`Salt`,
+    `volunteer`.`FamilyId`,
+    `volunteer`.`PrimaryPhoneNbr`,
     `volunteer`.`Role_PK`
 FROM `volunteer`
 WHERE `volunteer`.`Volunteer_PK` = volunteer_PK;

@@ -8,8 +8,9 @@ BEGIN
 
 UPDATE `interestarea`
 SET
-`interestarea`.`Name` = name,
-`interestarea`.`SortOrder` = sortOrder
+	`interestarea`.`Name` = name,
+	`interestarea`.`SortOrder` = sortOrder,
+	`interestarea`.`sys_LastUpdate` = NOW()
 WHERE `interestarea`.`InterestArea_PK` = interestarea_PK;
 
 END$$

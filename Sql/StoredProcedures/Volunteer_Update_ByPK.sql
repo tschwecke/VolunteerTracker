@@ -9,6 +9,8 @@ CREATE PROCEDURE `Volunteer_Update_ByPK` (volunteer_PK int,
                                             emailAddress varchar(100),
                                             passwordHash varchar(100),
                                             salt varchar(36),
+                                            familyId varchar(11),
+                                            primaryPhoneNbr varchar(25),
                                             role_PK int)    
 BEGIN
 
@@ -19,7 +21,10 @@ SET
     `volunteer`.`EmailAddress` = emailAddress,
     `volunteer`.`PasswordHash` = passwordHash,
     `volunteer`.`Salt` = salt,
-    `volunteer`.`Role_PK` = role_PK
+    `volunteer`.`FamilyId` = familyId,
+    `volunteer`.`PrimaryPhoneNbr` = primaryPhoneNbr,
+    `volunteer`.`Role_PK` = role_PK,
+    `volunteer`.`sys_LastUpdate` = NOW()
 WHERE `volunteer`.`Volunteer_PK` = volunteer_PK;
 
 

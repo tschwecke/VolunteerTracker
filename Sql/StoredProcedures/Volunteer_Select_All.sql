@@ -12,6 +12,8 @@ SELECT
     `volunteer`.`EmailAddress`,
     `volunteer`.`PasswordHash`,
     `volunteer`.`Salt`,
+    `volunteer`.`FamilyId`,
+    `volunteer`.`PrimaryPhoneNbr`,
     `volunteer`.`Role_PK`
 FROM `volunteer`
 ORDER BY `volunteer`.`LastName`, `volunteer`.`FirstName`;

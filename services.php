@@ -1,11 +1,9 @@
 <?php
 require_once 'Util/Config.php';
 require_once 'Controllers/AccessTokenController.php';
-require_once 'Controllers/AvailabilityController.php';
 require_once 'Controllers/HoursController.php';
 require_once 'Controllers/InterestAreaController.php';
 require_once 'Controllers/InterestController.php';
-require_once 'Controllers/ProfileController.php';
 require_once 'Controllers/RightController.php';
 require_once 'Controllers/SelectedInterestController.php';
 require_once 'Controllers/VolunteerController.php';
@@ -52,22 +50,6 @@ $app->put('/restservices/volunteers/:volunteerId', function($volunteerId) {
 $app->put('/restservices/volunteers/:volunteerId/role', function($volunteerId) {
 	$controller = new VolunteerController();
 	$controller->updateRole($volunteerId);
-});
-
-//Profile
-$app->get('/restservices/volunteers/:volunteerId/profile', function($volunteerId) {
-	$controller = new ProfileController();
-	$controller->getByVolunteerId($volunteerId);
-});
-
-$app->post('/restservices/volunteers/:volunteerId/profile', function($volunteerId) {
-	$controller = new ProfileController();
-	$controller->create($volunteerId);
-});
-
-$app->put('/restservices/volunteers/:volunteerId/profile', function($volunteerId) {
-	$controller = new ProfileController();
-	$controller->update($volunteerId);
 });
 
 //Interest Areas
@@ -117,20 +99,6 @@ $app->put('/restservices/volunteers/:volunteerId/selectedInterests', function($v
 	$controller = new SelectedInterestController();
 	$controller->setForVolunteerId($volunteerId);
 });
-
-
-//Availability
-
-$app->get('/restservices/volunteers/:volunteerId/availability', function($volunteerId) {
-	$controller = new AvailabilityController();
-	$controller->getByVolunteerId($volunteerId);
-});
-
-$app->put('/restservices/volunteers/:volunteerId/availability', function($volunteerId) {
-	$controller = new AvailabilityController();
-	$controller->setForVolunteerId($volunteerId);
-});
-
 
 //Hours
 
