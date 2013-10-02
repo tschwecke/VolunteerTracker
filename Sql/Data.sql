@@ -336,6 +336,7 @@ INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Lunch Duty');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Marketing Committee');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Network Infrastructure');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Office Help');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Other');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'P.M. Carpool');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'PE');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Preschool Volunteer Hours');$$

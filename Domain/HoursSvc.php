@@ -66,6 +66,7 @@ class HoursSvc {
 			//Update
 			Dal::execute('Hours_Update_ByPK', $hours->id,
                                                     $hours->volunteerId,
+                                                    $hours->interestAreaId,
                                                     $hours->date,
                                                     $hours->nbrOfHours,
                                                     $hours->description,
@@ -74,6 +75,7 @@ class HoursSvc {
 		else {
 			//Insert
 		        $results = Dal::executeQuery('Hours_Insert', $hours->volunteerId,
+                                                    $hours->interestAreaId,
                                                     $hours->date,
                                                     $hours->nbrOfHours,
                                                     $hours->description,

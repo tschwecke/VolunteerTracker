@@ -12,4 +12,3 @@ WHERE h.`Status` = 'Approved'
 GROUP BY h.`Volunteer_PK`;
 
 END$$
-

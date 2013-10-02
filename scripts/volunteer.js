@@ -556,6 +556,14 @@ var InterestsSvc = function(interestsDiv) {
 	};
 
 	this.populateForm = function(interests) {
+		//Remove the 'Other' option
+		var interests=[].concat(interests);
+		for(var i=0; i<interests.length; i++) {
+			if(interests[i].name === 'Other') {
+				interests.splice(i, 1);
+			}
+		}
+
 		interests.sort(function (a, b) {
 			if (a.name > b.name)
 			  return 1;
@@ -586,6 +594,8 @@ var InterestsSvc = function(interestsDiv) {
 };
 
 var VolunteerHoursSvc = function(hoursDiv) {
+
+	var interestAreas = null;
 		
 	this.save = function(volunteerId, hours, callback) {
 		//Change the date from a string to a date object
@@ -633,12 +643,22 @@ var VolunteerHoursSvc = function(hoursDiv) {
 	};
 		
     this.populateInterestAreas = function(interests) {
-		interests.sort(function(a,b) { return a.sortOrder > b.sortOrder; });
+
+		interests.sort(function (a, b) {
+			if (a.name > b.name)
+			  return 1;
+			if (a.name < b.name)
+			  return -1;
+			// a must be equal to b
+			return 0;
+		});
+
+		interestAreas = interests;
 
 		var interestsList = hoursDiv.find("#hoursArea");
 		for(var i=0; i<interests.length; i++) {
 			var interest = interests[i];
-			interestsList.append("<option value=\"" + interest.id + "\">" + interest.name + "</option>");			
+			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
 		}
     };
 
@@ -646,15 +666,16 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		var hours = {
 			"date": hoursDiv.find("#hoursDate").val(),
 			"nbrOfHours": hoursDiv.find("#hours").val(),
+			"interestAreaId": hoursDiv.find("#hoursArea").val(),
 			"description":hoursDiv.find("#hoursDescription").val()
 		}
 
 		return hours;
 	};
-		
+
 	this.validate = function(hours) {
 		var errors = [];
-			
+
 		if(hasValue(hours.date)) {
 			if(!isDate(hours.date)) {
 				errors.push(validationErrorCodes.DATE_INVALID);
@@ -671,8 +692,14 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		else {
 			errors.push(validationErrorCodes.HOURS_REQUIRED);			
 		}
-		if(!hasValue(hours.description)) errors.push(validationErrorCodes.DESCRIPTION_REQUIRED);
-			
+		if(!hasValue(hours.interestAreaId)) errors.push(validationErrorCodes.AREA_REQUIRED);
+
+		var interestName = getInterestNamebyId(hours.interestAreaId);
+
+		if(!hasValue(hours.description)) {
+			errors.push(validationErrorCodes.DESCRIPTION_REQUIRED);
+		}
+
 		return errors;
 	};
 

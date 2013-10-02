@@ -91,6 +91,7 @@ CREATE TABLE `interest` (
 CREATE TABLE `hours` (
   `Hours_PK` int(11) NOT NULL AUTO_INCREMENT,
   `Volunteer_PK` int(11) NOT NULL,
+  `InterestArea_PK` int(11) NOT NULL,
   `Date` date NOT NULL,
   `NbrOfHours` decimal(10,2) NOT NULL,
   `Description` varchar(500) DEFAULT NULL,

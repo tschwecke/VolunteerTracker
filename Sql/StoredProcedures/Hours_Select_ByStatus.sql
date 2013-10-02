@@ -7,6 +7,7 @@ BEGIN
 SELECT
     h.`Hours_PK`,
     h.`Volunteer_PK`,
+    h.`InterestArea_PK`,
     h.`Date`,
     h.`NbrOfHours`,
     h.`Description`,
@@ -16,4 +17,3 @@ WHERE h.Status = status
 ORDER BY h.`Date`;
 
 END$$
-

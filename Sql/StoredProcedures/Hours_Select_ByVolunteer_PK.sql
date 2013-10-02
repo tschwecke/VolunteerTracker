@@ -7,6 +7,7 @@ BEGIN
 SELECT
     h.`Hours_PK`,
     h.`Volunteer_PK`,
+    h.`InterestArea_PK`,
     h.`Date`,
     h.`NbrOfHours`,
     h.`Description`,
@@ -15,4 +16,3 @@ FROM `hours` h
 WHERE h.Volunteer_PK = volunteer_PK;
 
 END$$
-
