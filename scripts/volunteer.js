@@ -499,7 +499,7 @@ var validationErrorCodes = {
 	HOURS_REQUIRED: {id:20, elementId: "hours", message: "Number of hours is required."},
 	HOURS_INVALID: {id:21, elementId: "hours", message: "Number of hours is invalid."},
 	AREA_REQUIRED: {id:22, elementId: "hoursArea", message: "Area of work is required."},
-	DESCRIPTION_REQUIRED: {id:23, elementId: "hoursDescription", message: "Description is required."},
+	DESCRIPTION_REQUIRED: {id:23, elementId: "hoursDescription", message: "A description is required when the type is 'Other'."},
 	LOGIN_EMAIL_REQUIRED: {id:24, elementId: "loginEmailAddress", message: "Please enter your email address."},
 	LOGIN_EMAIL_INVALID: {id:25, elementId: "loginEmailAddress", message: "Please enter a valid email address."},
 	LOGIN_PASSWORD_REQUIRED: {id:26, elementId: "loginPassword", message: "Please enter your password."},
@@ -694,9 +694,9 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		}
 		if(!hasValue(hours.interestAreaId)) errors.push(validationErrorCodes.AREA_REQUIRED);
 
-		var interestName = getInterestNamebyId(hours.interestAreaId);
+		var interestName = getInterestNameById(hours.interestAreaId);
 
-		if(!hasValue(hours.description)) {
+		if(interestName === 'Other' && !hasValue(hours.description)) {
 			errors.push(validationErrorCodes.DESCRIPTION_REQUIRED);
 		}
 
@@ -708,6 +708,16 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		hoursDiv.find("#hours").val("");
 		hoursDiv.find("#hoursArea").val("");
 		hoursDiv.find("#hoursDescription").val("");
+	};
+
+	var getInterestNameById = function(interestAreaId) {
+		var name = null;
+		for(var i=0; i<interestAreas.length; i++) {
+			if(interestAreas[i].interestAreaId == interestAreaId) {
+				name = interestAreas[i].name;
+			}
+		}
+		return name;
 	};
 };
 	
