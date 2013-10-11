@@ -311,44 +311,36 @@ FROM `role` ro
 CROSS JOIN `right` ri
 WHERE ro.Name = 'Administrator';$$
 
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'A.M. Carpool');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Art Room Assistance');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'AVA Foundation');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'AVA Gala');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'AVA Website');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Baking Committee');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'BASE Volunteers');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Board Meetings');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Board Work');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Book Fair');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Box Tops');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Carpool');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Carpool A.M.');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Carpool P.M.');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Choir');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Classroom');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Community Service');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Computer Lab');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Facility Management');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Field Day');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Field Trips');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Fundraising');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Grant Committee');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Library');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Lunch Duty');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Marketing Committee');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Network Infrastructure');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Office Help');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Other');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'P.M. Carpool');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'PE');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Preschool Volunteer Hours');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Preschool');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Room Parent');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'SAC');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Science');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Social Events');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Staff Appreciation');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Social Events/Spirit Days');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Teacher Appreciation');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Technology');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Thursday Folders');$$
-INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Website Assistance');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Volunteer from Home');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Watch D.O.G.S.');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Yearbook');$$
 
 
