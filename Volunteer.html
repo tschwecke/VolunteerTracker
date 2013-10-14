@@ -189,6 +189,7 @@
 		        <ul>
 			        <li><a href="#adminVolunteersTab">Volunteers</a></li>
 			        <li><a href="#adminHoursTab">Hours</a></li>
+			        <li><a href="#adminReportsTab">Reports</a></li>
 		        </ul>
 		        <div id="adminVolunteersTab">
 	                <table id="adminVolunteerList">
@@ -213,6 +214,15 @@
 	                        <th>Description</th>
 	                    </tr>
 	                </table>
+	            </div>
+		        <div id="adminReportsTab">
+	                <p class="reportTitle">Volunteers by Interest Area</p>
+	                <p>Select an interest area:
+		                <select id="reportInterestArea">
+							<option value="">Select...</option>
+						</select>
+					</p>
+	               <table id="adminReportList"></table>
 	            </div>
 	            <div>
 
@@ -288,6 +298,11 @@
 			UserMgrFactory.getUserMgr().saveHours();
 		});
 
+		$("#reportInterestArea").change(function (a) {
+			var interestAreaId = a.srcElement.value;
+			UserMgrFactory.getUserMgr().runInterestAreaReport(interestAreaId);
+		});
+
 		$("#detailedHoursButton").button();
 		$("#detailedHoursButton").hide();
 
@@ -312,6 +327,7 @@
 	var volunteerHoursErrorSvc = new ErrorSvc($("div.hours"));
 	var adminVolunteerSvc = new AdminVolunteerSvc($("div#adminVolunteersTab"));
 	var adminHoursSvc = new AdminHoursSvc($("div#adminHoursTab"));
+	var adminReportsSvc = new AdminReportsSvc($("div#adminReportsTab"));
 	var rightSvc = new RightSvc();
 	var notificationMgr = new NotificationMgr();
 </script>

@@ -16,8 +16,35 @@ class VolunteerController extends BaseController {
 
 		$svc = new VolunteerSvc();
 		$volunteer = $svc->getById($id);
+
+		//Clear out the salt and password hash fields before returning
+		unset($volunteer->salt);
+		unset($volunteer->passwordHash);
 		
 		$this->sendResponse(200, $volunteer);
+	}
+
+	public function getByInterestAreaId($interestAreaId) {
+		$authenticatedUserId = $this->getAuthenticatedUserId();
+
+		$authorizationMgr = new AuthorizationMgr();
+		if (!$authorizationMgr->hasRight($authenticatedUserId, "Read", "AllVolunteerInfo", $id)) {
+			$this->sendResponse(403);				
+			return;
+		}
+
+		$svc = new VolunteerSvc();
+		$volunteers = $svc->getByInterestAreaId($interestAreaId);
+
+
+		//Clear out the salt and password hash fields before returning
+		for($i=0; $i<count($volunteers); $i++) {
+			$volunteer = $volunteers[$i];
+			unset($volunteer->salt);
+			unset($volunteer->passwordHash);
+		}
+
+		$this->sendResponse(200, $volunteers);
 	}
 
 	public function getAll() {
@@ -30,6 +57,13 @@ class VolunteerController extends BaseController {
 
 		$svc = new VolunteerSvc();
 		$volunteers = $svc->getAll();
+
+		//Clear out the salt and password hash fields before returning
+		for($i=0; $i<count($volunteers); $i++) {
+			$volunteer = $volunteers[$i];
+			unset($volunteer->salt);
+			unset($volunteer->passwordHash);
+		}
 
 		$this->sendResponse(200, $volunteers);
 	}

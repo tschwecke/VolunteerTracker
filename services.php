@@ -42,6 +42,11 @@ $app->post('/restservices/volunteers', function() {
 	$controller->create();
 });
 
+$app->get('/restservices/interestAreas/:interestAreaId/volunteers', function($interestAreaId) {
+	$controller = new VolunteerController();
+	$controller->getByInterestAreaId($interestAreaId);
+});
+
 $app->put('/restservices/volunteers/:volunteerId', function($volunteerId) {
 	$controller = new VolunteerController();
 	$controller->update($volunteerId);

@@ -236,3 +236,7 @@ input#hoursDate {
 .totalHours {
 	font-weight: bold;
 }
+
+.reportTitle {
+	font-weight: bold;
+}

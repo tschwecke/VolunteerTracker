@@ -23,7 +23,20 @@ class VolunteerSvc {
 			$volunteer = null;
 		}
 		return $volunteer;
-        }
+	}
+
+	public function getByInterestAreaId($interestAreaId) {
+		$results = Dal::executeQuery("Volunteer_Select_ByInterestArea_PK", $interestAreaId);
+
+		$volunteers = array();
+		for($i=0; $i<count($results); $i++) {
+			$volunteer = new DomainObject('Volunteer', $results[$i]);
+			$this->assertValidity($volunteer);
+			array_push($volunteers, $volunteer);
+		}
+
+		return $volunteers;
+	}
 
 	public function getAll() {
 		$results = Dal::executeQuery("Volunteer_Select_All");
@@ -35,7 +48,7 @@ class VolunteerSvc {
 		}
 
 		return $volunteers;
-        }
+	}
 
 	public function save($volunteer) {
 		if($volunteer->id > 0) {
