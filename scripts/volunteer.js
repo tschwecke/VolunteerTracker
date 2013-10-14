@@ -47,7 +47,7 @@
 	    $("#interestsSaveButton").button("disable");
 	    var interests = interestsSvc.getFromForm();
 	    interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
-			notificationMgr.notify('Your profile has been created. Once your status has been changed to "approved" you will be able to submit hours.');
+			notificationMgr.notify('Your profile has been created. You may now submit any volunteer hours you have completed.');
             $("#interestsSaveButton").button("enable");
 
             $("#tabs").tabs("enable", "hoursTab");
@@ -936,7 +936,6 @@ var AdminReportsSvc = function(reportsDiv) {
 				var td = $("<td />").text("<" + volunteer.firstName + " " + volunteer.lastName + ">" + volunteer.emailAddress + ";");
 				var tr = $("<tr />").append(td);
 				reportList.append(tr);			
-				//reportList.append("<tr><td>%3C" + volunteer.firstName + " " + volunteer.lastName + "%3E" + volunteer.emailAddress + ";</td></tr>");			
 			}
 		}
 	};
