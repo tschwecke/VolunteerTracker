@@ -623,7 +623,8 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		
 	this.populateForm = function(volunteerId, hours) {
 		var totalFamilyHours = 0,
-		    totalPersonalHours = 0;
+		    totalPersonalHours = 0,
+		    totalPendingHours = 0;
 
 		for(var i=0; i<hours.length; i++) {
 		    if(hours[i].status === "Approved") {
@@ -632,14 +633,19 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		            totalPersonalHours += parseInt(hours[i].nbrOfHours, 10);
 		        }
 		    }
+		    else if(hours[i].status === "Pending" && hours[i].volunteerId == volunteerId) {
+		    	totalPendingHours += parseInt(hours[i].nbrOfHours, 10);
+		    }
 		}
 
 		//Round to the nearest tenth
 		totalPersonalHours = Math.round(totalPersonalHours * 10) / 10;
 		totalFamilyHours = Math.round(totalFamilyHours * 10) / 10;
+		totalPendingHours = Math.round(totalPendingHours * 10) / 10;
 
 		hoursDiv.find("#personalTotalHours").text(totalPersonalHours.toFixed(1));
 		hoursDiv.find("#familyTotalHours").text(totalFamilyHours.toFixed(1));
+		hoursDiv.find("#pendingTotalHours").text(totalPendingHours.toFixed(1));
 	};
 		
     this.populateInterestAreas = function(interests) {
