@@ -1,288 +1,290 @@
-﻿var NewUserMgr = function() {
-    this.init = function() {
+var NewUserMgr = function() {
+	this.init = function() {
 
-        $("#profileSaveButton").button({ label: "Continue" });
-        $("#tabs").tabs("disable", "interestsTab");
-        $("#tabs").tabs("disable", "hoursTab");
-        $("#login").hide();
-        $("#tabs").show();
+		$("#profileSaveButton").button({ label: "Continue" });
+		$("#tabs").tabs("disable", "interestsTab");
+		$("#tabs").tabs("disable", "hoursTab");
+		$("#login").hide();
+		$("#tabs").show();
 
 		$("#pendingTotalHours").text("0.0");
 		$("#personalTotalHours").text("0.0");
 		$("#familyTotalHours").text("0.0");
 
-        volunteerSvc.setFocusOnFirstName();
-    };
+		volunteerSvc.setFocusOnFirstName();
+	};
 
-    this.saveProfile = function() {
-        var volunteer = volunteerSvc.getFromForm();
+	this.saveProfile = function() {
+		var volunteer = volunteerSvc.getFromForm();
 
-        var errors = volunteerSvc.validate(volunteer);
+		var errors = volunteerSvc.validate(volunteer);
 
-	    if (errors.length === 0) {
-	        $("#profileSaveButton").button("disable");
-	        profileErrorSvc.hideErrors();
-            volunteerSvc.save(volunteer, function(error, data) {
+		if (errors.length === 0) {
+			$("#profileSaveButton").button("disable");
+			profileErrorSvc.hideErrors();
+			volunteerSvc.save(volunteer, function(error, data) {
 				sessionMgr.setAccessToken(data.access_token);
 
-                interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
-                	interestsSvc.populateForm(interests);
-                    volunteerHoursSvc.populateInterestAreas(interests);
-                    adminReportsSvc.populateInterestAreas(interests);
-                });
+				interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
+					interestsSvc.populateForm(interests);
+					volunteerHoursSvc.populateInterestAreas(interests);
+					adminReportsSvc.populateInterestAreas(interests);
+				});
 
-                $("#tabs").tabs("enable", "interestsTab");
-                $("#tabs").tabs("select", "interestsTab");
-                $("#profileSaveButton").button({ label: "Save" });
-                $("#profileSaveButton").button("enable");
+				$("#tabs").tabs("enable", "interestsTab");
+				$("#tabs").tabs("select", "interestsTab");
+				$("#profileSaveButton").button({ label: "Save" });
+				$("#profileSaveButton").button("enable");
 
-            });
-	    }
-	    else {
-	        profileErrorSvc.showErrors(errors);
-	    }
-    };
+			});
+		}
+		else {
+			profileErrorSvc.showErrors(errors);
+		}
+	};
 
-    this.saveInterests = function() {
-	    $("#interestsSaveButton").button("disable");
-	    var interests = interestsSvc.getFromForm();
-	    interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
+	this.saveInterests = function() {
+		$("#interestsSaveButton").button("disable");
+		var interests = interestsSvc.getFromForm();
+		interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
 			notificationMgr.notify('Your profile has been created. You may now submit any volunteer hours you have completed.');
-            $("#interestsSaveButton").button("enable");
+			$("#interestsSaveButton").button("enable");
 
-            $("#tabs").tabs("enable", "hoursTab");
-            $("#tabs").tabs("select", "hoursTab");
-	    });
-    };
+			$("#tabs").tabs("enable", "hoursTab");
+			$("#tabs").tabs("select", "hoursTab");
+		});
+	};
 
-    this.saveHours = function() {
-        var hours = volunteerHoursSvc.getFromForm();
-	    var errors = volunteerHoursSvc.validate(hours);
-	    if (errors.length === 0) {
-	        $("#submitHoursButton").button("disable");
-	        volunteerHoursErrorSvc.hideErrors();
-	        volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
+	this.saveHours = function() {
+		var hours = volunteerHoursSvc.getFromForm();
+		var errors = volunteerHoursSvc.validate(hours);
+		if (errors.length === 0) {
+			$("#submitHoursButton").button("disable");
+			volunteerHoursErrorSvc.hideErrors();
+			volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
 				notificationMgr.notify("Your hours have been saved.");
-	            $("#submitHoursButton").button("enable");
-	            volunteerHoursSvc.clearForm();
-	        });
-	    }
-	    else {
-	        volunteerHoursErrorSvc.showErrors(errors);
-	    }
+				$("#submitHoursButton").button("enable");
+				volunteerHoursSvc.clearForm();
+			});
+		}
+		else {
+			volunteerHoursErrorSvc.showErrors(errors);
+		}
 
-    };
+	};
 };
 
 var ExistingUserMgr = function() {
-    var currentVolunteer = null;
+	var currentVolunteer = null;
 
-    this.init = function() {
-        //make the calls to get all of the data
-	    volunteerSvc.get(sessionMgr.getVolunteerId(), function (err, volunteer) {
-            currentVolunteer = volunteer;	        
-            volunteerSvc.populateForm(volunteer);
+	this.init = function() {
+		//make the calls to get all of the data
+		volunteerSvc.get(sessionMgr.getVolunteerId(), function (err, volunteer) {
+			currentVolunteer = volunteer;			
+			volunteerSvc.populateForm(volunteer);
 
 			volunteerHoursSvc.getHoursByVolunteer(sessionMgr.getVolunteerId(), function (err, hours) {
 				volunteerHoursSvc.populateForm(sessionMgr.getVolunteerId(), hours);
 			});
 
-            rightSvc.getByRoleId(volunteer.roleId, function(err, rights) {
+			rightSvc.getByRoleId(volunteer.roleId, function(err, rights) {
 				var canViewAdminTab = false;
 
-                for(var i=0; i<rights.length; i++) {
-                    if(rights[i].code === "ViewAdminTab") {
-                        canViewAdminTab = true;
-                    }
-                }
+				for(var i=0; i<rights.length; i++) {
+					if(rights[i].code === "ViewAdminTab") {
+						canViewAdminTab = true;
+					}
+				}
 
-                if(canViewAdminTab) {
-	                adminVolunteerSvc.getAll(function (err, volunteers) {
-                        adminHoursSvc.getApprovedTotals(function(err, hourTotals) {
-	                        adminVolunteerSvc.populateForm(volunteers, hourTotals);
-                        });
+				if(canViewAdminTab) {
+					adminVolunteerSvc.getAll(function (err, volunteers) {
+						adminHoursSvc.getApprovedTotals(function(err, hourTotals) {
+							adminVolunteerSvc.populateForm(volunteers, hourTotals);
+						});
 
-                        adminHoursSvc.getAllPendingHours(function(err, pendingHours) {
-	                        adminHoursSvc.populateForm(volunteers, pendingHours);
-                        });
-	                });
-                    $("#adminTabLI").removeClass("hiddenTab");
-                }
-            });
-	    });
+						adminHoursSvc.getAllPendingHours(function(err, pendingHours) {
+							adminHoursSvc.populateForm(volunteers, pendingHours);
+						});
+					});
+					$("#adminTabLI").removeClass("hiddenTab");
+				}
+			});
+		});
 
-	    interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
-	        interestsSvc.populateForm(interests);
-            volunteerHoursSvc.populateInterestAreas(interests);
-            adminReportsSvc.populateInterestAreas(interests);
-	    });
+		interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
+			interestsSvc.populateForm(interests);
+			volunteerHoursSvc.populateInterestAreas(interests);
+			adminReportsSvc.populateInterestAreas(interests);
+		});
 
 		$("#login").hide();
 		$("#tabs").show();
-    };
+	};
 
-    this.saveProfile = function() {
-        var volunteer = volunteerSvc.getFromForm();
+	this.saveProfile = function() {
+		var volunteer = volunteerSvc.getFromForm();
 
-        var errors = volunteerSvc.validate(volunteer, currentVolunteer);
+		var errors = volunteerSvc.validate(volunteer, currentVolunteer);
 
-	    if (errors.length === 0) {
-	        $("#profileSaveButton").button("disable");
-	        profileErrorSvc.hideErrors();
-            volunteer.id = sessionMgr.getVolunteerId();
-            volunteerSvc.update(volunteer, function(error, data) {
-                currentVolunteer = volunteer;
+		if (errors.length === 0) {
+			$("#profileSaveButton").button("disable");
+			profileErrorSvc.hideErrors();
+			volunteer.id = sessionMgr.getVolunteerId();
+			volunteerSvc.update(volunteer, function(error, data) {
+				currentVolunteer = volunteer;
 				notificationMgr.notify("Your volunteer profile has been saved.");
-                $("#profileSaveButton").button("enable");
-            });
-	    }
-	    else {
-	        profileErrorSvc.showErrors(errors);
-	    }
-    };
+				$("#profileSaveButton").button("enable");
+			});
+		}
+		else {
+			profileErrorSvc.showErrors(errors);
+		}
+	};
 
-    this.saveInterests = function() {
-	    $("#interestsSaveButton").button("disable");
-	    var interests = interestsSvc.getFromForm();
-	    interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
+	this.saveInterests = function() {
+		$("#interestsSaveButton").button("disable");
+		var interests = interestsSvc.getFromForm();
+		interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
 			notificationMgr.notify("Your interests have been saved.");
-            $("#interestsSaveButton").button("enable");
-	    });
-    };
+			$("#interestsSaveButton").button("enable");
+		});
+	};
 
-    this.saveHours = function() {
-        var hours = volunteerHoursSvc.getFromForm();
-	    var errors = volunteerHoursSvc.validate(hours);
-	    if (errors.length === 0) {
-	        $("#submitHoursButton").button("disable");
-	        volunteerHoursErrorSvc.hideErrors();
-	        volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
+	this.saveHours = function() {
+		var hours = volunteerHoursSvc.getFromForm();
+		var errors = volunteerHoursSvc.validate(hours);
+		if (errors.length === 0) {
+			$("#submitHoursButton").button("disable");
+			volunteerHoursErrorSvc.hideErrors();
+			volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
 				notificationMgr.notify("Your hours have been saved.");
-	            $("#submitHoursButton").button("enable");
-	            volunteerHoursSvc.clearForm();
-	        });
-	    }
-	    else {
-	        volunteerHoursErrorSvc.showErrors(errors);
-	    }
+				$("#submitHoursButton").button("enable");
+				volunteerHoursSvc.clearForm();
+			});
+		}
+		else {
+			volunteerHoursErrorSvc.showErrors(errors);
+		}
 
-    };
+	};
 
-    this.runInterestAreaReport = function(interestAreaId) {
-    	adminReportsSvc.getVolunteersByInterestAreaId(interestAreaId, function(error, volunteers){
-    		adminReportsSvc.populateForm(volunteers);
-    	});
-    };
+	this.runInterestAreaReport = function(interestAreaId) {
+		adminReportsSvc.getVolunteersByInterestAreaId(interestAreaId, function(error, volunteers){
+			adminReportsSvc.populateForm(volunteers);
+		});
+	};
 };
 
 var UserMgrFactory = {
-    newUserMgr: null,
-    existingUserMgr: null,
+	newUserMgr: null,
+	existingUserMgr: null,
 
-    getUserMgr: function() {
-        if(typeof UserMgrFactory.isExistingUser == "undefined") {
-            UserMgrFactory.isExistingUser = sessionMgr.isAuthenticated();
-        }
+	getUserMgr: function() {
+		if(typeof UserMgrFactory.isExistingUser == "undefined") {
+			UserMgrFactory.isExistingUser = sessionMgr.isAuthenticated();
+		}
 
-        if(UserMgrFactory.isExistingUser) {
-            if(!this.existingUserMgr) {
-                this.existingUserMgr = new ExistingUserMgr();
-            }
-            return this.existingUserMgr;
-        }
-        else {
-            if(!this.newUserMgr) {
-                this.newUserMgr = new NewUserMgr();
-            }
-            return this.newUserMgr;
-        }
-    }
+		if(UserMgrFactory.isExistingUser) {
+			if(!this.existingUserMgr) {
+				this.existingUserMgr = new ExistingUserMgr();
+			}
+			return this.existingUserMgr;
+		}
+		else {
+			if(!this.newUserMgr) {
+				this.newUserMgr = new NewUserMgr();
+			}
+			return this.newUserMgr;
+		}
+	}
 };
 
 var SessionMgr = function() {
-    var self = this;
-    var accessToken = null;
+	var self = this;
+	var accessToken = null;
 
-    this.isAuthenticated = function() {
-        if(self.getAccessToken()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    };
+	this.isAuthenticated = function() {
+		if(self.getAccessToken()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	};
 
-    this.getAccessToken = function() {
-        if(!accessToken) {
-            accessToken = sessionStorage["VolunteerAccessToken"];
-        }
+	this.getAccessToken = function() {
+		if(!accessToken) {
+			accessToken = sessionStorage["VolunteerAccessToken"];
+		}
 
-        return accessToken;
-    };
+		return accessToken;
+	};
 
-    this.setAccessToken = function(newAccessToken) {
-        accessToken = newAccessToken;
-        
-        if(sessionStorage) {
-            sessionStorage["VolunteerAccessToken"] = accessToken;
-        }
-    };
+	this.setAccessToken = function(newAccessToken) {
+		accessToken = newAccessToken;
+		
+		if(sessionStorage) {
+			sessionStorage["VolunteerAccessToken"] = accessToken;
+		}
+	};
 
-    this.clearSession = function() {
-        accessToken = null;
-        
-        if(sessionStorage) {
-            sessionStorage.removeItem("VolunteerAccessToken");
-        }
-    };
+	this.clearSession = function() {
+		accessToken = null;
+		
+		if(sessionStorage) {
+			sessionStorage.removeItem("VolunteerAccessToken");
+		}
+	};
 
-    this.getVolunteerId = function() {
-        var token = self.getAccessToken();
-        if(token) {
-            var tokenParts = token.split("|");
-            if(tokenParts.length === 3) {
-                return tokenParts[0];
-            }
-        }
-    };
+	this.getVolunteerId = function() {
+		var token = self.getAccessToken();
+		if(token) {
+			var tokenParts = token.split("|");
+			if(tokenParts.length === 3) {
+				return tokenParts[0];
+			}
+		}
+	};
 
-    //Attach an event handler so that the access token is always added to every request
-    $(document).ajaxSend(function(evt, request, settings){
-        var token = self.getAccessToken();
-        if(token) {
-            request.setRequestHeader("X-Authentication", token);
-        }
-    });
+	//Attach an event handler so that the access token is always added to every request
+	$(document).ajaxSend(function(evt, request, settings){
+		var token = self.getAccessToken();
+		if(token) {
+			request.setRequestHeader("X-Authentication", token);
+		}
+	});
 
-    //Attach an event handler so that we always grab a new access token if it is sent on a response
-    $(document).ajaxSuccess(function(evt, response, settings) {
-        var newAccessToken = response.getResponseHeader("X-Authentication");
-        if(newAccessToken) {
-            self.setAccessToken(newAccessToken);
-        }
-    });
+	//Attach an event handler so that we always grab a new access token if it is sent on a response
+	$(document).ajaxSuccess(function(evt, response, settings) {
+		var newAccessToken = response.getResponseHeader("X-Authentication");
+		if(newAccessToken) {
+			self.setAccessToken(newAccessToken);
+		}
+	});
 
-    //Attach an event handler so that if we get a 401 we know the user's sessions has aexpiored and we send them back to the login screen
-    $(document).ajaxError(function(evt, response, settings) {
-        if(response.status == 401 && self.isAuthenticated()) {
+	//Attach an event handler so that if we get a 401 we know the user's sessions has aexpiored and we send them back to the login screen
+	$(document).ajaxError(function(evt, response, settings) {
+		if(response.status == 401 && self.isAuthenticated()) {
 			notificationMgr.notify("You're session has expired.", function() {
-            	loginSvc.logout();
+				loginSvc.logout();
 			});
-        }
-    });
+		}
+	});
 };
 
 var LoginSvc = function(loginDiv) {
-	this.getCredentialsFromForm = function () {
-        var credentials = {
-            emailAddress: loginDiv.find("#loginEmailAddress").val(),
-            password: loginDiv.find("#loginPassword").val()
-        }
+	var self = this;
 
-        return credentials;
+	this.getCredentialsFromForm = function () {
+		var credentials = {
+			emailAddress: loginDiv.find("#loginEmailAddress").val(),
+			password: loginDiv.find("#loginPassword").val()
+		}
+
+		return credentials;
 	};
 
-    this.validate = function(credentials) {
+	this.validate = function(credentials) {
 		var errors = [];
 			
 		//Email
@@ -298,10 +300,10 @@ var LoginSvc = function(loginDiv) {
 		//Password
 		if(!hasValue(credentials.password)) errors.push(validationErrorCodes.LOGIN_PASSWORD_REQUIRED);
 
-        return errors;
-    };
+		return errors;
+	};
 
-    this.getAccessToken = function(credentials, callback) {
+	this.getAccessToken = function(credentials, callback) {
 		$.ajax("restservices/accessToken", {
 			type: "POST",
 			data: JSON.stringify(credentials),
@@ -309,22 +311,45 @@ var LoginSvc = function(loginDiv) {
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data.access_token);
 			},
-            error: function(jqXHR, textStatus, errorThrown) {
-                callback(errorThrown);
-            }
-		});	            
-    };
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback(errorThrown);
+			}
+		});				
+	};
 
-    this.logout = function() {
-        sessionMgr.clearSession();
-        document.location.reload();
-    };
+	this.getAccessTokenById = function(volunteerId, callback) {
+		$.ajax("restservices/volunteers/" + volunteerId + "/accessToken", {
+			type: "GET",
+			success: function(data, textStatus, jqXHR) {
+				callback(null, data.access_token);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback(errorThrown);
+			}
+		});
+	};
+
+   this.logout = function() {
+		sessionMgr.clearSession();
+		document.location.reload();
+	};
+
+	this.switchUser = function(volunteerId) {
+		self.getAccessTokenById(volunteerId, function(err, token) {
+
+			setTimeout(function(){
+				sessionMgr.setAccessToken(token);
+				sessionMgr.getVolunteerId();
+				document.location.reload();
+			}, 1);
+		})
+	};
 };
 
 var VolunteerSvc = function(profileDiv) {
-    this.setFocusOnFirstName = function() {
-        profileDiv.find("#firstName").focus();
-    };
+	this.setFocusOnFirstName = function() {
+		profileDiv.find("#firstName").focus();
+	};
 
 	this.getFromForm = function() {
 		var volunteer = {
@@ -342,7 +367,7 @@ var VolunteerSvc = function(profileDiv) {
 	};
 		
 	this.populateForm = function(volunteer) {
-        var UNCHANGED_PASSWORD = "UNCHANGED";
+		var UNCHANGED_PASSWORD = "UNCHANGED";
 		if(volunteer) {
 			profileDiv.find("#email").val(volunteer.emailAddress);
 			profileDiv.find("#confirmEmail").val(volunteer.emailAddress);
@@ -407,15 +432,15 @@ var VolunteerSvc = function(profileDiv) {
 		//Family ID
 		if(!hasValue(volunteer.familyId)) errors.push(validationErrorCodes.FAMILY_ID_REQUIRED);
 
-        //If the volunteer is an existing volunteer, make sure they aren't changing too many fields at the same time
-        if(currentVolunteer) {
-            if(volunteer.firstName != currentVolunteer.firstName
-                && volunteer.lastName != currentVolunteer.lastName
-                && volunteer.emailAddress != currentVolunteer.emailAddress) {
+		//If the volunteer is an existing volunteer, make sure they aren't changing too many fields at the same time
+		if(currentVolunteer) {
+			if(volunteer.firstName != currentVolunteer.firstName
+				&& volunteer.lastName != currentVolunteer.lastName
+				&& volunteer.emailAddress != currentVolunteer.emailAddress) {
 
-			    errors.push(validationErrorCodes.CANT_CHANGE_AT_SAME_TIME);
-            }
-        }
+				errors.push(validationErrorCodes.CANT_CHANGE_AT_SAME_TIME);
+			}
+		}
 
 		return errors;
 	};
@@ -513,7 +538,7 @@ var validationErrorCodes = {
 	LOGIN_EMAIL_INVALID: {id:25, elementId: "loginEmailAddress", message: "Please enter a valid email address."},
 	LOGIN_PASSWORD_REQUIRED: {id:26, elementId: "loginPassword", message: "Please enter your password."},
 	LOGIN_CREDENTIALS_INCORRECT: {id:27, elementId: "none", message: "Your login credentials are incorrect.  Please try again."},
-    CANT_CHANGE_AT_SAME_TIME: {id:28, elementId: "none", message: "You cannot change your First Name, Last Name and Email Address all at the same time.  Please try again."},
+	CANT_CHANGE_AT_SAME_TIME: {id:28, elementId: "none", message: "You cannot change your First Name, Last Name and Email Address all at the same time.  Please try again."},
 	FAMILY_ID_REQUIRED: {id:29, elementId: "familyId", message: "Family ID is required."}
 };
 	
@@ -632,19 +657,19 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		
 	this.populateForm = function(volunteerId, hours) {
 		var totalFamilyHours = 0,
-		    totalPersonalHours = 0,
-		    totalPendingHours = 0;
+			totalPersonalHours = 0,
+			totalPendingHours = 0;
 
 		for(var i=0; i<hours.length; i++) {
-		    if(hours[i].status === "Approved") {
-		        totalFamilyHours += parseInt(hours[i].nbrOfHours, 10);
-		        if(hours[i].volunteerId == volunteerId) {
-		            totalPersonalHours += parseInt(hours[i].nbrOfHours, 10);
-		        }
-		    }
-		    else if(hours[i].status === "Pending" && hours[i].volunteerId == volunteerId) {
-		    	totalPendingHours += parseInt(hours[i].nbrOfHours, 10);
-		    }
+			if(hours[i].status === "Approved") {
+				totalFamilyHours += parseInt(hours[i].nbrOfHours, 10);
+				if(hours[i].volunteerId == volunteerId) {
+					totalPersonalHours += parseInt(hours[i].nbrOfHours, 10);
+				}
+			}
+			else if(hours[i].status === "Pending" && hours[i].volunteerId == volunteerId) {
+				totalPendingHours += parseInt(hours[i].nbrOfHours, 10);
+			}
 		}
 
 		//Round to the nearest tenth
@@ -657,7 +682,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		hoursDiv.find("#pendingTotalHours").text(totalPendingHours.toFixed(1));
 	};
 		
-    this.populateInterestAreas = function(interests) {
+	this.populateInterestAreas = function(interests) {
 
 		interests.sort(function (a, b) {
 			if (a.name > b.name)
@@ -675,7 +700,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 			var interest = interests[i];
 			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
 		}
-    };
+	};
 
 	this.getFromForm = function() {
 		var hours = {
@@ -744,25 +769,25 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 		for(var i=0; i<volunteers.length; i++) {
 			var volunteer = volunteers[i];
 
-            //Find the total hours for this volunteer
-            var totalHours = 0;
-            for(var y=0; y<hourTotals.length; y++) {
-                if(hourTotals[y].id == volunteer.id) {
-                    totalHours = hourTotals[y].hours;
-                    break;
-                }
-            }
+			//Find the total hours for this volunteer
+			var totalHours = 0;
+			for(var y=0; y<hourTotals.length; y++) {
+				if(hourTotals[y].id == volunteer.id) {
+					totalHours = hourTotals[y].hours;
+					break;
+				}
+			}
 
-			volunteerList.append("<tr><td>" + volunteer.lastName + "</td><td>" + volunteer.firstName + "</td><td>" + volunteer.emailAddress + "</td><td>" + getStatusDropdown(volunteer) + "</td><td>" + totalHours + "</td></tr>");			
+			volunteerList.append("<tr><td>" + volunteer.lastName + "</td><td>" + volunteer.firstName + "</td><td>" + volunteer.emailAddress + "</td><td>" + getStatusDropdown(volunteer) + "</td><td>" + totalHours + "</td><td><a href=\"javascript:loginSvc.switchUser(" + volunteer.id + ");\" class=\"administrativeLogin\">Login</a></td></tr>");			
 		}
 
-        $(".volunteerRoleSelect").change(function(eventObject) {
-            var volunteerId = eventObject.target.dataset.volunteerid;
-            var roleId = eventObject.target.value;
-            self.updateRole(volunteerId, roleId, function() {
-                notificationMgr.notify('The volunteer status has been updated.');
-            });
-        });
+		$(".volunteerRoleSelect").change(function(eventObject) {
+			var volunteerId = eventObject.target.dataset.volunteerid;
+			var roleId = eventObject.target.value;
+			self.updateRole(volunteerId, roleId, function() {
+				notificationMgr.notify('The volunteer status has been updated.');
+			});
+		});
 	};
 
 	this.getAll = function(callback) {
@@ -774,7 +799,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 		});
 	};
 
-    this.updateRole = function(volunteerId, roleId, callback) {
+	this.updateRole = function(volunteerId, roleId, callback) {
 		$.ajax("restservices/volunteers/" + volunteerId + "/role", {
 			type: "PUT",
 			data: JSON.stringify({"id": roleId}),
@@ -782,54 +807,54 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 			callback(null, data);
 			}
 		});
-    };
+	};
 
-    var getStatusDropdown = function(volunteer) {
-        var statusList = [{'id': 1, 'name': "Pending"}, 
-                        {'id': 2, 'name': "Active"}, 
-                        {'id': 3, 'name': "Administator"}, 
-                        {'id': 4, 'name': "Inactive"}];
-        var statusDropdownHtml = "<select class=\"volunteerRoleSelect\" data-volunteerId=\"" + volunteer.id + "\">";
+	var getStatusDropdown = function(volunteer) {
+		var statusList = [{'id': 1, 'name': "Pending"}, 
+						{'id': 2, 'name': "Active"}, 
+						{'id': 3, 'name': "Administator"}, 
+						{'id': 4, 'name': "Inactive"}];
+		var statusDropdownHtml = "<select class=\"volunteerRoleSelect\" data-volunteerId=\"" + volunteer.id + "\">";
 
-        for(var i=0; i<statusList.length; i++) {
-            statusDropdownHtml += "<option value=\"" + statusList[i].id + "\" " + (volunteer.roleId == statusList[i].id ? "selected" : "")+ ">" + statusList[i].name + "</option>";
-        }
-        statusDropdownHtml += "</select>";
-        return statusDropdownHtml;
-    };
+		for(var i=0; i<statusList.length; i++) {
+			statusDropdownHtml += "<option value=\"" + statusList[i].id + "\" " + (volunteer.roleId == statusList[i].id ? "selected" : "")+ ">" + statusList[i].name + "</option>";
+		}
+		statusDropdownHtml += "</select>";
+		return statusDropdownHtml;
+	};
 
 };
 
 var AdminHoursSvc = function(adminHoursDiv) {
-    var self = this;
+	var self = this;
 
 	this.populateForm = function(volunteers, pendingHours) {
 		var pendingList = adminHoursDiv.find("#adminPendingHoursList");
 		for(var i=0; i<pendingHours.length; i++) {
 			var pending = pendingHours[i];
 
-            //Find the volunteer for these hours
-            var volunteer = null;
-            for(var y=0; y<volunteers.length; y++) {
-                if(volunteers[y].id == pending.volunteerId) {
-                    volunteer = volunteers[y];
-                    break;
-                }
-            }
-            var date = convertJsonDateToDate(pending.date);
-            var dateString = formatDateForDisplay(date);
+			//Find the volunteer for these hours
+			var volunteer = null;
+			for(var y=0; y<volunteers.length; y++) {
+				if(volunteers[y].id == pending.volunteerId) {
+					volunteer = volunteers[y];
+					break;
+				}
+			}
+			var date = convertJsonDateToDate(pending.date);
+			var dateString = formatDateForDisplay(date);
 
 			pendingList.append("<tr><td>" + volunteer.lastName + "</td><td>" + volunteer.firstName + "</td><td>" + dateString + "</td><td>" + pending.nbrOfHours + "</td><td>" + getStatusDropdown(pending) + "</td><td>" + pending.description + "</td></tr>");			
 		}
 
-        $(".pendingStatusSelect").change(function(eventObject) {
-            var volunteerId = eventObject.target.dataset.volunteerid;
-            var hoursId = eventObject.target.dataset.hoursid;
-            var status = eventObject.target.value;
-            self.updateStatus(volunteerId, hoursId, status, function() {
-                notificationMgr.notify('The hours status has been updated.');
-            });
-        });
+		$(".pendingStatusSelect").change(function(eventObject) {
+			var volunteerId = eventObject.target.dataset.volunteerid;
+			var hoursId = eventObject.target.dataset.hoursid;
+			var status = eventObject.target.value;
+			self.updateStatus(volunteerId, hoursId, status, function() {
+				notificationMgr.notify('The hours status has been updated.');
+			});
+		});
 	};
 
 	this.getApprovedTotals = function(callback) {
@@ -850,7 +875,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		});
 	};
 
-    this.updateStatus = function(volunteerId, hoursId, status, callback) {
+	this.updateStatus = function(volunteerId, hoursId, status, callback) {
 		$.ajax("restservices/volunteers/" + volunteerId + "/hours/" + hoursId + "/status", {
 			type: "PUT",
 			data: status,
@@ -858,26 +883,26 @@ var AdminHoursSvc = function(adminHoursDiv) {
 				callback(null, data);
 			}
 		});
-    };
+	};
 
 
-    var getStatusDropdown = function(pending) {
-        var statusList = ["Pending", "Approved", "Declined"];
-        var statusDropdownHtml = "<select class=\"pendingStatusSelect\" data-volunteerId=\"" + pending.volunteerId + "\" data-hoursId=\"" + pending.id + "\">";
+	var getStatusDropdown = function(pending) {
+		var statusList = ["Pending", "Approved", "Declined"];
+		var statusDropdownHtml = "<select class=\"pendingStatusSelect\" data-volunteerId=\"" + pending.volunteerId + "\" data-hoursId=\"" + pending.id + "\">";
 
-        for(var i=0; i<statusList.length; i++) {
-            statusDropdownHtml += "<option " + (pending.status == statusList[i] ? "selected" : "")+ ">" + statusList[i] + "</option>";
-        }
-        statusDropdownHtml += "</select>";
-        return statusDropdownHtml;
-    };
+		for(var i=0; i<statusList.length; i++) {
+			statusDropdownHtml += "<option " + (pending.status == statusList[i] ? "selected" : "")+ ">" + statusList[i] + "</option>";
+		}
+		statusDropdownHtml += "</select>";
+		return statusDropdownHtml;
+	};
 
 
 };
 
 var AdminReportsSvc = function(reportsDiv) {
 
-    this.populateInterestAreas = function(interests) {
+	this.populateInterestAreas = function(interests) {
 
 		interests.sort(function (a, b) {
 			if (a.name > b.name)
@@ -897,7 +922,7 @@ var AdminReportsSvc = function(reportsDiv) {
 				interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
 			}
 		}
-    };
+	};
 
 	this.getVolunteersByInterestAreaId = function(interestAreaId, callback) {
 		$.ajax("restservices/interestAreas/" + interestAreaId + "/volunteers", {
@@ -933,7 +958,7 @@ var AdminReportsSvc = function(reportsDiv) {
 			reportList.append("<tr><th>Email</th></tr>");
 			for(var i=0; i<volunteers.length; i++) {
 				var volunteer = volunteers[i];
-				var td = $("<td />").text("<" + volunteer.firstName + " " + volunteer.lastName + ">" + volunteer.emailAddress + ";");
+				var td = $("<td />").text("<" + volunteer.firstName + " " + volunteer.lastName + "> " + volunteer.emailAddress + ";");
 				var tr = $("<tr />").append(td);
 				reportList.append(tr);			
 			}
@@ -954,16 +979,16 @@ var RightSvc = function() {
 };
 
 var NotificationMgr = function() {
-    var self = this;
+	var self = this;
 
-    this.notify = function(message, callback) {
+	this.notify = function(message, callback) {
 		var options = {};
 		if(callback) {
 			options.submit = callback;
 		}
 
-        $.prompt(message, options);
-    };
+		$.prompt(message, options);
+	};
 };
 
 var hasValue = function(value) {
@@ -989,26 +1014,26 @@ var isDate = function(date) {
 };
 
 var convertStringToDate = function(dateString) {
-    var dateParts = dateString.split("/");
-    var date = new Date(dateParts[2], (dateParts[0] - 1), dateParts[1]);
-    return date;
+	var dateParts = dateString.split("/");
+	var date = new Date(dateParts[2], (dateParts[0] - 1), dateParts[1]);
+	return date;
 };
 
 var convertJsonDateToDate = function(jsonDateString) {
 	//The date will be in the format yyyy-mm-dd, which we can just pass to the date constructor
-    var date = new Date(jsonDateString);
-    return date;
+	var date = new Date(jsonDateString);
+	return date;
 };
 
 var formatDateForDisplay = function(date) {
-    return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear(); 
+	return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear(); 
 };
 	
 var formatDateForJson = function(date) {
-    var milliseconds = date.getTime();
-    var formattedString = "\/Date(" + milliseconds + ")\/";
+	var milliseconds = date.getTime();
+	var formattedString = "\/Date(" + milliseconds + ")\/";
 
-    return formattedString;
+	return formattedString;
 };
 	
 var getParameterByName = function( name )

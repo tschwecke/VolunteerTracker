@@ -34,35 +34,26 @@ class AccessTokenController extends BaseController {
 		$this->sendResponse(401);				
 	}
 
+	public function getByVolunteerId($volunteerId) {
+		$authenticatedUserId = $this->getAuthenticatedUserId();
+		$svc = new VolunteerSvc();
+		$volunteer = $svc->getById($volunteerId);
+
+		if(!is_null($volunteer)) {
+			$authorizationMgr = new AuthorizationMgr();
+			if (!$authorizationMgr->hasRight($authenticatedUserId, "Update", "VolunteerInfo", $volunteerId)) {
+				$this->sendResponse(403);				
+				return;
+			}
+
+			$authenticationMgr = new AuthenticationMgr();
+			$token = $authenticationMgr->createAccessTokenFromId($volunteerId);
+			$this->sendResponse(200, $token);				
+			return;
+		}
+
+		//If we got to here then the volunteer wasn't found
+		$this->sendResponse(404);				
+	}
+
 }
-/*        public ActionResult GetWithEmailAndPassword()
-        {
-            SerializationMgr serializationMgr = new SerializationMgr();
-            Credentials credentials = serializationMgr.Deserialize<Credentials>(HttpContext.Request.InputStream);
-
-            VolunteerSvc volunteerSvc = new VolunteerSvc();
-            Models.Volunteer volunteer = volunteerSvc.GetByEmailAddress(credentials.EmailAddress);
-
-            if (volunteer != null)
-            {
-                if (!HasRight(volunteer.Id, "Create", "AccessToken"))
-                    return new ServiceResult { StatusCode = 403, Content = "You are not authorized to perform that operation." };
-
-                AuthenticationMgr authMgr = new AuthenticationMgr();
-                string passwordHash = authMgr.CreatePasswordHash(credentials.Password, volunteer.Salt);
-
-                if (passwordHash == volunteer.PasswordHash)
-                {
-                    AccessToken token = authMgr.CreateAccessToken(volunteer.Id);
-
-                    string json = serializationMgr.Serialize(token);
-
-                    return new ServiceResult { StatusCode = 200, Content = json };
-                }
-            }
-            return new ServiceResult { StatusCode = 401 };
-        }
-*/
-
-
-

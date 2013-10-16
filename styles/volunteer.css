@@ -240,3 +240,11 @@ input#hoursDate {
 .reportTitle {
 	font-weight: bold;
 }
+
+.administrativeLogin {
+	opacity: .5;
+}
+
+.administrativeLogin:hover {
+	opacity: 1;
+}

@@ -26,6 +26,11 @@ $app->post('/restservices/accessToken', function() {
 	$controller->getWithEmailAndPassword();
 });
 
+$app->get('/restservices/volunteers/:volunteerId/accessToken', function($volunteerId) {
+	$controller = new AccessTokenController();
+	$controller->getByVolunteerId($volunteerId);
+});
+
 //Volunteer
 $app->get('/restservices/volunteers/:volunteerId', function($volunteerId) {
 	$controller = new VolunteerController();
