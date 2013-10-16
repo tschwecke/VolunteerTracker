@@ -5,7 +5,7 @@
 .outerContainer {
 	background-color: #ffffff;
 	border-radius: 5px;
-	width: 900px;
+	width: 950px;
 	text-align: left;
 	padding: 3px;
 	display: block;
@@ -247,4 +247,8 @@ input#hoursDate {
 
 .administrativeLogin:hover {
 	opacity: 1;
+}
+
+#adminVolunteerList {
+	margin-left: -22px;
 }
