@@ -662,9 +662,9 @@ var VolunteerHoursSvc = function(hoursDiv) {
 
 		for(var i=0; i<hours.length; i++) {
 			if(hours[i].status === "Approved") {
-				totalFamilyHours += parseInt(hours[i].nbrOfHours, 10);
+				totalFamilyHours += parseFloat(hours[i].nbrOfHours, 10);
 				if(hours[i].volunteerId == volunteerId) {
-					totalPersonalHours += parseInt(hours[i].nbrOfHours, 10);
+					totalPersonalHours += parseFloat(hours[i].nbrOfHours, 10);
 				}
 			}
 			else if(hours[i].status === "Pending" && hours[i].volunteerId == volunteerId) {
