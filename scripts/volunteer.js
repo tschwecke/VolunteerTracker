@@ -668,7 +668,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 				}
 			}
 			else if(hours[i].status === "Pending" && hours[i].volunteerId == volunteerId) {
-				totalPendingHours += parseInt(hours[i].nbrOfHours, 10);
+				totalPendingHours += parseFloat(hours[i].nbrOfHours);
 			}
 		}
 
