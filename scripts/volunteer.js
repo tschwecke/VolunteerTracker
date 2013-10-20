@@ -1040,7 +1040,8 @@ var convertStringToDate = function(dateString) {
 
 var convertJsonDateToDate = function(jsonDateString) {
 	//The date will be in the format yyyy-mm-dd, which we can just pass to the date constructor
-	var date = new Date(jsonDateString);
+	var dateParts = jsonDateString.split('-');
+	var date = new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);
 	return date;
 };
 
@@ -1050,7 +1051,7 @@ var formatDateForDisplay = function(date) {
 	
 var formatDateForJson = function(date) {
 	var milliseconds = date.getTime();
-	var formattedString = "\/Date(" + milliseconds + ")\/";
+	var formattedString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
 	return formattedString;
 };
