@@ -23,19 +23,30 @@ var NewUserMgr = function() {
 			$("#profileSaveButton").button("disable");
 			profileErrorSvc.hideErrors();
 			volunteerSvc.save(volunteer, function(error, data) {
-				sessionMgr.setAccessToken(data.access_token);
+				if(error) {
+					var errorMsg = 'An error occurred while trying to create your account. Please try again.';
+					if(error.message == 'Email taken') {
+						errorMsg = 'There is already an account with that email address.';
+					}
+					notificationMgr.notify(errorMsg);
+			
 
-				interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
-					interestsSvc.populateForm(interests);
-					volunteerHoursSvc.populateInterestAreas(interests);
-					adminReportsSvc.populateInterestAreas(interests);
-				});
+					$("#profileSaveButton").button("enable");
+				}
+				else {
+					sessionMgr.setAccessToken(data.access_token);
 
-				$("#tabs").tabs("enable", "interestsTab");
-				$("#tabs").tabs("select", "interestsTab");
-				$("#profileSaveButton").button({ label: "Save" });
-				$("#profileSaveButton").button("enable");
+					interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
+						interestsSvc.populateForm(interests);
+						volunteerHoursSvc.populateInterestAreas(interests);
+						adminReportsSvc.populateInterestAreas(interests);
+					});
 
+					$("#tabs").tabs("enable", "interestsTab");
+					$("#tabs").tabs("select", "interestsTab");
+					$("#profileSaveButton").button({ label: "Save" });
+					$("#profileSaveButton").button("enable");
+				}
 			});
 		}
 		else {
@@ -461,6 +472,14 @@ var VolunteerSvc = function(profileDiv) {
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				if(jqXHR.status == '409') {
+					callback(new Error('Email taken'));
+				}
+				else {
+					callback(new Error(errorThrown));
+				}
 			}
 		});			
 	};
