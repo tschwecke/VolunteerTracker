@@ -320,9 +320,16 @@ var LoginSvc = function(loginDiv) {
 			data: JSON.stringify(credentials),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
+
+				if(ga) {
+					ga('send', 'event', 'login', 'success');
+				}
 				callback(null, data.access_token);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				if(ga) {
+					ga('send', 'event', 'login', 'failure');
+				}
 				callback(errorThrown);
 			}
 		});				
@@ -471,6 +478,9 @@ var VolunteerSvc = function(profileDiv) {
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
+				if(ga) {
+					ga('send', 'event', 'profile', 'created');
+				}
 				callback(null, data);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -490,6 +500,9 @@ var VolunteerSvc = function(profileDiv) {
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
+				if(ga) {
+					ga('send', 'event', 'profile', 'updated');
+				}
 				callback(null, data);
 			}
 		});			
@@ -587,6 +600,9 @@ var InterestsSvc = function(interestsDiv) {
 			data: JSON.stringify(interests),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
+				if(ga) {
+					ga('send', 'event', 'interests', 'saved');
+				}
 				callback(null);
 			}
 		});			
@@ -660,6 +676,9 @@ var VolunteerHoursSvc = function(hoursDiv) {
 			data: JSON.stringify(hours),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
+				if(ga) {
+					ga('send', 'event', 'hours', 'saved');
+				}
 				callback(null, data);
 			}
 		});
