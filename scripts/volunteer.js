@@ -1083,6 +1083,12 @@ var isDate = function(date) {
 
 var convertStringToDate = function(dateString) {
 	var dateParts = dateString.split("/");
+
+	//Make sure it is a four digit year
+	if(dateParts[2].length == 2) {
+		dateParts[2] = '20' + dateParts[2];
+	}
+
 	var date = new Date(dateParts[2], (dateParts[0] - 1), dateParts[1]);
 	return date;
 };
