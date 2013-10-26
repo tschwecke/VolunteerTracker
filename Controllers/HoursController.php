@@ -42,7 +42,7 @@ class HoursController extends BaseController {
 		$this->sendResponse(200, $hours);
 	}
 
-	public function getPendingHours() {
+	public function getHoursByStatus($status) {
 		
 		$authenticatedUserId = $this->getAuthenticatedUserId();
 
@@ -53,7 +53,7 @@ class HoursController extends BaseController {
 		}
 
 		$svc = new HoursSvc();
-		$hours = $svc->getByStatus('Pending');
+		$hours = $svc->getByStatus($status);
 
 		$this->sendResponse(200, $hours);
 	}

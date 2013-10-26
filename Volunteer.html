@@ -211,17 +211,15 @@
 	                </table>
 	            </div>
 		        <div id="adminHoursTab">
-	                <p>Pending Hours</p>
-	               <table id="adminPendingHoursList">
-	                    <tr>
-	                        <th>Last Name</th>
-	                        <th>First Name</th>
-	                        <th>Date</th>
-	                        <th>Number of Hours</th>
-	                        <th>Status</th>
-	                        <th>Description</th>
-	                    </tr>
-	                </table>
+	                <p class="reportTitle">Hours by Status</p>
+	                <p>Select a Status:
+		                <select id="adminHoursStatus">
+							<option selected>Pending</option>
+							<option>Approved</option>
+							<option>Declined</option>
+						</select>
+					</p>
+	               <table id="adminHoursList"></table>
 	            </div>
 		        <div id="adminReportsTab">
 	                <p class="reportTitle">Volunteers by Interest Area</p>
@@ -309,6 +307,11 @@
 		$("#reportInterestArea").change(function (a) {
 			var interestAreaId = a.srcElement.value;
 			UserMgrFactory.getUserMgr().runInterestAreaReport(interestAreaId);
+		});
+
+		$("#adminHoursStatus").change(function (a) {
+			var status = a.srcElement.value;
+			UserMgrFactory.getUserMgr().displayAdminHoursByStatus(status);
 		});
 
 		$("#detailedHoursButton").button();

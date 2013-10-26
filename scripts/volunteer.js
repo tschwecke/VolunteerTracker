@@ -87,6 +87,8 @@ var NewUserMgr = function() {
 
 var ExistingUserMgr = function() {
 	var currentVolunteer = null;
+	var allVolunteers = null;
+	var allInterestAreas = null;
 
 	this.init = function() {
 		//make the calls to get all of the data
@@ -109,12 +111,13 @@ var ExistingUserMgr = function() {
 
 				if(canViewAdminTab) {
 					adminVolunteerSvc.getAll(function (err, volunteers) {
+						allVolunteers = volunteers;
 						adminHoursSvc.getApprovedTotals(function(err, hourTotals) {
-							adminVolunteerSvc.populateForm(volunteers, hourTotals);
+							adminVolunteerSvc.populateForm(allVolunteers, hourTotals);
 						});
 
-						adminHoursSvc.getAllPendingHours(function(err, pendingHours) {
-							adminHoursSvc.populateForm(volunteers, pendingHours);
+						adminHoursSvc.getHoursByStatus('Pending', function(err, pendingHours) {
+							adminHoursSvc.populateForm(allVolunteers, allInterestAreas, pendingHours);
 						});
 					});
 					$("#adminTabLI").removeClass("hiddenTab");
@@ -123,6 +126,7 @@ var ExistingUserMgr = function() {
 		});
 
 		interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
+			allInterestAreas = interests;
 			interestsSvc.populateForm(interests);
 			volunteerHoursSvc.populateInterestAreas(interests);
 			adminReportsSvc.populateInterestAreas(interests);
@@ -177,6 +181,12 @@ var ExistingUserMgr = function() {
 			volunteerHoursErrorSvc.showErrors(errors);
 		}
 
+	};
+
+	this.displayAdminHoursByStatus = function(status) {
+		adminHoursSvc.getHoursByStatus(status, function(err, hours){
+			adminHoursSvc.populateForm(allVolunteers, allInterestAreas, hours);
+		});
 	};
 
 	this.runInterestAreaReport = function(interestAreaId) {
@@ -866,33 +876,43 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 var AdminHoursSvc = function(adminHoursDiv) {
 	var self = this;
 
-	this.populateForm = function(volunteers, pendingHours) {
-		var pendingList = adminHoursDiv.find("#adminPendingHoursList");
-		for(var i=0; i<pendingHours.length; i++) {
-			var pending = pendingHours[i];
+	this.populateForm = function(volunteers, interestAreas, hours) {
+		var hoursList = adminHoursDiv.find("#adminHoursList");
 
-			//Find the volunteer for these hours
-			var volunteer = null;
-			for(var y=0; y<volunteers.length; y++) {
-				if(volunteers[y].id == pending.volunteerId) {
-					volunteer = volunteers[y];
-					break;
-				}
-			}
-			var date = convertJsonDateToDate(pending.date);
-			var dateString = formatDateForDisplay(date);
+		hoursList.empty();
 
-			pendingList.append("<tr><td>" + volunteer.lastName + "</td><td>" + volunteer.firstName + "</td><td>" + dateString + "</td><td>" + pending.nbrOfHours + "</td><td>" + getStatusDropdown(pending) + "</td><td>" + pending.description + "</td></tr>");			
+		if(hours.length === 0) {
+			hoursList.append("<tr><th>No hours were found with this status.</th></tr>");
 		}
+		else {
+			hoursList.append("<tr><th>Name</th><th>Date</th><th>Interest Area</th><th>Hours</th><th>Status</th>th>Description</th></tr>");
+			for(var i=0; i<hours.length; i++) {
+				var hoursSubmission = hours[i];
 
-		$(".pendingStatusSelect").change(function(eventObject) {
-			var volunteerId = eventObject.target.dataset.volunteerid;
-			var hoursId = eventObject.target.dataset.hoursid;
-			var status = eventObject.target.value;
-			self.updateStatus(volunteerId, hoursId, status, function() {
-				notificationMgr.notify('The hours status has been updated.');
+				//Find the volunteer for these hours
+				var volunteer = null;
+				for(var y=0; y<volunteers.length; y++) {
+					if(volunteers[y].id == hoursSubmission.volunteerId) {
+						volunteer = volunteers[y];
+						break;
+					}
+				}
+				var date = convertJsonDateToDate(hoursSubmission.date);
+				var dateString = formatDateForDisplay(date);
+				var interestArea = getInterestArea(interestAreas, hoursSubmission)
+
+				hoursList.append("<tr><td>" + volunteer.firstName + " " + volunteer.lastName + "</td><td>" + dateString + "</td><td>" + interestArea + "</td><td>" + hoursSubmission.nbrOfHours + "</td><td>" + getStatusDropdown(hoursSubmission) + "</td><td>" + hoursSubmission.description + "</td></tr>");			
+			}
+
+			$(".pendingStatusSelect").change(function(eventObject) {
+				var volunteerId = eventObject.target.dataset.volunteerid;
+				var hoursId = eventObject.target.dataset.hoursid;
+				var status = eventObject.target.value;
+				self.updateStatus(volunteerId, hoursId, status, function() {
+					notificationMgr.notify('The hours status has been updated.');
+				});
 			});
-		});
+		}
 	};
 
 	this.getApprovedTotals = function(callback) {
@@ -904,8 +924,8 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		});
 	};
 
-	this.getAllPendingHours = function(callback) {
-		$.ajax("restservices/hours/pending", {
+	this.getHoursByStatus = function(status, callback) {
+		$.ajax("restservices/hours/" + status, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -935,6 +955,16 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		return statusDropdownHtml;
 	};
 
+	var getInterestArea = function(interestAreas, hoursSubmission) {
+		interestAreaName = 'Unknown';
+		for(var i=0; i<interestAreas.length; i++) {
+			if(interestAreas[i].interestAreaId == hoursSubmission.interestAreaId) {
+				interestAreaName = interestAreas[i].name;
+			}
+		}
+
+		return interestAreaName;
+	};
 
 };
 

@@ -122,14 +122,14 @@ $app->get('/restservices/volunteers/:volunteerId/familyHours', function($volunte
 	$controller->getFamilyHoursByVolunteerId($volunteerId);
 });
 
-$app->get('/restservices/hours/pending', function() {
-	$controller = new HoursController();
-	$controller->getPendingHours();
-});
-
 $app->get('/restservices/hours/approvedTotals', function() {
 	$controller = new HoursController();
 	$controller->getApprovedTotals();
+});
+
+$app->get('/restservices/hours/:status', function($status) {
+	$controller = new HoursController();
+	$controller->getHoursByStatus($status);
 });
 
 $app->post('/restservices/volunteers/:volunteerId/hours', function($volunteerId) {
