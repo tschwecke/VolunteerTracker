@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.20/themes/base/jquery.ui.all.css" />
 	<link rel="stylesheet" href="styles/volunteer.css" />
 	<link rel="stylesheet" href="styles/jquery-impromptu.css" />
+	<link rel="stylesheet" href="fancybox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -184,11 +185,14 @@
 								<div id="familyTotalHours" class="hoursValue totalHours">Not Available</div>
 							</div>
 							<div class="hoursRow">
-								<div class="hoursHeader"><button id="detailedHoursButton">View Detailed Volunteer Time</button></div>
-								<div class="hoursValue"></div>
+								<div class="hoursHeader">&nbsp;</div>
 							</div> 
 						</div>
+						<a class="fancybox" href="#hoursList">View Detailed Volunteer Time</a>
 					</div>
+				</div>
+				<div id="hoursList" style="display:none;">
+					<table></table>
 				</div>
 			</div>		
 		</div>
@@ -240,6 +244,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.20/jquery-ui.min.js"></script>
+<script type="text/javascript" src="fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
 <script src="scripts/Impromptu.js"></script>
 <script src="scripts/volunteer.js"></script>
 <script>
@@ -314,14 +319,13 @@
 			UserMgrFactory.getUserMgr().displayAdminHoursByStatus(status);
 		});
 
-		$("#detailedHoursButton").button();
-		$("#detailedHoursButton").hide();
-
 		$("#loginEmailAddress").focus();
 
 		$("#logoutLink").click(function () {
 			loginSvc.logout();
 		});
+
+		$(".fancybox").fancybox();
 
 		if(sessionMgr.isAuthenticated()) {
 			UserMgrFactory.getUserMgr().init();

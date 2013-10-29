@@ -73,7 +73,7 @@ var NewUserMgr = function() {
 			$("#submitHoursButton").button("disable");
 			volunteerHoursErrorSvc.hideErrors();
 			volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
-				notificationMgr.notify("Your hours have been saved.");
+				notificationMgr.notify("Your <strong>hours</strong> have been saved.");
 				$("#submitHoursButton").button("enable");
 				volunteerHoursSvc.clearForm();
 			});
@@ -706,8 +706,27 @@ var VolunteerHoursSvc = function(hoursDiv) {
 	this.populateForm = function(volunteerId, hours) {
 		var totalFamilyHours = 0,
 			totalPersonalHours = 0,
-			totalPendingHours = 0;
+			totalPendingHours = 0,
+			hoursList = hoursDiv.find("#hoursList table");
 
+		hours.sort(function (a, b) {
+			if (convertJsonDateToDate(a.date) < convertJsonDateToDate(b.date))
+			  return 1;
+			if (convertJsonDateToDate(a.date) > convertJsonDateToDate(b.date))
+			  return -1;
+			// a must be equal to b
+			return 0;
+		});
+
+		//Add the right header for the hours listing
+		if(hours.length === 0) {
+			hoursList.append("<tr><th>No hours have been submitted yet.</th></tr>");
+		}
+		else {
+			hoursList.append("<tr><th>Date</th><th>Interest Area</th><th>Hours</th><th>Status</th><th>Description</th></tr>");
+		}
+
+		//Loop through all of the hours submissions to calculate totals
 		for(var i=0; i<hours.length; i++) {
 			if(hours[i].status === "Approved") {
 				totalFamilyHours += parseFloat(hours[i].nbrOfHours, 10);
@@ -718,6 +737,11 @@ var VolunteerHoursSvc = function(hoursDiv) {
 			else if(hours[i].status === "Pending" && hours[i].volunteerId == volunteerId) {
 				totalPendingHours += parseFloat(hours[i].nbrOfHours);
 			}
+
+			//Add this hours submission to the detailed hours listing
+			var date = convertJsonDateToDate(hours[i].date);
+			var dateString = formatDateForDisplay(date);
+			hoursList.append("<tr><td>" + dateString + "</td><td>" + getInterestArea(interestAreas, hours[i]) + "</td><td>" + hours[i].nbrOfHours + "</td><td>" + hours[i].status + "</td><td>" + hours[i].description + "</td></tr>");
 		}
 
 		//Round to the nearest tenth
@@ -954,18 +978,6 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		statusDropdownHtml += "</select>";
 		return statusDropdownHtml;
 	};
-
-	var getInterestArea = function(interestAreas, hoursSubmission) {
-		interestAreaName = 'Unknown';
-		for(var i=0; i<interestAreas.length; i++) {
-			if(interestAreas[i].interestAreaId == hoursSubmission.interestAreaId) {
-				interestAreaName = interestAreas[i].name;
-			}
-		}
-
-		return interestAreaName;
-	};
-
 };
 
 var AdminReportsSvc = function(reportsDiv) {
@@ -1122,3 +1134,15 @@ var getParameterByName = function( name )
 	else
 	return decodeURIComponent(results[1].replace(/\+/g, " "));
 };
+
+var getInterestArea = function(interestAreas, hoursSubmission) {
+	interestAreaName = 'Unknown';
+	for(var i=0; i<interestAreas.length; i++) {
+		if(interestAreas[i].interestAreaId == hoursSubmission.interestAreaId) {
+			interestAreaName = interestAreas[i].name;
+		}
+	}
+
+	return interestAreaName;
+};
+
