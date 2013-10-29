@@ -17,7 +17,8 @@ SET
     `hours`.`Date` = hoursDate,
     `hours`.`NbrOfHours` = nbrOfHours,
     `hours`.`Description` = description,
-    `hours`.`Status` = status
+    `hours`.`Status` = status,
+    `hours`.`sys_LastUpdate` = NOW()
 WHERE `hours`.`Hours_PK` = hours_PK;
 
 END$$

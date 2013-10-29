@@ -15,7 +15,9 @@ INSERT INTO `hours`
 `hours`.`Date`,
 `hours`.`NbrOfHours`,
 `hours`.`Description`,
-`hours`.`Status`)
+`hours`.`Status`,
+`hours`.`sys_CreateDate`,
+`hours`.`sys_LastUpdate`)
 VALUES
 (
 volunteer_PK,
@@ -23,7 +25,9 @@ interestArea_PK,
 hoursDate,
 nbrOfHours,
 description,
-status
+status,
+NOW(),
+NOW()
 );
 
 SELECT LAST_INSERT_ID() as 'NewId';
