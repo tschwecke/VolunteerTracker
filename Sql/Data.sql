@@ -342,6 +342,7 @@ INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Thursday Folders');$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Volunteer from Home');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Watch D.O.G.S.');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Yearbook');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Finance Committee');$$
 
 
 INSERT INTO `volunteer`
