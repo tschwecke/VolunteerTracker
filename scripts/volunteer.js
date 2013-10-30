@@ -909,7 +909,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 			hoursList.append("<tr><th>No hours were found with this status.</th></tr>");
 		}
 		else {
-			hoursList.append("<tr><th>Name</th><th>Date</th><th>Interest Area</th><th>Hours</th><th>Status</th>th>Description</th></tr>");
+			hoursList.append("<tr><th>Family Number</th><th>Name</th><th>Date</th><th>Interest Area</th><th>Hours</th><th>Status</th>th>Description</th></tr>");
 			for(var i=0; i<hours.length; i++) {
 				var hoursSubmission = hours[i];
 
@@ -925,7 +925,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 				var dateString = formatDateForDisplay(date);
 				var interestArea = getInterestArea(interestAreas, hoursSubmission)
 
-				hoursList.append("<tr><td>" + volunteer.firstName + " " + volunteer.lastName + "</td><td>" + dateString + "</td><td>" + interestArea + "</td><td>" + hoursSubmission.nbrOfHours + "</td><td>" + getStatusDropdown(hoursSubmission) + "</td><td>" + hoursSubmission.description + "</td></tr>");			
+				hoursList.append("<tr><td>" + volunteer.familyId + "</td><td>" + volunteer.firstName + " " + volunteer.lastName + "</td><td>" + dateString + "</td><td>" + interestArea + "</td><td>" + hoursSubmission.nbrOfHours + "</td><td>" + getStatusDropdown(hoursSubmission) + "</td><td>" + hoursSubmission.description + "</td></tr>");			
 			}
 
 			$(".pendingStatusSelect").change(function(eventObject) {
