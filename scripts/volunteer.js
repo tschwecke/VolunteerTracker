@@ -906,12 +906,15 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		hoursList.empty();
 
 		if(hours.length === 0) {
+			$("#adminHoursTotal").text("");
 			hoursList.append("<tr><th>No hours were found with this status.</th></tr>");
 		}
 		else {
+			var totalHours = 0;
 			hoursList.append("<tr><th>Family Number</th><th>Name</th><th>Date</th><th>Interest Area</th><th>Hours</th><th>Status</th>th>Description</th></tr>");
 			for(var i=0; i<hours.length; i++) {
 				var hoursSubmission = hours[i];
+				totalHours += parseFloat(hoursSubmission.nbrOfHours);
 
 				//Find the volunteer for these hours
 				var volunteer = null;
@@ -927,6 +930,8 @@ var AdminHoursSvc = function(adminHoursDiv) {
 
 				hoursList.append("<tr><td>" + volunteer.familyId + "</td><td>" + volunteer.firstName + " " + volunteer.lastName + "</td><td>" + dateString + "</td><td>" + interestArea + "</td><td>" + hoursSubmission.nbrOfHours + "</td><td>" + getStatusDropdown(hoursSubmission) + "</td><td>" + hoursSubmission.description + "</td></tr>");			
 			}
+
+			$("#adminHoursTotal").text("Total number of hours: " + totalHours.toFixed(2));
 
 			$(".pendingStatusSelect").change(function(eventObject) {
 				var volunteerId = eventObject.target.dataset.volunteerid;
