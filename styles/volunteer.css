@@ -226,11 +226,20 @@ span.timeSelected {
 }
 		
 input#hours {
-	width: 75px;
+	width: 50px;
 }
 		
 input#hoursDate {
-	width: 75px;
+	width: 95px;
+}
+
+select#hoursClassroom {
+	display: none;
+	margin-right: 0px;
+}
+
+textarea#hoursDescription {
+	width: 460px;
 }
 		
 .totalHours {

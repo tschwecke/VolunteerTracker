@@ -70,7 +70,8 @@ class HoursSvc {
                                                     $hours->date,
                                                     $hours->nbrOfHours,
                                                     $hours->description,
-                                                    $hours->status);
+                                                    $hours->status,
+                                                    $hours->classroom);
 		}
 		else {
 			//Insert
@@ -79,7 +80,8 @@ class HoursSvc {
                                                     $hours->date,
                                                     $hours->nbrOfHours,
                                                     $hours->description,
-                                                    $hours->status);
+                                                    $hours->status,
+                                                    $hours->classroom);
 
 			$hours->id = $results[0]['NewId'];			
 		}

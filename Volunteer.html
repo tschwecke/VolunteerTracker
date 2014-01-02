@@ -158,6 +158,9 @@
 									<select id="hoursArea">
 										<option value="">Select...</option>
 									</select>
+									<select id="hoursClassroom">
+										<option value="">Select a Classroom...</option>
+									</select>
 								</div>
 							</div>
 							<div class="hoursRow">
@@ -221,6 +224,11 @@
 							<option selected>Pending</option>
 							<option>Approved</option>
 							<option>Declined</option>
+						</select>
+					</p>
+	                <p>Select a Classroom:
+		                <select id="adminHoursClassroom">
+							<option selected value="">All</option>
 						</select>
 					</p>
 					<p id="adminHoursTotal"></p>
@@ -288,6 +296,7 @@
 		});
 
 		$("#tabs").hide();
+		$("#admin").hide();
 
 		$("#tabs").tabs();
 
@@ -305,6 +314,18 @@
 
 		$("#hoursDate").datepicker();
 
+		$("#hoursArea").change(function (a) {
+			var interestAreaId = a.srcElement.value;
+			var interest = interestsSvc.getInterestNameById(interestAreaId);
+			if(interest == 'Classroom') {
+				$("#hoursClassroom").show();
+			}
+			else {
+				$("#hoursClassroom").val('').hide();
+
+			}
+		});
+
 		$("#submitHoursButton").button();
 		$("#submitHoursButton").click(function () {
 			UserMgrFactory.getUserMgr().saveHours();
@@ -315,10 +336,14 @@
 			UserMgrFactory.getUserMgr().runInterestAreaReport(interestAreaId);
 		});
 
-		$("#adminHoursStatus").change(function (a) {
-			var status = a.srcElement.value;
-			UserMgrFactory.getUserMgr().displayAdminHoursByStatus(status);
-		});
+		var filterHours = function () {
+			var status = $("#adminHoursStatus").val();
+			var classroom = $("#adminHoursClassroom").val();
+			UserMgrFactory.getUserMgr().displayAdminHoursByStatusAndClassroom(status, classroom);
+		};
+
+		$("#adminHoursStatus").change(filterHours);
+		$("#adminHoursClassroom").change(filterHours);
 
 		$("#loginEmailAddress").focus();
 
@@ -339,6 +364,7 @@
 	var volunteerSvc = new VolunteerSvc($("div.profile"));
 	var profileErrorSvc = new ErrorSvc($("div.profile"));
 	var interestsSvc = new InterestsSvc($("div.interests"));
+	var classroomSvc = new ClassroomSvc();
 	var volunteerHoursSvc = new VolunteerHoursSvc($("div.hours"));
 	var volunteerHoursErrorSvc = new ErrorSvc($("div.hours"));
 	var adminVolunteerSvc = new AdminVolunteerSvc($("div#adminVolunteersTab"));

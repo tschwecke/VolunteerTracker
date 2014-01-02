@@ -11,7 +11,8 @@ SELECT
     h.`Date`,
     h.`NbrOfHours`,
     h.`Description`,
-    h.`Status`
+    h.`Status`,
+    h.`Classroom`
 FROM `hours` h
 WHERE h.Hours_PK = hours_PK;
 

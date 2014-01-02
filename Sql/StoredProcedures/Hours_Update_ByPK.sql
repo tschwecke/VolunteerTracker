@@ -7,7 +7,8 @@ CREATE PROCEDURE `Hours_Update_ByPK` (hours_PK int,
                                             hoursDate date,
                                             nbrOfHours decimal(10,2),
                                             description varchar(500),
-                                            status varchar(10))
+                                            status varchar(10),
+                                            classroom varchar(50))
 BEGIN
 
 UPDATE `hours`
@@ -18,6 +19,7 @@ SET
     `hours`.`NbrOfHours` = nbrOfHours,
     `hours`.`Description` = description,
     `hours`.`Status` = status,
+    `hours`.`Classroom` = classroom,
     `hours`.`sys_LastUpdate` = NOW()
 WHERE `hours`.`Hours_PK` = hours_PK;
 

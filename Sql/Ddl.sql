@@ -96,6 +96,7 @@ CREATE TABLE `hours` (
   `NbrOfHours` decimal(10,2) NOT NULL,
   `Description` varchar(500) DEFAULT NULL,
   `Status` varchar(10) NOT NULL DEFAULT 'Pending',
+  `Classroom` varchar(50) NULL,
   `sys_CreateDate` datetime DEFAULT NULL,
   `sys_LastUpdate` datetime DEFAULT NULL,
   PRIMARY KEY (`Hours_PK`)

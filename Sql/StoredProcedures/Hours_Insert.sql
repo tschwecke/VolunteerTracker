@@ -6,7 +6,8 @@ CREATE PROCEDURE `Hours_Insert` (volunteer_PK int,
                                     hoursDate date,
                                     nbrOfHours decimal(10,2),
                                     description varchar(500),
-                                    status varchar(10))
+                                    status varchar(10),
+                                    classroom varchar(50))
 BEGIN
 
 INSERT INTO `hours`
@@ -16,6 +17,7 @@ INSERT INTO `hours`
 `hours`.`NbrOfHours`,
 `hours`.`Description`,
 `hours`.`Status`,
+`hours`.`Classroom`,
 `hours`.`sys_CreateDate`,
 `hours`.`sys_LastUpdate`)
 VALUES
@@ -26,6 +28,7 @@ hoursDate,
 nbrOfHours,
 description,
 status,
+classroom,
 NOW(),
 NOW()
 );

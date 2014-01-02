@@ -42,6 +42,11 @@ var NewUserMgr = function() {
 						adminReportsSvc.populateInterestAreas(interests);
 					});
 
+					classroomSvc.getClassrooms(function(err, classrooms) {
+						volunteerHoursSvc.populateClassrooms(classrooms);
+						adminHoursSvc.populateClassrooms(classrooms);
+					});
+
 					$("#tabs").tabs("enable", "interestsTab");
 					$("#tabs").tabs("select", "interestsTab");
 					$("#profileSaveButton").button({ label: "Save" });
@@ -132,8 +137,14 @@ var ExistingUserMgr = function() {
 			adminReportsSvc.populateInterestAreas(interests);
 		});
 
+		classroomSvc.getClassrooms(function(err, classrooms) {
+			volunteerHoursSvc.populateClassrooms(classrooms);
+			adminHoursSvc.populateClassrooms(classrooms);
+		});
+
 		$("#login").hide();
 		$("#tabs").show();
+		$("#admin").show();
 	};
 
 	this.saveProfile = function() {
@@ -183,8 +194,18 @@ var ExistingUserMgr = function() {
 
 	};
 
-	this.displayAdminHoursByStatus = function(status) {
+	this.displayAdminHoursByStatusAndClassroom = function(status, classroom) {
 		adminHoursSvc.getHoursByStatus(status, function(err, hours){
+
+			var filteredHours = [];
+			if(classroom) {
+				for(var i=0; i<hours.length; i++) {
+					if(hours[i].classroom == classroom) {
+						filteredHours.push(hours[i]);
+					}
+				}
+				hours = filteredHours;
+			}
 			adminHoursSvc.populateForm(allVolunteers, allInterestAreas, hours);
 		});
 	};
@@ -581,10 +602,12 @@ var validationErrorCodes = {
 	LOGIN_PASSWORD_REQUIRED: {id:26, elementId: "loginPassword", message: "Please enter your password."},
 	LOGIN_CREDENTIALS_INCORRECT: {id:27, elementId: "none", message: "Your login credentials are incorrect.  Please try again."},
 	CANT_CHANGE_AT_SAME_TIME: {id:28, elementId: "none", message: "You cannot change your First Name, Last Name and Email Address all at the same time.  Please try again."},
-	FAMILY_ID_REQUIRED: {id:29, elementId: "familyId", message: "Family ID is required."}
+	FAMILY_ID_REQUIRED: {id:29, elementId: "familyId", message: "Family ID is required."},
+	CLASSROOM_REQUIRED: {id:30, elementId: "hoursClassroom", message: "Classroom is required."}
 };
 	
 var InterestsSvc = function(interestsDiv) {
+	var _interestAreas = null;
 
 	this.getAll = function(callback) {
 		$.ajax("restservices/interestAreas", {
@@ -635,6 +658,8 @@ var InterestsSvc = function(interestsDiv) {
 	};
 
 	this.populateForm = function(interests) {
+		_interestAreas = interests;
+
 		//Remove the 'Other' option
 		var interests=[].concat(interests);
 		for(var i=0; i<interests.length; i++) {
@@ -670,6 +695,27 @@ var InterestsSvc = function(interestsDiv) {
 			interestsList.append("<li><label><input type=\"checkbox\" data-interestAreaId=\"" + interest.interestAreaId + "\" data-id=\"" + interest.id + "\" " + (interest.selected ? "checked" : "") + ">" + interest.name + "</label></li>");			
 		}
 	};
+
+	this.getInterestNameById = function(interestAreaId) {
+		var name = null;
+		for(var i=0; i<_interestAreas.length; i++) {
+			if(_interestAreas[i].interestAreaId == interestAreaId) {
+				name = _interestAreas[i].name;
+			}
+		}
+		return name;
+	};
+};
+
+var ClassroomSvc = function() {
+	this.getClassrooms = function(callback) {
+		$.ajax("scripts/classrooms.json", {
+			type: "GET",
+			success: function(data, textStatus, jqXHR) {
+				callback(null, data);
+			}
+		});	
+	};
 };
 
 var VolunteerHoursSvc = function(hoursDiv) {
@@ -703,7 +749,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		});	
 	};
 		
-	this.populateForm = function(volunteerId, hours) {
+	this.populateForm = function(volunteerId, hours, classrooms) {
 		var totalFamilyHours = 0,
 			totalPersonalHours = 0,
 			totalPendingHours = 0,
@@ -774,11 +820,28 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		}
 	};
 
+	this.populateClassrooms = function(classrooms) {
+		//Populate the classroom dropdown
+		var classroomList = hoursDiv.find("#hoursClassroom");
+		for(var i=0; i<classrooms.length; i++) {
+			var classroom = classrooms[i];
+			var optgroup = $('<optgroup/>', { 'label': classroom.name});
+
+			for(var j=0; j<classroom.teachers.length; j++) {
+				var teacher = classroom.teachers[j];
+				optgroup.append('<option value="' + teacher.lastName + '">' + teacher.displayName + "</option>");
+			}
+
+			classroomList.append(optgroup);
+		}
+	};
+
 	this.getFromForm = function() {
 		var hours = {
 			"date": hoursDiv.find("#hoursDate").val(),
 			"nbrOfHours": hoursDiv.find("#hours").val(),
 			"interestAreaId": hoursDiv.find("#hoursArea").val(),
+			"classroom": hoursDiv.find("#hoursClassroom").val(),
 			"description":hoursDiv.find("#hoursDescription").val()
 		}
 
@@ -806,10 +869,14 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		}
 		if(!hasValue(hours.interestAreaId)) errors.push(validationErrorCodes.AREA_REQUIRED);
 
-		var interestName = getInterestNameById(hours.interestAreaId);
+		var interestName = interestsSvc.getInterestNameById(hours.interestAreaId);
 
 		if(interestName === 'Other' && !hasValue(hours.description)) {
 			errors.push(validationErrorCodes.DESCRIPTION_REQUIRED);
+		}
+
+		if(interestName === 'Classroom' && !hasValue(hours.classroom)) {
+			errors.push(validationErrorCodes.CLASSROOM_REQUIRED);
 		}
 
 		return errors;
@@ -819,17 +886,8 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		hoursDiv.find("#hoursDate").val("");
 		hoursDiv.find("#hours").val("");
 		hoursDiv.find("#hoursArea").val("");
+		hoursDiv.find("#hoursClassroom").val("").hide();
 		hoursDiv.find("#hoursDescription").val("");
-	};
-
-	var getInterestNameById = function(interestAreaId) {
-		var name = null;
-		for(var i=0; i<interestAreas.length; i++) {
-			if(interestAreas[i].interestAreaId == interestAreaId) {
-				name = interestAreas[i].name;
-			}
-		}
-		return name;
 	};
 };
 	
@@ -983,6 +1041,23 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		statusDropdownHtml += "</select>";
 		return statusDropdownHtml;
 	};
+
+	this.populateClassrooms = function(classrooms) {
+		//Populate the classroom dropdown
+		var classroomList = $("#adminHoursClassroom");
+		for(var i=0; i<classrooms.length; i++) {
+			var classroom = classrooms[i];
+			var optgroup = $('<optgroup/>', { 'label': classroom.name});
+
+			for(var j=0; j<classroom.teachers.length; j++) {
+				var teacher = classroom.teachers[j];
+				optgroup.append('<option value="' + teacher.lastName + '">' + teacher.displayName + "</option>");
+			}
+
+			classroomList.append(optgroup);
+		}
+	};
+
 };
 
 var AdminReportsSvc = function(reportsDiv) {

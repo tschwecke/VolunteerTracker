@@ -1,0 +1,142 @@
+[{
+	"name": "Kindergarten",
+	"teachers": [{
+		"lastName": "Badilla",
+		"displayName": "Miss Badilla"
+	}, {
+		"lastName": "Hassen",
+		"displayName": "Mrs. Hassen"
+	}, {
+		"lastName": "Kalaveshi",
+		"displayName": "Miss Kalaveshi"
+	}, {
+		"lastName": "Lapp",
+		"displayName": "Mrs. Lapp"
+	}]
+}, {
+	"name": "1st Grade",
+	"teachers": [{
+		"lastName": "Hall",
+		"displayName": "Mrs. Hall"
+	}, {
+		"lastName": "Johnson",
+		"displayName": "Miss Johnson"
+	}, {
+		"lastName": "Pfleiger",
+		"displayName": "Mrs. Pfleiger"
+	}, {
+		"lastName": "Schuller",
+		"displayName": "Miss Schuller"
+	}]
+}, {
+	"name": "2nd Grade",
+	"teachers": [{
+		"lastName": "Kelly",
+		"displayName": "Miss Kelly"
+	}, {
+		"lastName": "Neufeld",
+		"displayName": "Miss Neufeld"
+	}, {
+		"lastName": "Webb",
+		"displayName": "Mrs. Webb"
+	}, {
+		"lastName": "Winter",
+		"displayName": "Mrs. Winter"
+	}]
+}, {
+	"name": "3rd Grade",
+	"teachers": [{
+		"lastName": "Mund",
+		"displayName": "Mrs. Mund"
+	}, {
+		"lastName": "Sharp",
+		"displayName": "Mrs. Sharp"
+	}, {
+		"lastName": "Bolton",
+		"displayName": "Ms. Bolton"
+	}, {
+		"lastName": "Martinez",
+		"displayName": "Miss Martinez"
+	}]
+}, {
+	"name": "4th Grade",
+	"teachers": [{
+		"lastName": "Goettsch",
+		"displayName": "Ms. Goettsch"
+	}, {
+		"lastName": "Mo",
+		"displayName": "Miss Mo"
+	}, {
+		"lastName": "Waters",
+		"displayName": "Mrs. Waters"
+	}, {
+		"lastName": "Premschak",
+		"displayName": "Mrs. Premschak"
+	}]
+}, {
+	"name": "Middle School",
+	"teachers": [{
+		"lastName": "Clemmons",
+		"displayName": "Mrs. Clemmons"
+	}, {
+		"lastName": "Jenkins",
+		"displayName": "Ms. Jenkins"
+	}, {
+		"lastName": "Mead",
+		"displayName": "Miss Mead"
+	}, {
+		"lastName": "Godwin",
+		"displayName": "Mrs. Godwin"
+	}, {
+		"lastName": "Guentensberger",
+		"displayName": "Mrs. Guentensberger"
+	}]
+}, {
+	"name": "SPED",
+	"teachers": [{
+		"lastName": "Berry",
+		"displayName": "Ms. Berry"
+	}, {
+		"lastName": "Gentille",
+		"displayName": "Ms. Gentille"
+	}, {
+		"lastName": "Mauler",
+		"displayName": "Ms. Mauler"
+	}, {
+		"lastName": "Temme",
+		"displayName": "Mrs. Temme"
+	}, {
+		"lastName": "Van Wieren",
+		"displayName": "Mrs. Van Wieren"
+	}]
+}, {
+	"name": "Specials",
+	"teachers": [{
+		"lastName": "Anderson",
+		"displayName": "Ms. Anderson"
+	}, {
+		"lastName": "Becker",
+		"displayName": "Ms. Becker"
+	}, {
+		"lastName": "Hanson",
+		"displayName": "Ms. Hanson"
+	}, {
+		"lastName": "Hecker",
+		"displayName": "Mr. Hecker"
+	}, {
+		"lastName": "Hillman",
+		"displayName": "Mrs. Hillman"
+	}, {
+		"lastName": "Holmes",
+		"displayName": "Mrs. Holmes"
+	}, {
+		"lastName": "Mund",
+		"displayName": "Mr. Mund"
+	}, {
+		"lastName": "Strelow",
+		"displayName": "Ms. Strelow"
+	}, {
+		"lastName": "Yanaitis",
+		"displayName": "Mrs. Yanaitis"
+	}]
+}]

@@ -11,7 +11,8 @@ SELECT
     h.Date,
     h.NbrOfHours,
     h.Description,
-    h.Status
+    h.Status,
+    h.Classroom
 FROM `hours` h
 INNER JOIN `volunteer` v ON h.Volunteer_PK = v.Volunteer_PK
 WHERE v.FamilyId = familyId;
