@@ -995,8 +995,9 @@ var AdminHoursSvc = function(adminHoursDiv) {
 				var volunteerId = eventObject.target.dataset.volunteerid;
 				var hoursId = eventObject.target.dataset.hoursid;
 				var status = eventObject.target.value;
+				$(eventObject.target).prop('disabled', true);
 				self.updateStatus(volunteerId, hoursId, status, function() {
-					notificationMgr.notify('The hours status has been updated.');
+					$(eventObject.target).prop('disabled', false);
 				});
 			});
 		}

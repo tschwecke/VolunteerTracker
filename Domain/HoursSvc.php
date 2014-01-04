@@ -62,6 +62,8 @@ class HoursSvc {
 
 	public function save($hours) {
 
+		$hours->classroom = $hours->classroom . "";
+
 		if($hours->id > 0) {
 			//Update
 			Dal::execute('Hours_Update_ByPK', $hours->id,
@@ -86,5 +88,6 @@ class HoursSvc {
 			$hours->id = $results[0]['NewId'];			
 		}
 	}
+
 
 }
