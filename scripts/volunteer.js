@@ -968,6 +968,12 @@ var AdminHoursSvc = function(adminHoursDiv) {
 			hoursList.append("<tr><th>No hours were found with this status.</th></tr>");
 		}
 		else {
+			//Construct a lookup for volunteer by id
+			var volunteersById = {};
+			for(var i=0; i<volunteers.length; i++) {
+				volunteersById[volunteers[i].id] = volunteers[i];
+			}
+
 			var totalHours = 0;
 			hoursList.append("<tr><th>Family Number</th><th>Name</th><th>Date</th><th>Interest Area</th><th>Hours</th><th>Status</th>th>Description</th></tr>");
 			for(var i=0; i<hours.length; i++) {
@@ -975,13 +981,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 				totalHours += parseFloat(hoursSubmission.nbrOfHours);
 
 				//Find the volunteer for these hours
-				var volunteer = null;
-				for(var y=0; y<volunteers.length; y++) {
-					if(volunteers[y].id == hoursSubmission.volunteerId) {
-						volunteer = volunteers[y];
-						break;
-					}
-				}
+				var volunteer = volunteersById[hoursSubmission.volunteerId];
 				var date = convertJsonDateToDate(hoursSubmission.date);
 				var dateString = formatDateForDisplay(date);
 				var interestArea = getInterestArea(interestAreas, hoursSubmission)
