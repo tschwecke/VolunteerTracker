@@ -319,8 +319,8 @@
 
 		$("#hoursDate").datepicker();
 
-		$("#hoursArea").change(function (a) {
-			var interestAreaId = a.srcElement.value;
+		$("#hoursArea").change(function () {
+			var interestAreaId = $("#hoursArea").val();
 			var interest = interestsSvc.getInterestNameById(interestAreaId);
 			if(interest == 'Classroom') {
 				$("#hoursClassroom").show();
