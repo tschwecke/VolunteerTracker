@@ -676,6 +676,7 @@ var InterestsSvc = function(interestsDiv) {
 		for(var i=0; i<interests.length; i++) {
 			if(interests[i].name === 'Other') {
 				interests.splice(i, 1);
+				break;
 			}
 		}
 
@@ -1087,9 +1088,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		var interestsList = adminHoursDiv.find("#adminHoursInterestArea");
 		for(var i=0; i<interests.length; i++) {
 			var interest = interests[i];
-			if(interest.name != 'Other') {
-				interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
-			}
+			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
 		}
 	};
 
@@ -1113,9 +1112,7 @@ var AdminReportsSvc = function(reportsDiv) {
 		var interestsList = reportsDiv.find("#reportInterestArea");
 		for(var i=0; i<interests.length; i++) {
 			var interest = interests[i];
-			if(interest.name != 'Other') {
-				interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
-			}
+			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
 		}
 	};
 
