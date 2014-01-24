@@ -226,7 +226,12 @@
 							<option>Declined</option>
 						</select>
 					</p>
-	                <p>Select a Classroom:
+	                <p>Select an Interest Area:
+		                <select id="adminHoursInterestArea">
+							<option selected value="">All</option>
+						</select>
+					</p>
+	                <p id="adminHoursInterestAreaClassroomBlock">Select a Classroom:
 		                <select id="adminHoursClassroom">
 							<option selected value="">All</option>
 						</select>
@@ -338,12 +343,25 @@
 
 		var filterHours = function () {
 			var status = $("#adminHoursStatus").val();
+			var interestAreaId = $("#adminHoursInterestArea").val();
+			var interestAreaName = $('#adminHoursInterestArea option:selected').text();
 			var classroom = $("#adminHoursClassroom").val();
-			UserMgrFactory.getUserMgr().displayAdminHoursByStatusAndClassroom(status, classroom);
+
+			if(interestAreaName == 'Classroom') {
+				$("#adminHoursInterestAreaClassroomBlock").show();
+			}
+			else {
+				$("#adminHoursInterestAreaClassroomBlock").hide();
+				classroom = null;
+			}
+
+			UserMgrFactory.getUserMgr().displayAdminHoursByStatusInterestAreaAndClassroom(status, interestAreaId, classroom);
 		};
 
 		$("#adminHoursStatus").change(filterHours);
+		$("#adminHoursInterestArea").change(filterHours);
 		$("#adminHoursClassroom").change(filterHours);
+		$("#adminHoursInterestAreaClassroomBlock").hide();
 
 		$("#loginEmailAddress").focus();
 

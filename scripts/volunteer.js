@@ -40,6 +40,7 @@ var NewUserMgr = function() {
 						interestsSvc.populateForm(interests);
 						volunteerHoursSvc.populateInterestAreas(interests);
 						adminReportsSvc.populateInterestAreas(interests);
+						adminHoursSvc.populateInterestAreas(interests);
 					});
 
 					classroomSvc.getClassrooms(function(err, classrooms) {
@@ -135,6 +136,7 @@ var ExistingUserMgr = function() {
 			interestsSvc.populateForm(interests);
 			volunteerHoursSvc.populateInterestAreas(interests);
 			adminReportsSvc.populateInterestAreas(interests);
+			adminHoursSvc.populateInterestAreas(interests);
 		});
 
 		classroomSvc.getClassrooms(function(err, classrooms) {
@@ -194,10 +196,19 @@ var ExistingUserMgr = function() {
 
 	};
 
-	this.displayAdminHoursByStatusAndClassroom = function(status, classroom) {
+	this.displayAdminHoursByStatusInterestAreaAndClassroom = function(status, interestAreaId, classroom) {
 		adminHoursSvc.getHoursByStatus(status, function(err, hours){
 
 			var filteredHours = [];
+			if(interestAreaId) {
+				for(var i=0; i<hours.length; i++) {
+					if(hours[i].interestAreaId == interestAreaId) {
+						filteredHours.push(hours[i]);
+					}
+				}
+				hours = filteredHours;
+				filteredHours = [];
+			}
 			if(classroom) {
 				for(var i=0; i<hours.length; i++) {
 					if(hours[i].classroom == classroom) {
@@ -957,6 +968,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 
 var AdminHoursSvc = function(adminHoursDiv) {
 	var self = this;
+	var interestAreas;
 
 	this.populateForm = function(volunteers, interestAreas, hours) {
 		var hoursList = adminHoursDiv.find("#adminHoursList");
@@ -1056,6 +1068,28 @@ var AdminHoursSvc = function(adminHoursDiv) {
 			}
 
 			classroomList.append(optgroup);
+		}
+	};
+
+	this.populateInterestAreas = function(interests) {
+
+		interests.sort(function (a, b) {
+			if (a.name > b.name)
+			  return 1;
+			if (a.name < b.name)
+			  return -1;
+			// a must be equal to b
+			return 0;
+		});
+
+		interestAreas = interests;
+
+		var interestsList = adminHoursDiv.find("#adminHoursInterestArea");
+		for(var i=0; i<interests.length; i++) {
+			var interest = interests[i];
+			if(interest.name != 'Other') {
+				interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
+			}
 		}
 	};
 
