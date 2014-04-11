@@ -19,6 +19,11 @@ class AuthenticationFilter extends \Slim\Middleware
 		return;
 	}
 
+  if($httpMethod == "GET" && $resourceUri == '/restservices/reports/familyhours') {
+    $this->next->call();
+    return;
+  }
+
 	$authMgr = new AuthenticationMgr();
 	$authToken = $req->headers('X-Authentication');
 	$isValid = $authMgr->isValidToken($authToken);
