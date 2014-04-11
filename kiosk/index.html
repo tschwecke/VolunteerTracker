@@ -8,6 +8,7 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="resources/kiosk.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -57,6 +58,7 @@
 
     <script id="checkinViewTemplate" type="text/ractive">
       <form role="form" intro-outro="fade">
+          <i class="fa fa-2x fa-arrow-circle-o-left"></i>
           <div class="row">
             <div class="col-md-12 h3 text-center">Volunteer Check In</div>
           </div>
@@ -94,6 +96,10 @@
 
     <script id="checkoutViewTemplate" type="text/ractive">
       <div class="text-center" intro-outro="fade">
+        {{^checkIns.length}}
+        <p>No one has checked in yet. You can <a href="javascript:void(0);" on-click="gotoCheckIn">check in here</a>.</p>
+        {{/checkIns.length}}
+        {{#checkIns.length}}
         <table class="table table-hover text-left">
           <thead>
             <tr>
@@ -112,6 +118,7 @@
             {{/checkIns}}
           </tbody>
         </table>
+        {{/checkIns.length}}
       </div>
     </script>
 

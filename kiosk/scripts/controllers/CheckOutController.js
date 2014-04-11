@@ -12,6 +12,10 @@ var CheckOutController = function(router, checkInSvc) {
 			  }
 			});
 
+			checkoutRactive.on("gotoCheckIn", function(event) {
+				router.setRoute("checkin");
+			});
+			
 			checkoutRactive.on("checkoutUser", function(event) {
 				var modal = picoModal({
 					"content": "<div id='checkoutUserModal'></div>",
