@@ -30,30 +30,3 @@ class SerializationMgr {
 		return $object;
 	}
 }
-
-/*   public class SerializationMgr
-    {
-
-        public virtual string Serialize(object objectToSerialize)
-        {
-            MemoryStream stream = new MemoryStream();
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(objectToSerialize.GetType());
-            serializer.WriteObject(stream, objectToSerialize);
-            stream.Position = 0;
-            StreamReader reader = new StreamReader(stream);
-
-            return reader.ReadToEnd();
-        }
-
-        public virtual T Deserialize<T>(Stream stream) where T : class
-        {
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-            T deserializedObject = serializer.ReadObject(stream) as T;
-
-            return deserializedObject;
-        }
-
-    }
-*/
-
-
