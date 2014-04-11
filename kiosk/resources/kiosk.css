@@ -1,0 +1,101 @@
+
+.main {
+	width: 800px;
+	background-color: 	#D6E0EB;
+	border-radius: 30px;
+	margin-top: 50px;
+	padding: 20px 40px;
+}
+
+.header {
+	background-color: #99B2CC;
+	border-radius: 30px;
+}
+
+.schoolName {
+	font-size: 28px;
+	line-height: 1.66;
+	text-align: center;
+	color: #1A334C;
+	margin-left: -75px;
+}
+
+.title {
+	font-size: 42px;
+	line-height: 1.66;
+	text-align: center;
+	color: #1A334C;
+	margin-left: 75px;
+}
+
+#notificationContainer {
+	position: relative;
+}
+
+.notification {
+	position: absolute;
+	top: 15px;
+}
+
+#viewContainer {
+	padding: 100px 10px;
+}
+
+.buttonCol {
+	text-align: center;
+}
+
+.btn-xlg {
+	padding: 20px 32px;
+	font-size: 36px;
+	line-height: 1.66;
+	border-radius: 12px;
+}
+
+.modalButton {
+	margin-top: 20px;
+}
+
+
+
+.tt-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 14px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+}
+.tt-suggestion > p {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.428571429;
+  color: #333333;
+  white-space: nowrap;
+}
+.tt-suggestion > p:hover,
+.tt-suggestion > p:focus {
+  color: #ffffff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #428bca;
+}
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}

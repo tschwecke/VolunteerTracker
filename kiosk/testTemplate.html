@@ -1,0 +1,18 @@
+      <form role="form" intro-outro="fade">
+          <div class="row">
+            <div class="col-md-12 h3 text-center">Administrator Login</div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group text-right"><label for="loginEmail">Email Address</label>:</div>
+            <div class="col-md-4 form-group"><input type="email" class="form-control" id="loginEmail" placeholder="Email Address" value="{{emailAddress}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group text-right"><label for="loginPassword">Password</label>:</div>
+            <div class="col-md-4 form-group"><input type="password" class="form-control" id="loginPassword" placeholder="Password" value="{{password}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-6">
+              <button type="submit" class="btn btn-default" on-click="login">Login</button>
+            </div>
+          </div>
+        </form>

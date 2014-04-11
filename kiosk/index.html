@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Volunteer Kiosk</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/kiosk.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container main">
+      <div class="row header">
+        <div class="col-md-12 schoolName">Aspen View Academy</div>
+        <div class="col-md-12 title">Volunteer Kiosk</div>
+      </div>
+      <div id="notificationContainer" class="row"></div>
+      <div id="viewContainer" class="row"></div>
+    </div>
+
+    <script id="loginViewTemplate" type="text/ractive">
+      <form role="form" intro-outro="fade">
+          <div class="row">
+            <div class="col-md-12 h3 text-center">Administrator Login</div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group text-right"><label for="loginEmail">Email Address</label>:</div>
+            <div class="col-md-4 form-group"><input type="text" class="form-control" id="loginEmail" placeholder="Email Address" value="{{emailAddress}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group text-right"><label for="loginPassword">Password</label>:</div>
+            <div class="col-md-4 form-group"><input type="password" class="form-control" id="loginPassword" placeholder="Password" value="{{password}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-6">
+              <button type="submit" class="btn btn-default" on-click="login">Login</button>
+            </div>
+          </div>
+        </form>
+    </script>
+
+    <script id="homeViewTemplate" type="text/ractive">
+      <div class="row buttonRow" intro-outro="fade">
+        <div class="col-md-6 buttonCol"><button type="button" class="btn btn-primary btn-xlg" on-click="checkin">Check In</button></div>
+        <div class="col-md-6 buttonCol"><button type="button" class="btn btn-success btn-xlg" on-click="checkout">Check Out</button></div>      
+      </div>
+    </script>
+
+    <script id="checkinViewTemplate" type="text/ractive">
+      <form role="form" intro-outro="fade">
+          <div class="row">
+            <div class="col-md-12 h3 text-center">Volunteer Check In</div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group text-right"><label for="checkinEmail">Email Address</label>:</div>
+            <div class="col-md-4 form-group"><input type="text" class="form-control typeahead" id="checkinEmail" placeholder="Email Address" value="{{emailAddress}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group text-right"><label for="checkinFamilyNumber">Family Number</label>:</div>
+            <div class="col-md-4 form-group"><input type="text" class="form-control" id="checkinFamilyNumber" placeholder="Family Number" value="{{familyNumber}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 form-group text-right"><label for="checkinVolunteerArea">Volunteer Area</label>:</div>
+            <div class="col-md-4 form-group"><input type="text" class="form-control typeahead" id="checkinVolunteerArea" placeholder="Volunteer Area" value="{{volunteerArea}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-6">
+              <button type="submit" class="btn btn-default" on-click="checkin">Check In</button>
+            </div>
+          </div>
+        </form>
+    </script>
+
+    <script id="checkinConfirmationTemplate" type="text/ractive">
+      <div class="col-md-10 col-md-offset-1 alert alert-success alert-dismissable notification" intro-outro="fade">
+        <strong>Congratulations!</strong> You have finished checking in. Don't forget to check out before you leave!
+      </div>
+    </script>
+
+    <script id="checkinErrorTemplate" type="text/ractive">
+      <div class="col-md-10 col-md-offset-1 alert alert-danger alert-dismissable notification" intro-outro="fade">
+        <strong>Wait!</strong> {{message}}
+      </div>
+    </script>
+
+    <script id="checkoutViewTemplate" type="text/ractive">
+      <div class="text-center" intro-outro="fade">
+        <table class="table table-hover text-left">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Area</th>
+              <th>Check In Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#checkIns}}
+            <tr on-click="checkoutUser">
+              <td>{{volunteer.firstName}} {{volunteer.lastName}}</td>
+              <td>{{volunteerArea.name}}</td>
+              <td>{{startTime}}</td>
+            </tr>
+            {{/checkIns}}
+          </tbody>
+        </table>
+      </div>
+    </script>
+
+    <script id="checkoutUserModalTemplate" type="text/ractive">
+      <strong>{{checkIn.volunteer.firstName}} {{checkIn.volunteer.lastName}}<strong><br>
+      Have you finished with your volunteer work?
+      <button type="button" class="btn btn-default modalButton" on-click="checkoutUserConfirmed">Yes</button>
+      <button type="button" class="btn btn-default modalButton" on-click="checkoutUserCanceled">No</button>
+    </script>
+
+    <script id="checkoutConfirmationTemplate" type="text/ractive">
+      <div class="col-md-10 col-md-offset-1 alert alert-success alert-dismissable notification" intro-outro="fade">
+        <strong>Congratulations!</strong> You have finished checking out and 1.5 hours will be credited towards your family.  Thank you for volunteering!
+      </div>
+    </script>
+
+    <script type="text/javascript" src="scripts/3rdparty/ractive.min.js"></script>
+    <script type="text/javascript" src="scripts/3rdparty/ractive-transitions-fade.js"></script>
+    <script type="text/javascript" src="scripts/3rdparty/director.min.js"></script>    
+    <script type="text/javascript" src="scripts/3rdparty/picomodal.min.js"></script>    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/3rdparty/typeahead.jquery.min.js"></script>    
+    <script type="text/javascript" src="scripts/Application.js"></script>
+    <script type="text/javascript" src="scripts/services/AuthSvc.js"></script>
+    <script type="text/javascript" src="scripts/services/CheckInSvc.js"></script>
+    <script type="text/javascript" src="scripts/services/VolunteerAreaSvc.js"></script>
+    <script type="text/javascript" src="scripts/services/VolunteerSvc.js"></script>
+    <script type="text/javascript" src="scripts/controllers/CheckInController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/CheckOutController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/HomeController.js"></script>
+    <script type="text/javascript" src="scripts/controllers/LoginController.js"></script>
+    <script type="text/javascript" src="scripts/NotificationMgr.js"></script>
+    <script type="text/javascript" src="scripts/RestMgr.js"></script>
+     <script type="text/javascript">
+      Kiosk.run();
+    </script>    
+  </body>
+</html>
