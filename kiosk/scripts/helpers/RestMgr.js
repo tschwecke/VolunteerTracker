@@ -7,7 +7,7 @@ var RestMgr = function() {
 	this.get = function(url, callback) {
 		$.ajax({
 			'type': 'GET',
-			'url': _prefix + url,
+			'url': resolveUrl(url),
 			'headers': {
 				'X-Authentication': _token
 			}
@@ -19,7 +19,7 @@ var RestMgr = function() {
 	this.post = function(url, data, callback) {
 		$.ajax({
 			'type': 'POST',
-			'url': _prefix + url,
+			'url': resolveUrl(url),
 			'contentType': 'application/json',
 			'data': JSON.stringify(data),
 			'headers': {
@@ -47,9 +47,18 @@ var RestMgr = function() {
 		return function(jqXhr, textResult, error) {
 			var result = {
 				'statusCode': jqXhr.status,
-				'error': error
+				'error': JSON.parse(jqXhr.responseText)
 			};
 			callback(result);
 		};
 	};
+
+	var resolveUrl = function(url) {
+		if(url === 'classrooms') {
+			return '../scripts/classrooms.json';
+		}
+		else {
+			return _prefix + url;
+		}
+	};	
 };

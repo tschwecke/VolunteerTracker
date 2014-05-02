@@ -16,7 +16,7 @@ var LoginController = function(router, authSvc, notificationMgr) {
 		});
 
 		loginRactive.on("login", function() {
-			console.log('LoginController.render.onLogin("' + credentials.emailAddress + '", "' + credentials.password + '");');
+			console.log('LoginController.render.onLogin("' + credentials.emailAddress + '", "******");');
 			authSvc.login(credentials.emailAddress, credentials.password, function(error) {
 				if(error) {
 					if(error.statusCode === 401) {

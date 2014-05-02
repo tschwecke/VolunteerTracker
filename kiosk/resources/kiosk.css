@@ -56,6 +56,18 @@
 	margin-top: 20px;
 }
 
+.checkInHeader, .checkOutHeader {
+  font-size: 24px;
+}
+
+.checkOutInstructions {
+  display: block;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
 
 
 .tt-dropdown-menu {
@@ -77,6 +89,8 @@
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
+  max-height: 200px;
+  overflow: auto;
 }
 .tt-suggestion > p {
   display: block;

@@ -27,7 +27,7 @@ var CheckInController = function(router, volunteerSvc, volunteerAreaSvc, checkIn
 			},
 			{
 				displayKey: 'emailAddress',
-				source: substrMatcher(volunteers, 'emailAddress')
+				source: substrMatcher(volunteers, 'emailAddress', true)
 			});
 
 			volunteerAreaSvc.getAll(function(error, volunteerAreas) {
@@ -41,6 +41,17 @@ var CheckInController = function(router, volunteerSvc, volunteerAreaSvc, checkIn
 				{
 				  displayKey: 'name',
 				  source: substrMatcher(volunteerAreas, 'name')
+				});
+
+				checkinRactive.on("home", function(event) {
+					notificationMgr.clearError();
+					checkinRactive.teardown(function() {
+						router.setRoute("home");
+					});
+				});
+
+				checkinRactive.on("volunteerAreaHasFocus", function(event) {
+					$('#checkinVolunteerArea').typeahead('open');
 				});
 
 				checkinRactive.on("checkin", function(event) {
@@ -72,7 +83,12 @@ var CheckInController = function(router, volunteerSvc, volunteerAreaSvc, checkIn
 
 					checkInSvc.checkIn(volunteer, area, function(error) {
 						if(error) {
-							return notificationMgr.showError('There was an error communicating with the server while trying to check you in.  Please try again.');
+							if(error.error.code === 'DuplicateCheckIn') {
+								return notificationMgr.showError('You have already checked in.');
+							}
+							else {
+								return notificationMgr.showError('There was an error communicating with the server while trying to check you in.  Please try again.');
+							}
 						}
 
 						checkinRactive.teardown(function() {
@@ -117,13 +133,17 @@ var CheckInController = function(router, volunteerSvc, volunteerAreaSvc, checkIn
 		return null;
 	};
 
-	var substrMatcher = function(items, key) {
+	var substrMatcher = function(items, key, matchFromBeginning) {
 	  return function findMatches(q, cb) {
 	    var matches, substringRegex;
 	 
 	    // an array that will be populated with substring matches
 	    matches = [];
 	 
+	    if(matchFromBeginning) {
+	    	q = '^' + q;
+	    }
+
 	    // regex used to determine if a string contains the substring `q`
 	    substrRegex = new RegExp(q, 'i');
 	 

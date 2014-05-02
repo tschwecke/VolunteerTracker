@@ -5,18 +5,24 @@ require_once 'Models/DomainObject.php';
 class KioskCheckInSvc {
 
 	public function getById($id) {
+		date_default_timezone_set("UTC"); 
 		$results = Dal::executeQuery("KioskCheckIn_Select_ByPK", $id);
 		$checkIn = new DomainObject('KioskCheckIn', $results[0]);
+		$date = new DateTime($checkIn->checkInTime);
+		$checkIn->checkInTime = $date->format(DATE_ISO8601);
 		$this->assertValidity($checkIn);
 
 		return $checkIn;
 	}
 
 	public function getActive() {
+		date_default_timezone_set("UTC"); 
 		$results = Dal::executeQuery("KioskCheckIn_Select_Active");
 		$checkIns = array();
 		for($i=0; $i<count($results); $i++) {
 			$checkIn = new DomainObject('KioskCheckIn', $results[$i]);
+			$date = new DateTime($checkIn->checkInTime);
+			$checkIn->checkInTime = $date->format(DATE_ISO8601);
 			$this->assertValidity($checkIn);
 			array_push($checkIns, $checkIn);
 		}
@@ -39,7 +45,9 @@ class KioskCheckInSvc {
 									$checkIn->checkOutTime);
 		}
 		else {
-			$results = Dal::executeQuery("KioskCheckIn_Insert", 
+			$checkIn->checkInTime = date(DateTime::ISO8601);
+
+			$results = Dal::executeQuery("KioskCheckIn_Insert",
 									$checkIn->volunteerId,
 									$checkIn->interestAreaId,
 									$checkIn->classroom,
@@ -52,19 +60,19 @@ class KioskCheckInSvc {
 	protected function assertValidity($checkIn) {
 		if(!property_exists($checkIn, 'id')) {
 			echo 'Volunteer validation failed: property id missing';
-			exit();			
+			exit();
 		}
 		if(!property_exists($checkIn, 'volunteerId')) {
 			echo 'Volunteer validation failed: property volunteerId missing';
-			exit();			
+			exit();
 		}
 		if(!property_exists($checkIn, 'interestAreaId')) {
 			echo 'Volunteer validation failed: property interestAreaId missing';
-			exit();			
+			exit();
 		}
 		if(!property_exists($checkIn, 'checkInTime')) {
 			echo 'Volunteer validation failed: property checkInTime missing';
-			exit();			
+			exit();
 		}
 	}
 }

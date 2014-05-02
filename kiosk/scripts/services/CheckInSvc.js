@@ -19,7 +19,7 @@ var CheckInSvc = function(authSvc, volunteerSvc, volunteerAreaSvc, restMgr) {
 						"id": rawCheckIns[i].id,
 						"volunteer": null,
 						"volunteerArea": null,
-						"startTime": rawCheckIns[i].startTime
+						"startTime": formatTimeForDisplay(rawCheckIns[i].checkInTime)
 					};
 
 					//Find the volunteer and area
@@ -38,7 +38,8 @@ var CheckInSvc = function(authSvc, volunteerSvc, volunteerAreaSvc, restMgr) {
 
 		var data = {
 			'volunteerId': volunteer.id,
-			'interestAreaId': interestArea.id
+			'interestAreaId': interestArea.id,
+			'classroom': interestArea.classroom
 		};
 		restMgr.post('kioskCheckIns', data, callback);
 	};
@@ -75,5 +76,21 @@ var CheckInSvc = function(authSvc, volunteerSvc, volunteerAreaSvc, restMgr) {
 				callback(null, volunteers, areas);
 			});
 		});
+	};
+
+	var formatTimeForDisplay = function(dateString) {
+		var date = new Date(dateString);
+		var amPm = "am";
+		var hours = date.getHours();
+		if(hours > 12) {
+			hours -= 12;
+			amPm = "pm";
+		}
+		var minutes = date.getMinutes();
+		if(minutes < 10) {
+			minutes = '0' + minutes;
+		}
+		var timeString = hours + ':' + minutes + ' ' + amPm;
+		return timeString;
 	};
 };

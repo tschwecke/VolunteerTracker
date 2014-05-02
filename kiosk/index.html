@@ -8,7 +8,6 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="resources/kiosk.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -58,9 +57,10 @@
 
     <script id="checkinViewTemplate" type="text/ractive">
       <form role="form" intro-outro="fade">
-          <i class="fa fa-2x fa-arrow-circle-o-left"></i>
           <div class="row">
-            <div class="col-md-12 h3 text-center">Volunteer Check In</div>
+            <div class="col-md-12 text-center">
+              <span class="checkInHeader">Volunteer Check In</span>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-6 form-group text-right"><label for="checkinEmail">Email Address</label>:</div>
@@ -72,11 +72,12 @@
           </div>
           <div class="row">
             <div class="col-md-6 form-group text-right"><label for="checkinVolunteerArea">Volunteer Area</label>:</div>
-            <div class="col-md-4 form-group"><input type="text" class="form-control typeahead" id="checkinVolunteerArea" placeholder="Volunteer Area" value="{{volunteerArea}}"></div>
+            <div class="col-md-4 form-group"><input type="text" class="form-control typeahead" id="checkinVolunteerArea" placeholder="Volunteer Area" value="{{volunteerArea}}" on-focus="volunteerAreaHasFocus"></div>
           </div>
           <div class="row">
             <div class="col-md-6 col-md-offset-6">
               <button type="submit" class="btn btn-default" on-click="checkin">Check In</button>
+              <button type="cancel" class="btn btn-cancel" on-click="home">Cancel</button>
             </div>
           </div>
         </form>
@@ -96,10 +97,16 @@
 
     <script id="checkoutViewTemplate" type="text/ractive">
       <div class="text-center" intro-outro="fade">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span class="checkOutHeader">Volunteer Check Out</span>
+          </div>
+        </div>
         {{^checkIns.length}}
-        <p>No one has checked in yet. You can <a href="javascript:void(0);" on-click="gotoCheckIn">check in here</a>.</p>
+        <p class="checkOutInstructions">No one has checked in yet. You can <a on-click="gotoCheckIn">check in here</a>.</p>
         {{/checkIns.length}}
         {{#checkIns.length}}
+        <p class="checkOutInstructions">To check out simply click your name below, or <a on-click="home">return home</a>.</p>
         <table class="table table-hover text-left">
           <thead>
             <tr>
@@ -131,7 +138,7 @@
 
     <script id="checkoutConfirmationTemplate" type="text/ractive">
       <div class="col-md-10 col-md-offset-1 alert alert-success alert-dismissable notification" intro-outro="fade">
-        <strong>Congratulations!</strong> You have finished checking out and 1.5 hours will be credited towards your family.  Thank you for volunteering!
+        <strong>Congratulations!</strong> You have finished checking out and {{checkIn.nbrHours}} hours will be credited towards your family.  Thank you for volunteering!
       </div>
     </script>
 
@@ -139,8 +146,9 @@
     <script type="text/javascript" src="scripts/3rdparty/ractive-transitions-fade.js"></script>
     <script type="text/javascript" src="scripts/3rdparty/director.min.js"></script>    
     <script type="text/javascript" src="scripts/3rdparty/picomodal.min.js"></script>    
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script type="text/javascript" src="scripts/3rdparty/typeahead.jquery.min.js"></script>    
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/3rdparty/typeahead.jquery.min.js"></script>  
+  
     <script type="text/javascript" src="scripts/Application.js"></script>
     <script type="text/javascript" src="scripts/services/AuthSvc.js"></script>
     <script type="text/javascript" src="scripts/services/CheckInSvc.js"></script>

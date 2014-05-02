@@ -12,8 +12,16 @@ var CheckOutController = function(router, checkInSvc) {
 			  }
 			});
 
+			checkoutRactive.on("home", function(event) {
+				checkoutRactive.teardown(function() {
+					router.setRoute("home");
+				});
+			});
+
 			checkoutRactive.on("gotoCheckIn", function(event) {
-				router.setRoute("checkin");
+				checkoutRactive.teardown(function() {
+					router.setRoute("checkin");
+				});
 			});
 			
 			checkoutRactive.on("checkoutUser", function(event) {
@@ -46,18 +54,21 @@ var CheckOutController = function(router, checkInSvc) {
 	  			checkoutUserModalRactive.on('checkoutUserConfirmed', function(event) {
 	  				modal.close();
 
-	  				checkInSvc.checkOut(event.context.checkIn, function(error) {
+	  				checkInSvc.checkOut(event.context.checkIn, function(error, checkIn) {
 		  				checkoutRactive.teardown(function() {
 							router.setRoute("home");
 
 							var confirmationRactive = new Ractive({
 								el: 'notificationContainer',
 								template: '#checkoutConfirmationTemplate',
-		  					});
+								data: {
+									'checkIn': checkIn
+								}
+		  				});
 
-		  					setTimeout(function() {
-		  						confirmationRactive.teardown();
-		  					}, 6000);
+	  					setTimeout(function() {
+	  						confirmationRactive.teardown();
+	  					}, 6000);
 						});
 					});
 	  			});
