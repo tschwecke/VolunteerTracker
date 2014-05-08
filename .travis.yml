@@ -1,0 +1,8 @@
+language: php
+php:
+  - 5.4
+
+install: echo "Nothing"
+script: echo "Nothing"
+
+after_success: curl --data "" https://personal13.deployhq.com/deploy/volunteertracking/to/aspenviewacademy-dot-org-dev/kjw89xutlrmt
