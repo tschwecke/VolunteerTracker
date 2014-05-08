@@ -27,6 +27,8 @@ var LoginController = function(router, authSvc, notificationMgr) {
 					}
 				}
 				else {
+					authSvc.stayLoggedInHack();
+					
 					notificationMgr.clearError();
 					loginRactive.teardown(function() {
 						router.setRoute("home");

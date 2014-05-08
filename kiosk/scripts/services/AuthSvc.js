@@ -15,4 +15,14 @@ var AuthSvc = function(restMgr) {
 		console.log('AuthSvc.logout()');
 		_token = null;
 	};
+
+	this.stayLoggedInHack = function() {
+		var intervalId = setInterval(function() {
+			restMgr.get('dummyRouteToStayLoggedIn');
+		}, 30*60*1000);
+
+		setTimeout(function() {
+			clearInterval(intervalId);
+		}, 13*60*60*1000)
+	};
 };
