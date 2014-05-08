@@ -18,7 +18,8 @@ var AuthSvc = function(restMgr) {
 
 	this.stayLoggedInHack = function() {
 		var intervalId = setInterval(function() {
-			restMgr.get('dummyRouteToStayLoggedIn');
+			//It doesn't matter what we request here, any route that succeeds will send back a new auth token
+			restMgr.get('interestAreas', function{}());
 		}, 30*60*1000);
 
 		setTimeout(function() {
