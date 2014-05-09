@@ -1,5 +1,7 @@
 delimiter $$
 
+drop table IF EXISTS `kioskCheckIn`;$$
+
 drop table IF EXISTS `hours`;$$
 
 drop table IF EXISTS `interest`;$$
@@ -87,7 +89,6 @@ CREATE TABLE `interest` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8$$
 
 
-
 CREATE TABLE `hours` (
   `Hours_PK` int(11) NOT NULL AUTO_INCREMENT,
   `Volunteer_PK` int(11) NOT NULL,
@@ -96,6 +97,7 @@ CREATE TABLE `hours` (
   `NbrOfHours` decimal(10,2) NOT NULL,
   `Description` varchar(500) DEFAULT NULL,
   `Status` varchar(10) NOT NULL DEFAULT 'Pending',
+  `StatusReason` varchar(500) NULL,
   `Classroom` varchar(50) NULL,
   `sys_CreateDate` datetime DEFAULT NULL,
   `sys_LastUpdate` datetime DEFAULT NULL,
@@ -103,3 +105,14 @@ CREATE TABLE `hours` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8$$
 
 
+CREATE TABLE `kioskCheckIn` (
+  `KioskCheckIn_PK` int(11) NOT NULL AUTO_INCREMENT,
+  `Volunteer_PK` int(11) NOT NULL,
+  `InterestArea_PK` int(11) NOT NULL,
+  `Classroom` varchar(50) NULL,
+  `CheckInTime` datetime NOT NULL,
+  `CheckOutTime` datetime DEFAULT NULL,
+  `sys_CreateDate` datetime DEFAULT NULL,
+  `sys_LastUpdate` datetime DEFAULT NULL,
+  PRIMARY KEY (`KioskCheckin_PK`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8$$
