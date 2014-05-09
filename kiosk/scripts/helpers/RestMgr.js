@@ -1,7 +1,6 @@
 
-var RestMgr = function() {
+var RestMgr = function(tokenStore) {
 
-	var _token = null;
 	var _prefix = '../restservices/';
 
 	this.get = function(url, callback) {
@@ -9,7 +8,7 @@ var RestMgr = function() {
 			'type': 'GET',
 			'url': resolveUrl(url),
 			'headers': {
-				'X-Authentication': _token
+				'X-Authentication': tokenStore.get()
 			}
 		})
 		.done(successHandler(callback))
@@ -23,7 +22,7 @@ var RestMgr = function() {
 			'contentType': 'application/json',
 			'data': JSON.stringify(data),
 			'headers': {
-				'X-Authentication': _token
+				'X-Authentication': tokenStore.get()
 			}
 		})
 		.done(successHandler(callback))
@@ -34,10 +33,10 @@ var RestMgr = function() {
 		return function(data, textStatus, jqXhr) {
 			var newAccessToken = jqXhr.getResponseHeader("X-Authentication");
 			if(newAccessToken) {
-				_token = newAccessToken;
+				tokenStore.set(newAccessToken);
 			}
 			else if(data.access_token) {
-				_token = data.access_token;
+				tokenStore.set(data.access_token);
 			}
 			callback(null, data);
 		};

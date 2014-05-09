@@ -1,4 +1,4 @@
-var AuthSvc = function(restMgr) {
+var AuthSvc = function(restMgr, tokenStore) {
 
 	this.login = function(emailAddress, password, callback) {
 		console.log('AuthSvc.login("' + emailAddress + '", "*******")');
@@ -13,7 +13,7 @@ var AuthSvc = function(restMgr) {
 
 	this.logout = function() {
 		console.log('AuthSvc.logout()');
-		_token = null;
+		tokenStore.clear();
 	};
 
 	this.stayLoggedInHack = function() {

@@ -1,8 +1,9 @@
 var LoginController = function(router, authSvc, notificationMgr) {
 
 	this.render = function() {
-		
 		console.log('LoginController.render()');
+
+		authSvc.logout();
 
 		var credentials = {
 			"emailAddress": "",

@@ -160,8 +160,10 @@
     <script type="text/javascript" src="scripts/controllers/LoginController.js"></script>
     <script type="text/javascript" src="scripts/helpers/NotificationMgr.js"></script>
     <script type="text/javascript" src="scripts/helpers/RestMgr.js"></script>
-     <script type="text/javascript">
-      Kiosk.run();
-    </script>    
+    <script type="text/javascript" src="scripts/helpers/TokenStore.js"></script>
+    <script type="text/javascript">
+      var kiosk = new Kiosk(window);
+      kiosk.run();
+    </script>
   </body>
 </html>
