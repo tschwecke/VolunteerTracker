@@ -5,8 +5,8 @@ var LoginController = function(router, authSvc, notificationMgr) {
 		console.log('LoginController.render()');
 
 		var credentials = {
-			"emailAddress": "kioskadmin@aspenviewacademy.org",
-			"password": "admin123"
+			"emailAddress": "",
+			"password": ""
 		};
 
 		var loginRactive = new Ractive({
