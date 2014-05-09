@@ -24,6 +24,13 @@ VALUES
 INSERT INTO `role`
 (`Name`)
 VALUES
+('KioskAdministrator');$$
+
+
+
+INSERT INTO `role`
+(`Name`)
+VALUES
 ('Inactive');$$
 
 
@@ -258,6 +265,27 @@ VALUES
 
 
 
+INSERT INTO `right`
+(`Code`)
+VALUES
+('ReadKioskCheckIn');$$
+
+
+
+INSERT INTO `right`
+(`Code`)
+VALUES
+('CreateKioskCheckIn');$$
+
+
+
+INSERT INTO `right`
+(`Code`)
+VALUES
+('UpdateKioskCheckIn');$$
+
+
+
 INSERT INTO `roletoright`
 (`Role_PK`, `Right_PK`)
 SELECT ro.Role_PK, ri.Right_PK
@@ -301,6 +329,22 @@ AND ri.Code IN
 'ReadRights',
 'ViewHoursTab',
 'CreateMyProfile');$$
+
+
+
+INSERT INTO `roletoright`
+(`Role_PK`, `Right_PK`)
+SELECT ro.Role_PK, ri.Right_PK
+FROM `role` ro
+CROSS JOIN `right` ri
+WHERE ro.Name = 'KioskAdministrator'
+AND ri.Code IN
+('ReadKioskCheckIn',
+'CreateKioskCheckIn',
+'CreateAccessToken',
+'UpdateKioskCheckIn',
+'ReadAllVolunteerInfo',
+'ReadInterestAreas');$$
 
 
 

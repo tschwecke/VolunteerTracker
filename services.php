@@ -7,6 +7,8 @@ require_once 'Controllers/InterestController.php';
 require_once 'Controllers/RightController.php';
 require_once 'Controllers/SelectedInterestController.php';
 require_once 'Controllers/VolunteerController.php';
+require_once 'Controllers/KioskCheckInController.php';
+require_once 'Controllers/ReportController.php';
 require_once 'Middleware/AuthenticationFilter.php';
 
 Config::load('config.ini');
@@ -140,6 +142,35 @@ $app->post('/restservices/volunteers/:volunteerId/hours', function($volunteerId)
 $app->put('/restservices/volunteers/:volunteerId/hours/:hoursId/status', function($volunteerId, $hoursId) {
 	$controller = new HoursController();
 	$controller->updateStatus($hoursId);
+});
+
+
+//KioskCheckIn
+$app->get('/restservices/kioskCheckIns/active', function() {
+	$controller = new KioskCheckInController();
+	$controller->getActive();
+});
+
+$app->get('/restservices/kioskCheckIns/:kioskCheckInId', function($kioskCheckInId) {
+	$controller = new KioskCheckInController();
+	$controller->getById($kioskCheckInId);
+});
+
+$app->post('/restservices/kioskCheckIns', function() {
+	$controller = new KioskCheckInController();
+	$controller->create();
+});
+
+$app->post('/restservices/kioskCheckIns/:kioskCheckInId/checkOut', function($kioskCheckInId) {
+	$controller = new KioskCheckInController();
+	$controller->checkOut($kioskCheckInId);
+});
+
+
+//Report
+$app->get('/restservices/reports/familyHours', function() {
+	$controller = new ReportController();
+	$controller->getFamilyHours();
 });
 
 

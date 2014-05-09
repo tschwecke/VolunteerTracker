@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.css">
+  <style>
+  
+    #chart {
+        width: 650px;
+    }
+
+  </style>
+</head>
+<body>
+  <h3>Percent of Families by Approved Hours</h3>
+  <div id="chart"><svg></svg></div>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.5/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script language="javascript">
+    $.get('../restservices/reports/familyHours', function(families) {
+      nv.addGraph(function() {
+        var chart = nv.models.discreteBarChart()
+            .x(function(d) { return d.label })    //Specify the data accessors.
+            .y(function(d) { return d.value })
+            .staggerLabels(false)    //Too many bars and not enough room? Try staggering labels.
+            .tooltips(false)        //Don't show tooltips
+            .showValues(true)       //...instead, show the bar value right on top of each bar.
+            .transitionDuration(350);
+
+        chart.yAxis.axisLabel('Percent of Families')
+            
+
+        d3.select('#chart svg')
+            .datum(getData(families))
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+
+        return chart;
+      });
+    });
+
+    //Each bar represents a single discrete quantity.
+    function getData(families) {
+
+     return  [ 
+        {
+          key: "Family Volunteer Hours",
+          values: [
+            { 
+              "label" : "No Hours" ,
+              "value" : getPercentInRange(families, 0, 0)
+            } , 
+            { 
+              "label" : "1 - 9 Hours" , 
+              "value" : getPercentInRange(families, 0.01, 10)
+            } , 
+            { 
+              "label" : "10 - 19 Hours" , 
+              "value" : getPercentInRange(families, 10, 20)
+            } , 
+            { 
+              "label" : "20 - 29 Hours" , 
+              "value" : getPercentInRange(families, 20, 30)
+            } , 
+            { 
+              "label" : "30+ Hours" ,
+              "value" : getPercentInRange(families, 30, 9999)
+            }
+          ]
+        }
+      ]
+
+    }
+
+    function getPercentInRange(families, min, max) {
+      var countInRange = 0;
+      var totalCount = 0;
+
+      for(var i=0; i<families.length; i++) {
+        var familyId = families[i].familyId;
+        if(familyId >= 1000 && familyId < 9000) {
+          totalCount++;
+          var nbrHours = families[i].nbrHours || 0;
+          if((nbrHours >= min && nbrHours < max) || (min === max && min === nbrHours)) {
+            countInRange++;
+          }
+        }
+      }
+
+      return countInRange / totalCount * 100;
+    }
+
+  </script>
+</body>
+</html>
