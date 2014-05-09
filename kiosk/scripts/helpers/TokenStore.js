@@ -12,4 +12,8 @@ var TokenStore = function(sessionStorage) {
 	this.clear = function() {
 		sessionStorage.removeItem(_tokenName);
 	};
+
+	this.hasToken = function() {
+		return sessionStorage.getItem(_tokenName) !== null;
+	};
 };

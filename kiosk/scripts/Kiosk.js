@@ -15,11 +15,16 @@ var Kiosk = function(window) {
 		var checkInController = new CheckInController(router, volunteerSvc, volunteerAreaSvc, checkInSvc, notificationMgr);
 		var checkOutController = new CheckOutController(router, checkInSvc);
 
-		router.on("login", loginController.render);
-		router.on("home", homeController.render);
-		router.on("checkin", checkInController.render);
-		router.on("checkout", checkOutController.render);
+		router.on('login', loginController.render);
+		router.on('home', homeController.render);
+		router.on('checkin', checkInController.render);
+		router.on('checkout', checkOutController.render);
 
-		router.setRoute("login");
+		if(tokenStore.hasToken()) {
+			router.setRoute('home');
+		}
+		else {
+			router.setRoute('login');
+		}
 	};
 };
