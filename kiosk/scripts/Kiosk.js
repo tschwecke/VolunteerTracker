@@ -9,7 +9,7 @@ var Kiosk = function(window) {
 		var volunteerAreaSvc = new VolunteerAreaSvc(authSvc, restMgr);
 		var checkInSvc = new CheckInSvc(authSvc, volunteerSvc, volunteerAreaSvc, restMgr);
 
-		var router = new Router().init();
+		var router = new Router();
 		var loginController = new LoginController(router, authSvc, notificationMgr);
 		var homeController = new HomeController(router);
 		var checkInController = new CheckInController(router, volunteerSvc, volunteerAreaSvc, checkInSvc, notificationMgr);
@@ -19,6 +19,8 @@ var Kiosk = function(window) {
 		router.on('home', homeController.render);
 		router.on('checkin', checkInController.render);
 		router.on('checkout', checkOutController.render);
+
+		router.init();
 
 		if(tokenStore.hasToken()) {
 			router.setRoute('home');
