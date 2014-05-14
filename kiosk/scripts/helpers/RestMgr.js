@@ -16,15 +16,25 @@ var RestMgr = function(tokenStore) {
 	};
 
 	this.post = function(url, data, callback) {
-		$.ajax({
-			'type': 'POST',
-			'url': resolveUrl(url),
-			'contentType': 'application/json',
-			'data': JSON.stringify(data),
-			'headers': {
-				'X-Authentication': tokenStore.get()
-			}
-		})
+
+		var token = tokenStore.get();
+
+		var request = {
+			"type": "POST",
+			"url": resolveUrl(url),
+			"contentType": "application/json",
+			"data": JSON.stringify(data)
+		};
+
+		if(token) {
+			request.headers = {
+				"X-Authentication": token
+			};
+		}
+
+console.log(request);
+
+		$.ajax(request)
 		.done(successHandler(callback))
 		.fail(failureHandler(callback));
 	};

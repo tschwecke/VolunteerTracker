@@ -1,6 +1,10 @@
 var Kiosk = function(window) {
 	this.run = function() {
 
+		if(document.location.href.indexOf('?') == -1) {
+			document.location = 'index.html?#/login';
+		}
+
 		var tokenStore = new TokenStore(window.sessionStorage);
 		var notificationMgr = new NotificationMgr();
 		var restMgr = new RestMgr(tokenStore);
