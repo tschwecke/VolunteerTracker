@@ -107,6 +107,8 @@ class Dal {
 	}
 
 	private static function constructArgTypeString($procArgs) {
+			$argTypes = '';
+
 	    	for ($i = 0; $i < count($procArgs); $i++) {
 			switch (gettype($procArgs[$i])) {
 				case 'boolean':

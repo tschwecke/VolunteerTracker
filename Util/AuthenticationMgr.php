@@ -51,7 +51,7 @@ class AuthenticationMgr {
 		}
 
 		$tokenExpiration = intval($tokenParts[1]);
-
+$currentTime = 0;
 		if ($tokenExpiration < $currentTime) {
 			return false;
 		}

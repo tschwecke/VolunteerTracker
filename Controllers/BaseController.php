@@ -1,4 +1,4 @@
-<?
+<?php
 require_once 'Util/SerializationMgr.php';
 require_once 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
