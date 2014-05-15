@@ -1,0 +1,92 @@
+{
+	"setupAndTeardowns": [{
+		"id": "createUser",
+		"request": {
+			"method": "POST",
+			"protocol": "http",
+			"host": "127.0.0.1",
+			"resource": "/volunteer/api/volunteers",
+			"headers": {
+				"content-type": "application/json"
+			},
+			"body": {"emailAddress":"harvey@test.com","confirmEmailAddress":"harvey@test.com","firstName":"Harvey","lastName":"Test","familyId":"12345","primaryPhoneNbr":"","password":"harveytest","confirmPassword":"harveytest"}
+		},
+		"expectedResponse": {
+			"statusCode": 409
+		}
+	}],
+	"suiteSetup": ["createUser"],
+	"tests": [{
+		"id": "POST /accessToken - Accepts valid credentials",
+		"request": {
+			"method": "POST",
+			"protocol": "http",
+			"host": "127.0.0.1",
+			"resource": "/volunteer/api/accessToken",
+			"headers": {
+				"content-type": "application/json"
+			},
+			"body": {
+				"emailAddress": "harvey@test.com",
+				"password": "harveytest"
+			}
+		},
+		"expectedResponse": {
+			"statusCode": 200
+	 	}
+	}, {
+		"id": "POST /accessToken - Denies invalid credentials",
+		"request": {
+			"method": "POST",
+			"protocol": "http",
+			"host": "127.0.0.1",
+			"resource": "/volunteer/api/accessToken",
+			"headers": {
+				"content-type": "application/json"
+			},
+			"body": {
+				"emailAddress": "harvey@test.com",
+				"password": "bad credentials"
+			}
+		},
+		"expectedResponse": {
+			"statusCode": 401
+		}
+	}, {
+		"id": "POST /accessToken - Accepts wrong casing on username",
+		"request": {
+			"method": "POST",
+			"protocol": "http",
+			"host": "127.0.0.1",
+			"resource": "/volunteer/api/accessToken",
+			"headers": {
+				"content-type": "application/json"
+			},
+			"body": {
+				"emailAddress": "HARVEY@TEST.COM",
+				"password": "harveytest"
+			}
+		},
+		"expectedResponse": {
+			"statusCode": 200
+	 	}
+	}, {
+		"id": "POST /accessToken - Denies wrong casing on password",
+		"request": {
+			"method": "POST",
+			"protocol": "http",
+			"host": "127.0.0.1",
+			"resource": "/volunteer/api/accessToken",
+			"headers": {
+				"content-type": "application/json"
+			},
+			"body": {
+				"emailAddress": "harvey@test.com",
+				"password": "HARVEYTEST"
+			}
+		},
+		"expectedResponse": {
+			"statusCode": 401
+		}
+	}]
+}
