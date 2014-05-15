@@ -357,7 +357,7 @@ var LoginSvc = function(loginDiv) {
 	};
 
 	this.getAccessToken = function(credentials, callback) {
-		$.ajax("restservices/accessToken", {
+		$.ajax("api/accessToken", {
 			type: "POST",
 			data: JSON.stringify(credentials),
 			contentType: "application/json",
@@ -378,7 +378,7 @@ var LoginSvc = function(loginDiv) {
 	};
 
 	this.getAccessTokenById = function(volunteerId, callback) {
-		$.ajax("restservices/volunteers/" + volunteerId + "/accessToken", {
+		$.ajax("api/volunteers/" + volunteerId + "/accessToken", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data.access_token);
@@ -506,7 +506,7 @@ var VolunteerSvc = function(profileDiv) {
 	};
 
 	this.get = function(id, callback) {
-		$.ajax("restservices/volunteers/" + id, {
+		$.ajax("api/volunteers/" + id, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -515,7 +515,7 @@ var VolunteerSvc = function(profileDiv) {
 	};
 		
 	this.save = function(volunteer, callback) {
-		$.ajax("restservices/volunteers", {
+		$.ajax("api/volunteers", {
 			type: "POST",
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
@@ -537,7 +537,7 @@ var VolunteerSvc = function(profileDiv) {
 	};
 
 	this.update = function(volunteer, callback) {
-		$.ajax("restservices/volunteers/" + volunteer.id, {
+		$.ajax("api/volunteers/" + volunteer.id, {
 			type: "PUT",
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
@@ -621,7 +621,7 @@ var InterestsSvc = function(interestsDiv) {
 	var _interestAreas = null;
 
 	this.getAll = function(callback) {
-		$.ajax("restservices/interestAreas", {
+		$.ajax("api/interestAreas", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -630,7 +630,7 @@ var InterestsSvc = function(interestsDiv) {
 	};
 
 	this.getByUser = function(volunteerId, callback) {
-		$.ajax("restservices/volunteers/" + volunteerId + "/selectedInterests", {
+		$.ajax("api/volunteers/" + volunteerId + "/selectedInterests", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -639,7 +639,7 @@ var InterestsSvc = function(interestsDiv) {
 	};
 
 	this.save = function(volunteerId, interests, callback) {
-		$.ajax("restservices/volunteers/" + volunteerId + "/selectedInterests", {
+		$.ajax("api/volunteers/" + volunteerId + "/selectedInterests", {
 			type: "PUT",
 			data: JSON.stringify(interests),
 			contentType: "application/json",
@@ -739,7 +739,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		hours.date = convertStringToDate(hours.date);
 		hours.date = formatDateForJson(hours.date);
 
-		$.ajax("restservices/volunteers/" + volunteerId + "/hours", {
+		$.ajax("api/volunteers/" + volunteerId + "/hours", {
 			type: "POST",
 			data: JSON.stringify(hours),
 			contentType: "application/json",
@@ -753,7 +753,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 	};
 		
 	this.getHoursByVolunteer = function(volunteerId, callback) {
-		$.ajax("restservices/volunteers/" + volunteerId + "/familyHours", {
+		$.ajax("api/volunteers/" + volunteerId + "/familyHours", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -933,7 +933,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 	};
 
 	this.getAll = function(callback) {
-		$.ajax("restservices/volunteers", {
+		$.ajax("api/volunteers", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -942,7 +942,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 	};
 
 	this.updateRole = function(volunteerId, roleId, callback) {
-		$.ajax("restservices/volunteers/" + volunteerId + "/role", {
+		$.ajax("api/volunteers/" + volunteerId + "/role", {
 			type: "PUT",
 			data: JSON.stringify({"id": roleId}),
 			success: function(data, textStatus, jqXHR) {
@@ -1017,7 +1017,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 	};
 
 	this.getApprovedTotals = function(callback) {
-		$.ajax("restservices/hours/approvedTotals", {
+		$.ajax("api/hours/approvedTotals", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -1026,7 +1026,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 	};
 
 	this.getHoursByStatus = function(status, callback) {
-		$.ajax("restservices/hours/" + status, {
+		$.ajax("api/hours/" + status, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -1035,7 +1035,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 	};
 
 	this.updateStatus = function(volunteerId, hoursId, status, callback) {
-		$.ajax("restservices/volunteers/" + volunteerId + "/hours/" + hoursId + "/status", {
+		$.ajax("api/volunteers/" + volunteerId + "/hours/" + hoursId + "/status", {
 			type: "PUT",
 			data: status,
 			success: function(data, textStatus, jqXHR) {
@@ -1117,7 +1117,7 @@ var AdminReportsSvc = function(reportsDiv) {
 	};
 
 	this.getVolunteersByInterestAreaId = function(interestAreaId, callback) {
-		$.ajax("restservices/interestAreas/" + interestAreaId + "/volunteers", {
+		$.ajax("api/interestAreas/" + interestAreaId + "/volunteers", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
@@ -1161,7 +1161,7 @@ var AdminReportsSvc = function(reportsDiv) {
 
 var RightSvc = function() {
 	this.getByRoleId = function(roleId, callback) {
-		$.ajax("restservices/roles/" + roleId + "/rights", {
+		$.ajax("api/roles/" + roleId + "/rights", {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);

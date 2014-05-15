@@ -1,2 +1,0 @@
-RewriteEngine On
-RewriteRule ^restservices/.* /volunteer/services.php [QSA,L]

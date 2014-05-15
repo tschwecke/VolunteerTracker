@@ -14,12 +14,12 @@ class AuthenticationFilter extends \Slim\Middleware
 	$httpMethod = $req->getMethod();
 	$resourceUri = strtolower($req->getResourceUri());
 
-	if($httpMethod == "POST" && ($resourceUri == '/restservices/volunteers' || $resourceUri == '/restservices/accesstoken')) {
+	if($httpMethod == "POST" && ($resourceUri == '/volunteers' || $resourceUri == '/accesstoken')) {
 		$this->next->call();
 		return;
 	}
 
-  if($httpMethod == "GET" && $resourceUri == '/restservices/reports/familyhours') {
+  if($httpMethod == "GET" && $resourceUri == '/reports/familyhours') {
     $this->next->call();
     return;
   }
