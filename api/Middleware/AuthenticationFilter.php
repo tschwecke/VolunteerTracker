@@ -19,10 +19,15 @@ class AuthenticationFilter extends \Slim\Middleware
 		return;
 	}
 
-  if($httpMethod == "GET" && $resourceUri == '/reports/familyhours') {
-    $this->next->call();
-    return;
-  }
+	if($httpMethod == "GET" && $resourceUri == '/reports/familyhours') {
+		$this->next->call();
+		return;
+	}
+
+	if($httpMethod == "DELETE" && strpos($resourceUri, '/test/') == 0) {
+		$this->next->call();
+		return;
+	}
 
 	$authMgr = new AuthenticationMgr();
 	$authToken = $req->headers('X-Authentication');

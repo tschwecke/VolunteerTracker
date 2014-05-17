@@ -5,10 +5,13 @@ require_once 'Models/DomainObject.php';
 class VolunteerSvc {
 
 	public function getById($id) {
+		$volunteer = null;
 		$results = Dal::executeQuery("Volunteer_Select_ByPK", $id);
-		$volunteer = new DomainObject('Volunteer', $results[0]);
-		$this->assertValidity($volunteer);
-
+		if(count($results) > 0) {
+			$volunteer = new DomainObject('Volunteer', $results[0]);
+			$this->assertValidity($volunteer);
+		}
+		
 		return $volunteer;
 	}
 
@@ -75,7 +78,11 @@ class VolunteerSvc {
 			$volunteer->id = $results[0]['NewId'];
 		}
 
-        }
+    }
+
+    public function delete($volunteerId) {
+		Dal::execute("Volunteer_Delete_ByPK", $volunteerId);
+	}
 
 
 	protected function assertValidity($volunteer) {

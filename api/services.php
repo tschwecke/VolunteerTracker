@@ -9,6 +9,7 @@ require_once 'Controllers/SelectedInterestController.php';
 require_once 'Controllers/VolunteerController.php';
 require_once 'Controllers/KioskCheckInController.php';
 require_once 'Controllers/ReportController.php';
+require_once 'Controllers/TestController.php';
 require_once 'Middleware/AuthenticationFilter.php';
 
 Config::load('config.ini');
@@ -175,10 +176,15 @@ $app->get('/reports/familyHours', function() {
 
 
 //Rights
-
 $app->get('/roles/:roleId/rights', function($roleId) {
 	$controller = new RightController();
 	$controller->getByRoleId($roleId);
+});
+
+//Routes specifically for supporting integration testing
+$app->delete('/test/volunteers/:volunteerId', function($volunteerId) {
+	$controller = new TestController();
+	$controller->deleteTestVolunteer($volunteerId);
 });
 
 
