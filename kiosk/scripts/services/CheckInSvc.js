@@ -82,11 +82,17 @@ var CheckInSvc = function(authSvc, volunteerSvc, volunteerAreaSvc, restMgr) {
 		var date = new Date(dateString);
 		var amPm = "am";
 		var hours = date.getHours();
+		//Set PM if needed
 		if(hours > 11) {
-			amPm = "am";
+			amPm = "pm";
 		}
+		//Convert from 24 hour to 12 hour display
 		if(hours > 12) {
 			hours -= 12;
+		}
+		//Handle midnight
+		if(hours === 0) {
+			hours = "12";
 		}
 		var minutes = date.getMinutes();
 		if(minutes < 10) {
