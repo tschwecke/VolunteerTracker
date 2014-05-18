@@ -23,8 +23,8 @@ var CheckInSvc = function(authSvc, volunteerSvc, volunteerAreaSvc, restMgr) {
 					};
 
 					//Find the volunteer and area
-					checkin.volunteer = find(volunteers, 'id', rawCheckIns[i].volunteerId);
-					checkin.volunteerArea = find(areas, 'id', rawCheckIns[i].interestAreaId);
+					checkin.volunteer = findVolunteer(volunteers, rawCheckIns[i].volunteerId);
+					checkin.volunteerArea = findArea(areas, rawCheckIns[i].interestAreaId, rawCheckIns[i].classroom);
 
 					checkIns.push(checkin);
 				}
@@ -49,11 +49,23 @@ var CheckInSvc = function(authSvc, volunteerSvc, volunteerAreaSvc, restMgr) {
 		restMgr.post('kioskCheckIns/' + checkIn.id + '/checkOut', null, callback);
 	};
 
-	var find = function(collection, property, desiredValue) {
+	var findVolunteer = function(volunteers, volunteerId) {
 		var returnValue = null;
-		for(var i=0; i<collection.length; i++) {
-			if(collection[i][property] === desiredValue) {
-				returnValue = collection[i];
+		for(var i=0; i<volunteers.length; i++) {
+			if(volunteers[i]['id'] === volunteerId) {
+				returnValue = volunteers[i];
+				break;
+			}
+		}
+
+		return returnValue;
+	};
+
+	var findArea = function(areas, areaId, classroom) {
+		var returnValue = null;
+		for(var i=0; i<areas.length; i++) {
+			if(areas[i]['id'] === areaId && (classroom === "" || areas[i]['classroom'] === classroom)) {
+				returnValue = areas[i];
 				break;
 			}
 		}
