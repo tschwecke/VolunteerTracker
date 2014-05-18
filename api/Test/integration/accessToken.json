@@ -1,5 +1,12 @@
 {
 	"setupAndTeardowns": [{
+		"id": "generateRandomNbr",
+		"actions": [{
+			"$set": {
+				"randomNbr": { "$random": { "type": "number", "min": 0, "max": 10000 } }
+			}
+		}]
+	}, {
 		"id": "createUser",
 		"request": {
 			"method": "POST",
@@ -9,13 +16,32 @@
 			"headers": {
 				"content-type": "application/json"
 			},
-			"body": {"emailAddress":"harvey@test.com","confirmEmailAddress":"harvey@test.com","firstName":"Harvey","lastName":"Test","familyId":"12345","primaryPhoneNbr":"","password":"harveytest","confirmPassword":"harveytest"}
+			"body": {"emailAddress":"test-harvey-${randomNbr}@test.com","firstName":"Harvey","lastName":"Test","familyId":"12345","primaryPhoneNbr":"","password":"harveytest"}
 		},
 		"expectedResponse": {
-			"statusCode": 409
+			"statusCode": 200
+		},
+		"actions": [{
+			"$set": {
+				"test-user-id": {
+					"$extract": "body.id"
+				}
+			}
+		}]
+	}, {
+		"id": "removeUser",
+		"request": {
+			"method": "DELETE",
+			"protocol": "http",
+			"host": "127.0.0.1",
+			"resource": "/volunteer/api/test/volunteers/${test-user-id}"
+		},
+		"expectedResponse": {
+			"statusCode": 204
 		}
 	}],
-	"suiteSetup": ["createUser"],
+	"suiteSetup": ["generateRandomNbr", "createUser"],
+	"suiteTeardown": ["removeUser"],
 	"tests": [{
 		"id": "POST /accessToken - Accepts valid credentials",
 		"request": {
@@ -27,7 +53,7 @@
 				"content-type": "application/json"
 			},
 			"body": {
-				"emailAddress": "harvey@test.com",
+				"emailAddress": "test-harvey-${randomNbr}@test.com",
 				"password": "harveytest"
 			}
 		},
@@ -45,7 +71,7 @@
 				"content-type": "application/json"
 			},
 			"body": {
-				"emailAddress": "harvey@test.com",
+				"emailAddress": "test-harvey-${randomNbr}@test.com",
 				"password": "bad credentials"
 			}
 		},
@@ -63,7 +89,7 @@
 				"content-type": "application/json"
 			},
 			"body": {
-				"emailAddress": "HARVEY@TEST.COM",
+				"emailAddress": "TEST-HARVEY-${randomNbr}@TEST.COM",
 				"password": "harveytest"
 			}
 		},
@@ -81,7 +107,7 @@
 				"content-type": "application/json"
 			},
 			"body": {
-				"emailAddress": "harvey@test.com",
+				"emailAddress": "test-harvey-${randomNbr}@test.com",
 				"password": "HARVEYTEST"
 			}
 		},
