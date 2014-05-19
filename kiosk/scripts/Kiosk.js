@@ -13,24 +13,35 @@ var Kiosk = function(window) {
 		var volunteerAreaSvc = new VolunteerAreaSvc(authSvc, restMgr);
 		var checkInSvc = new CheckInSvc(authSvc, volunteerSvc, volunteerAreaSvc, restMgr);
 
-		var router = new Router();
-		var loginController = new LoginController(router, authSvc, notificationMgr);
-		var homeController = new HomeController(router);
-		var checkInController = new CheckInController(router, volunteerSvc, volunteerAreaSvc, checkInSvc, notificationMgr);
-		var checkOutController = new CheckOutController(router, checkInSvc);
+		var loginController = new LoginController(riot, authSvc, notificationMgr);
+		var homeController = new HomeController(riot);
+		var checkInController = new CheckInController(riot, volunteerSvc, volunteerAreaSvc, checkInSvc, notificationMgr);
+		var checkOutController = new CheckOutController(riot, checkInSvc);
 
-		router.on('login', loginController.render);
-		router.on('home', homeController.render);
-		router.on('checkin', checkInController.render);
-		router.on('checkout', checkOutController.render);
+		riot.route(function(path) {
+			//Find the right controller to handle the request, and default to the home controller
+			var controller = homeController;
+			switch(path) {
+				case '#login':
+					controller = loginController;
+					break;
+				case '#checkin':
+					controller = checkInController;
+					break;
+				case '#checkout':
+					controller = checkOutController;
+					break;
+			}
 
-		router.init();
+			controller.render();
+		});
+
 
 		if(tokenStore.hasToken()) {
-			router.setRoute('home');
+			riot.route('#home');
 		}
 		else {
-			router.setRoute('login');
+			riot.route('#login');
 		}
 	};
 };

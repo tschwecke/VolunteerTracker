@@ -1,4 +1,4 @@
-var CheckInController = function(router, volunteerSvc, volunteerAreaSvc, checkInSvc, notificationMgr) {
+var CheckInController = function(riot, volunteerSvc, volunteerAreaSvc, checkInSvc, notificationMgr) {
 
 	var _volunteers = [];
 	var _volunteerAreas = [];
@@ -46,7 +46,7 @@ var CheckInController = function(router, volunteerSvc, volunteerAreaSvc, checkIn
 				checkinRactive.on("home", function(event) {
 					notificationMgr.clearError();
 					checkinRactive.teardown(function() {
-						router.setRoute("home");
+						riot.route("#home");
 					});
 				});
 
@@ -92,7 +92,7 @@ var CheckInController = function(router, volunteerSvc, volunteerAreaSvc, checkIn
 						}
 
 						checkinRactive.teardown(function() {
-							router.setRoute("home");
+							riot.route("#home");
 
 							var confirmationRactive = new Ractive({
 								el: 'notificationContainer',

@@ -1,4 +1,4 @@
-var HomeController = function(router) {
+var HomeController = function(riot) {
 
 	this.render = function() {
 		
@@ -11,13 +11,13 @@ var HomeController = function(router) {
 
 		homeRactive.on("checkin", function() {
 			homeRactive.teardown(function() {
-				router.setRoute("checkin");
+				riot.route("#checkin");
 			});
 		});
 
 		homeRactive.on("checkout", function() {
 			homeRactive.teardown(function() {
-				router.setRoute("checkout");
+				riot.route("#checkout");
 			});
 		});
 
