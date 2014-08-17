@@ -1,4 +1,12 @@
 {
+	"responseTemplates": [{
+		"id": "success_response",
+		"statusCode": 200,
+		"body": {
+			"access_token": {"$regex": "\\d+\\|\\d{10}\\|[0-9a-f]{64}"},
+			"expiration": {"$regex": "\\d{10}"}		
+		}
+	}],
 	"setupAndTeardowns": [{
 		"id": "generateRandomNbr",
 		"actions": [{
@@ -11,8 +19,8 @@
 		"request": {
 			"method": "POST",
 			"protocol": "http",
-			"host": "127.0.0.1",
-			"resource": "/volunteer/api/volunteers",
+			"host": "${host}",
+			"resource": "${rootPath}/volunteers",
 			"headers": {
 				"content-type": "application/json"
 			},
@@ -33,8 +41,8 @@
 		"request": {
 			"method": "DELETE",
 			"protocol": "http",
-			"host": "127.0.0.1",
-			"resource": "/volunteer/api/test/volunteers/${test-user-id}"
+			"host": "${host}",
+			"resource": "${rootPath}/test/volunteers/${test-user-id}"
 		},
 		"expectedResponse": {
 			"statusCode": 204
@@ -47,8 +55,8 @@
 		"request": {
 			"method": "POST",
 			"protocol": "http",
-			"host": "127.0.0.1",
-			"resource": "/volunteer/api/accessToken",
+			"host": "${host}",
+			"resource": "${rootPath}/accessToken",
 			"headers": {
 				"content-type": "application/json"
 			},
@@ -58,15 +66,15 @@
 			}
 		},
 		"expectedResponse": {
-			"statusCode": 200
+			"templates": ["success_response"]
 	 	}
 	}, {
 		"id": "POST /accessToken - Denies invalid credentials",
 		"request": {
 			"method": "POST",
 			"protocol": "http",
-			"host": "127.0.0.1",
-			"resource": "/volunteer/api/accessToken",
+			"host": "${host}",
+			"resource": "${rootPath}/accessToken",
 			"headers": {
 				"content-type": "application/json"
 			},
@@ -83,8 +91,8 @@
 		"request": {
 			"method": "POST",
 			"protocol": "http",
-			"host": "127.0.0.1",
-			"resource": "/volunteer/api/accessToken",
+			"host": "${host}",
+			"resource": "${rootPath}/accessToken",
 			"headers": {
 				"content-type": "application/json"
 			},
@@ -94,15 +102,15 @@
 			}
 		},
 		"expectedResponse": {
-			"statusCode": 200
+			"templates": ["success_response"]
 	 	}
 	}, {
 		"id": "POST /accessToken - Denies wrong casing on password",
 		"request": {
 			"method": "POST",
 			"protocol": "http",
-			"host": "127.0.0.1",
-			"resource": "/volunteer/api/accessToken",
+			"host": "${host}",
+			"resource": "${rootPath}/accessToken",
 			"headers": {
 				"content-type": "application/json"
 			},

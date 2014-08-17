@@ -1,0 +1,46 @@
+{
+	"setupAndTeardowns": [{
+		"id": "generateRandomNbr",
+		"actions": [{
+			"$set": {
+				"randomNbr": { "$random": { "type": "number", "min": 0, "max": 10000 } }
+			}
+		}]
+	}, {
+		"id": "removeUser",
+		"request": {
+			"method": "DELETE",
+			"protocol": "http",
+			"host": "${host}",
+			"resource": "${rootPath}/test/volunteers/${test-user-id}"
+		},
+		"expectedResponse": {
+			"statusCode": 204
+		}
+	}],
+	"tests": [{
+		"id": "POST /volunteers - Can create a volunteer without an access token",
+		"setup": ["generateRandomNbr"],
+		"request": {
+			"method": "POST",
+			"protocol": "http",
+			"host": "${host}",
+			"resource": "${rootPath}/volunteers",
+			"headers": {
+				"content-type": "application/json"
+			},
+			"body": {"emailAddress":"test-harvey-${randomNbr}@test.com","firstName":"Harvey","lastName":"Test","familyId":"12345","primaryPhoneNbr":"","password":"harveytest"}
+		},
+		"expectedResponse": {
+			"statusCode": 200
+		},
+		"actions": [{
+			"$set": {
+				"test-user-id": {
+					"$extract": "body.id"
+				}
+			}
+		}],
+		"teardown": ["removeUser"]
+	}]
+}
