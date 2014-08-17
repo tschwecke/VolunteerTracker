@@ -1,0 +1,8 @@
+[db]
+MYSQL_HOST = "<<put value here>>"
+MYSQL_USERNAME = "<<put value here>>"
+MYSQL_PWD = "<<put value here>>"
+MYSQL_DB = "<<put value here>>"
+
+[app]
+SCHOOL_YEAR_START_DATE = "2014-07-01"S
