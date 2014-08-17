@@ -90,13 +90,12 @@ class VolunteerController extends BaseController {
 		//Clear out the salt and password hash fields before returning
 		unset($newVolunteer->salt);
 		unset($newVolunteer->passwordHash);
-		
 
 		//Create an access token to send back
 		$authenticationMgr = new AuthenticationMgr();
 		$accessToken = $authenticationMgr->createAccessTokenFromId($newVolunteer->id);
 
-		$this->sendResponse(200, $accessToken);
+		$this->sendResponse(200, $newVolunteer, $accessToken->access_token);
 	}
 
 	public function update($id) {

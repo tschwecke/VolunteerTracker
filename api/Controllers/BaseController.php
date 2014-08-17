@@ -37,7 +37,7 @@ class BaseController
 	}
 
 	public function sendResponse() {
-		list($status, $object) = func_get_args();
+		list($status, $object, $accessToken) = func_get_args();
 
 		if(is_null($object)) {
 			$statusCodeMessage = $this->statusCodeMessages[$status];
@@ -47,6 +47,10 @@ class BaseController
 		$app = \Slim\Slim::getInstance();
 		$res = $app->response();
 		$res->status($status);
+
+		if(!is_null($accessToken)) {
+			$res['X-Authentication'] = $accessToken;
+		}
 
 		$serializationMgr = new SerializationMgr();
 		$json = $serializationMgr->serialize($object);
