@@ -1,4 +1,4 @@
-var LoginController = function(router, authSvc, notificationMgr) {
+var LoginController = function(riot, authSvc, notificationMgr) {
 
 	this.render = function() {
 		console.log('LoginController.render()');
@@ -32,7 +32,7 @@ var LoginController = function(router, authSvc, notificationMgr) {
 					
 					notificationMgr.clearError();
 					loginRactive.teardown(function() {
-						router.setRoute("home");
+						riot.route("#home");
 					});
 				}
 			});

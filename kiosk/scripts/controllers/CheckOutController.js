@@ -1,4 +1,4 @@
-var CheckOutController = function(router, checkInSvc) {
+var CheckOutController = function(riot, checkInSvc) {
 
 	this.render = function() {
 		
@@ -14,13 +14,13 @@ var CheckOutController = function(router, checkInSvc) {
 
 			checkoutRactive.on("home", function(event) {
 				checkoutRactive.teardown(function() {
-					router.setRoute("home");
+					riot.route("#home");
 				});
 			});
 
 			checkoutRactive.on("gotoCheckIn", function(event) {
 				checkoutRactive.teardown(function() {
-					router.setRoute("checkin");
+					riot.route("#checkin");
 				});
 			});
 			
@@ -56,7 +56,7 @@ var CheckOutController = function(router, checkInSvc) {
 
 	  				checkInSvc.checkOut(event.context.checkIn, function(error, checkIn) {
 		  				checkoutRactive.teardown(function() {
-							router.setRoute("home");
+							riot.route("#home");
 
 							var confirmationRactive = new Ractive({
 								el: 'notificationContainer',
