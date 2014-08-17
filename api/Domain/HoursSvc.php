@@ -1,8 +1,11 @@
 <?php
 require_once 'Util/Dal.php';
 require_once 'Models/DomainObject.php';
+require_once 'Util/Config.php';
 
 class HoursSvc {
+
+	protected static $schoolYearStartDate;
 
 	public function getById($hourId) {
 		$results = Dal::executeQuery("Hours_Select_ByPK", $hourId);
@@ -17,7 +20,7 @@ class HoursSvc {
 	}
 
 	public function getByVolunteerId($volunteerId) {
-		$results = Dal::executeQuery("Hours_Select_ByVolunteer_PK", $volunteerId);
+		$results = Dal::executeQuery("Hours_Select_ByVolunteer_PK", $volunteerId, $this->getSchoolYearStartDate());
 		$hours = array();
 		for($i=0; $i<count($results); $i++) {
 			$hour = new DomainObject('Hours', $results[$i]);
@@ -28,7 +31,7 @@ class HoursSvc {
 	}
 
 	public function getByFamilyId($familyId) {
-		$results = Dal::executeQuery("Hours_Select_ByFamilyId", $familyId);
+		$results = Dal::executeQuery("Hours_Select_ByFamilyId", $familyId, $this->getSchoolYearStartDate());
 		$hours = array();
 		for($i=0; $i<count($results); $i++) {
 			$hour = new DomainObject('Hours', $results[$i]);
@@ -39,7 +42,7 @@ class HoursSvc {
 	}
 
 	public function getByStatus($status) {
-		$results = Dal::executeQuery("Hours_Select_ByStatus", $status);
+		$results = Dal::executeQuery("Hours_Select_ByStatus", $status, $this->getSchoolYearStartDate());
 		$hours = array();
 		for($i=0; $i<count($results); $i++) {
 			$hour = new DomainObject('Hours', $results[$i]);
@@ -50,7 +53,7 @@ class HoursSvc {
 	}
 
 	public function getApprovedTotals() {
-		$results = Dal::executeQuery("Hours_Select_ApprovedTotals");
+		$results = Dal::executeQuery("Hours_Select_ApprovedTotals", $this->getSchoolYearStartDate());
 		$hours = array();
 		for($i=0; $i<count($results); $i++) {
 			$hour = new DomainObject('TotalHours', $results[$i]);
@@ -89,5 +92,11 @@ class HoursSvc {
 		}
 	}
 
+	private function getSchoolYearStartDate() {
+		if(is_null($schoolYearStartDate)) {
+			$schoolYearStartDate = Config::get('SCHOOL_YEAR_START_DATE');
+		}
 
+		return $schoolYearStartDate;
+	}
 }

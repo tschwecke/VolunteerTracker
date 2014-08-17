@@ -1,7 +1,7 @@
 DELIMITER $$
 drop procedure if exists `Hours_Select_ByStatus`
 $$
-CREATE PROCEDURE `Hours_Select_ByStatus` (status varchar(10))
+CREATE PROCEDURE `Hours_Select_ByStatus` (status varchar(10), schoolYearStartDate date)
 BEGIN
 
 SELECT
@@ -15,6 +15,7 @@ SELECT
     h.`Classroom`
 FROM `hours` h
 WHERE h.Status = status
+AND h.Date >= schoolYearStartDate
 ORDER BY h.`Date`;
 
 END$$

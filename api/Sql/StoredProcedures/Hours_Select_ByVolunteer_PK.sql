@@ -1,7 +1,7 @@
 DELIMITER $$
 drop procedure if exists `Hours_Select_ByVolunteer_PK`
 $$
-CREATE PROCEDURE `Hours_Select_ByVolunteer_PK` (volunteer_PK int)
+CREATE PROCEDURE `Hours_Select_ByVolunteer_PK` (volunteer_PK int, schoolYearStartDate date)
 BEGIN
 
 SELECT
@@ -14,6 +14,7 @@ SELECT
     h.`Status`,
     h.`Classroom`
 FROM `hours` h
-WHERE h.Volunteer_PK = volunteer_PK;
+WHERE h.Volunteer_PK = volunteer_PK
+AND h.Date >= schoolYearStartDate;
 
 END$$

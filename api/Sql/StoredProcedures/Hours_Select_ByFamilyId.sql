@@ -1,7 +1,7 @@
 DELIMITER $$
 drop procedure if exists `Hours_Select_ByFamilyId`
 $$
-CREATE PROCEDURE `Hours_Select_ByFamilyId` (familyId int)
+CREATE PROCEDURE `Hours_Select_ByFamilyId` (familyId int, schoolYearStartDate date)
 BEGIN
 
 SELECT
@@ -15,7 +15,8 @@ SELECT
     h.Classroom
 FROM `hours` h
 INNER JOIN `volunteer` v ON h.Volunteer_PK = v.Volunteer_PK
-WHERE v.FamilyId = familyId;
+WHERE v.FamilyId = familyId
+AND h.Date >= schoolYearStartDate;
 
 END$$
 
