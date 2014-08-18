@@ -1,4 +1,4 @@
 api/config.ini
-api/deploy/ftp.config.template
-deploy/ftp.config.template
+api/deploy/ftp.config
+deploy/ftp.config
 prodBackup_20140817/
