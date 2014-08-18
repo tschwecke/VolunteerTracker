@@ -9,7 +9,7 @@ SELECT
     SUM(NbrOfHours) as 'Hours'
 FROM `hours` h
 WHERE h.`Status` = 'Approved'
-GROUP BY h.`Volunteer_PK`
-AND h.Date >= schoolYearStartDate;
+AND h.Date >= schoolYearStartDate
+GROUP BY h.`Volunteer_PK`;
 
 END$$
