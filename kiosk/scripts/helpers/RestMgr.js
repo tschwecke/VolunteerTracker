@@ -1,7 +1,7 @@
 
 var RestMgr = function(tokenStore) {
 
-	var _prefix = '../restservices/';
+	var _prefix = '../api/';
 
 	this.get = function(url, callback) {
 		$.ajax({
