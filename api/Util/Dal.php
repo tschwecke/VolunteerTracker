@@ -34,8 +34,7 @@ class Dal {
 
 		//Execute the statement
 		if(!$stmt->execute()) {
-			echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
-			exit();			
+			throw new Exception("Execute failed: (" . $mysqli->errno . ") " . $mysqli->error);
 		}
 
 		//Free up all resources
@@ -64,8 +63,7 @@ class Dal {
 		}
 		//Execute the statement
 		if(!$stmt->execute()) {
-			echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
-			exit();			
+			throw new Exception("Execute failed: (" . $mysqli->errno . ") " . $mysqli->error);
 		}
 		
 		//Get the results
@@ -82,8 +80,7 @@ class Dal {
 		$mysqli = new mysqli(Config::get('MYSQL_HOST'), Config::get('MYSQL_USERNAME'), Config::get('MYSQL_PWD'), Config::get('MYSQL_DB'));
 //		$mysqli = new mysqli(Dal::$MYSQL_HOST, Dal::$MYSQL_USERNAME, Dal::$MYSQL_PWD, Dal::$MYSQL_DB);
 		if ($mysqli->connect_errno) {
-			echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-			exit();			
+			throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 		}
 		
 		return $mysqli;
@@ -92,15 +89,13 @@ class Dal {
 	private static function createStatement($mysqli, $procName, $procArgs) {
 		//Create the statement
 		if(!($stmt = $mysqli->stmt_init())) {
-			echo "Statement Init failed: (" . $mysqli->errno . ") " . $mysqli->error;
-			exit();			
+			throw new Exception("Statement Init failed: (" . $mysqli->errno . ") " . $mysqli->error);
 		}
 
 		//Prepare the statement
 		$statmentText = Dal::constructStatementText($procName, $procArgs);
 		if(!$stmt->prepare($statmentText)) {
-			echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-			exit();			
+			throw new Exception("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
 		}
 		
 		return $stmt;
@@ -122,8 +117,7 @@ class Dal {
 					$argTypes = $argTypes . 'd';
 					break;
 				default:
-					echo 'Unable to handle type ' . gettype($procArgs[$i]) . ' of arg ' . $i. ' for proc ' . $procName;
-					exit();			
+					throw new Exception('Unable to handle type ' . gettype($procArgs[$i]) . ' of arg ' . $i. ' for proc ' . $procName);
 			}
 		}
 		

@@ -18,10 +18,18 @@ require_once 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
 $app = new \Slim\Slim();
+$app->config('debug', false);
 $app->add(new AuthenticationFilter());
 
 $res = $app->response();
 $res['Content-Type'] = 'application/json';
+
+$app->error(function (\Exception $e) use ($app) {
+		$app = \Slim\Slim::getInstance();
+		$res = $app->response();
+		$res->status(500);
+		$res->body($e);
+});
 
 //Access Token
 $app->post('/accessToken', function() {

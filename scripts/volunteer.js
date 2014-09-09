@@ -22,36 +22,41 @@ var NewUserMgr = function() {
 		if (errors.length === 0) {
 			$("#profileSaveButton").button("disable");
 			profileErrorSvc.hideErrors();
-			volunteerSvc.save(volunteer, function(error, data) {
-				if(error) {
-					var errorMsg = 'An error occurred while trying to create your account. Please try again.';
-					if(error.message == 'Email taken') {
-						errorMsg = 'There is already an account with that email address.';
+			volunteerSvc.save(volunteer, function(err, data) {
+				if(err) {
+					if(err.message == 'Email taken') {
+						notificationMgr.notify('There is already an account with that email address.');
 					}
-					notificationMgr.notify(errorMsg);
-			
+					else {
+						notificationMgr.notify("An error occurred while retrieving your volunteer account. Please refresh the page and try again.", err);
+					}
 
 					$("#profileSaveButton").button("enable");
 				}
 				else {
-					sessionMgr.setAccessToken(data.access_token);
+					//This is a weird timing issue, but we need to pause momentarily to let the global XHR success handler set the access token
+					setTimeout(function() {
+						interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
+							if(err) return notificationMgr.notify("An error occurred while retrieving the lsit of interest areas. Please refresh the page and try again.", err);
 
-					interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
-						interestsSvc.populateForm(interests);
-						volunteerHoursSvc.populateInterestAreas(interests);
-						adminReportsSvc.populateInterestAreas(interests);
-						adminHoursSvc.populateInterestAreas(interests);
-					});
+							interestsSvc.populateForm(interests);
+							volunteerHoursSvc.populateInterestAreas(interests);
+							adminReportsSvc.populateInterestAreas(interests);
+							adminHoursSvc.populateInterestAreas(interests);
+						});
 
-					classroomSvc.getClassrooms(function(err, classrooms) {
-						volunteerHoursSvc.populateClassrooms(classrooms);
-						adminHoursSvc.populateClassrooms(classrooms);
-					});
+						classroomSvc.getClassrooms(function(err, classrooms) {
+							if(err) return notificationMgr.notify("An error occurred while retrieving the list of classrooms. Please refresh the page and try again.", err);
 
-					$("#tabs").tabs("enable", "interestsTab");
-					$("#tabs").tabs("select", "interestsTab");
-					$("#profileSaveButton").button({ label: "Save" });
-					$("#profileSaveButton").button("enable");
+							volunteerHoursSvc.populateClassrooms(classrooms);
+							adminHoursSvc.populateClassrooms(classrooms);
+						});
+
+						$("#tabs").tabs("enable", "interestsTab");
+						$("#tabs").tabs("select", "interestsTab");
+						$("#profileSaveButton").button({ label: "Save" });
+						$("#profileSaveButton").button("enable");
+					}, 0);
 				}
 			});
 		}
@@ -63,7 +68,9 @@ var NewUserMgr = function() {
 	this.saveInterests = function() {
 		$("#interestsSaveButton").button("disable");
 		var interests = interestsSvc.getFromForm();
-		interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
+		interestsSvc.save(sessionMgr.getVolunteerId(), interests, function (err) {
+			if(err) return notificationMgr.notify("An error occurred while saving your interests. Please refresh the page and try again.", err);
+
 			notificationMgr.notify('Your profile has been created. You may now submit any volunteer hours you have completed.');
 			$("#interestsSaveButton").button("enable");
 
@@ -78,10 +85,17 @@ var NewUserMgr = function() {
 		if (errors.length === 0) {
 			$("#submitHoursButton").button("disable");
 			volunteerHoursErrorSvc.hideErrors();
-			volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
+			volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function (err) {
+				if(err) return notificationMgr.notify("An error occurred while saving your hours. Please refresh the page and try again.", err);
+
 				notificationMgr.notify("Your <strong>hours</strong> have been saved.");
 				$("#submitHoursButton").button("enable");
 				volunteerHoursSvc.clearForm();
+
+				//Update the total hours for the user
+				volunteerHoursSvc.getHoursByVolunteer(sessionMgr.getVolunteerId(), function (err, hours) {
+					volunteerHoursSvc.populateForm(sessionMgr.getVolunteerId(), hours);
+				});
 			});
 		}
 		else {
@@ -99,14 +113,19 @@ var ExistingUserMgr = function() {
 	this.init = function() {
 		//make the calls to get all of the data
 		volunteerSvc.get(sessionMgr.getVolunteerId(), function (err, volunteer) {
+			if(err) return notificationMgr.notify("An error occurred while retrieving your volunteer account. Please refresh the page and try again.", err);
+
 			currentVolunteer = volunteer;			
 			volunteerSvc.populateForm(volunteer);
 
 			volunteerHoursSvc.getHoursByVolunteer(sessionMgr.getVolunteerId(), function (err, hours) {
+				if(err) return notificationMgr.notify("An error occurred while retrieving your volunteer hours. Please refresh the page and try again.", err);
 				volunteerHoursSvc.populateForm(sessionMgr.getVolunteerId(), hours);
 			});
 
 			rightSvc.getByRoleId(volunteer.roleId, function(err, rights) {
+				if(err) return notificationMgr.notify("An error occurred while retrieving your volunteer account. Please refresh the page and try again.", err);
+
 				var canViewAdminTab = false;
 
 				for(var i=0; i<rights.length; i++) {
@@ -117,12 +136,18 @@ var ExistingUserMgr = function() {
 
 				if(canViewAdminTab) {
 					adminVolunteerSvc.getAll(function (err, volunteers) {
+						if(err) return notificationMgr.notify("An error occurred while retrieving the list of volunteers. Please refresh the page and try again.", err);
+
 						allVolunteers = volunteers;
 						adminHoursSvc.getApprovedTotals(function(err, hourTotals) {
+							if(err) return notificationMgr.notify("An error occurred while retrieving approved hours. Please refresh the page and try again.", err);
+
 							adminVolunteerSvc.populateForm(allVolunteers, hourTotals);
 						});
 
 						adminHoursSvc.getHoursByStatus('Pending', function(err, pendingHours) {
+							if(err) return notificationMgr.notify("An error occurred while retrieving pending hours. Please refresh the page and try again.", err);
+
 							adminHoursSvc.populateForm(allVolunteers, allInterestAreas, pendingHours);
 						});
 					});
@@ -132,6 +157,8 @@ var ExistingUserMgr = function() {
 		});
 
 		interestsSvc.getByUser(sessionMgr.getVolunteerId(), function (err, interests) {
+			if(err) return notificationMgr.notify("An error occurred while retrieving your volunteer interests. Please refresh the page and try again.", err);
+
 			allInterestAreas = interests;
 			interestsSvc.populateForm(interests);
 			volunteerHoursSvc.populateInterestAreas(interests);
@@ -140,6 +167,8 @@ var ExistingUserMgr = function() {
 		});
 
 		classroomSvc.getClassrooms(function(err, classrooms) {
+			if(err) return notificationMgr.notify("An error occurred while retrieving the list of classrooms. Please refresh the page and try again.", err);
+
 			volunteerHoursSvc.populateClassrooms(classrooms);
 			adminHoursSvc.populateClassrooms(classrooms);
 		});
@@ -158,7 +187,9 @@ var ExistingUserMgr = function() {
 			$("#profileSaveButton").button("disable");
 			profileErrorSvc.hideErrors();
 			volunteer.id = sessionMgr.getVolunteerId();
-			volunteerSvc.update(volunteer, function(error, data) {
+			volunteerSvc.update(volunteer, function(err, data) {
+				if(err) return notificationMgr.notify("An error occurred while updating your volunteer account. Please refresh the page and try again.", err);
+
 				currentVolunteer = volunteer;
 				notificationMgr.notify("Your volunteer profile has been saved.");
 				$("#profileSaveButton").button("enable");
@@ -172,8 +203,10 @@ var ExistingUserMgr = function() {
 	this.saveInterests = function() {
 		$("#interestsSaveButton").button("disable");
 		var interests = interestsSvc.getFromForm();
-		interestsSvc.save(sessionMgr.getVolunteerId(), interests, function () {
-			notificationMgr.notify("Your interests have been saved.");
+		interestsSvc.save(sessionMgr.getVolunteerId(), interests, function (err) {
+			if(err) return notificationMgr.notify("An error occurred while updating your interests. Please refresh the page and try again.", err);
+
+				notificationMgr.notify("Your interests have been saved.");
 			$("#interestsSaveButton").button("enable");
 		});
 	};
@@ -184,10 +217,19 @@ var ExistingUserMgr = function() {
 		if (errors.length === 0) {
 			$("#submitHoursButton").button("disable");
 			volunteerHoursErrorSvc.hideErrors();
-			volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function () {
+			volunteerHoursSvc.save(sessionMgr.getVolunteerId(), hours, function (err) {
+				if(err) return notificationMgr.notify("An error occurred while saving your hours. Please refresh the page and try again.", err);
+
 				notificationMgr.notify("Your hours have been saved.");
 				$("#submitHoursButton").button("enable");
 				volunteerHoursSvc.clearForm();
+
+				//Update the total hours for the user
+				volunteerHoursSvc.getHoursByVolunteer(sessionMgr.getVolunteerId(), function (err, hours) {
+					if(err) return notificationMgr.notify("An error occurred while updating the display of your hours. Please refresh the page and try again.", err);
+
+					volunteerHoursSvc.populateForm(sessionMgr.getVolunteerId(), hours);
+				});
 			});
 		}
 		else {
@@ -198,6 +240,7 @@ var ExistingUserMgr = function() {
 
 	this.displayAdminHoursByStatusInterestAreaAndClassroom = function(status, interestAreaId, classroom) {
 		adminHoursSvc.getHoursByStatus(status, function(err, hours){
+			if(err) return notificationMgr.notify("An error occurred while retrieving hours. Please refresh the page and try again.", err);
 
 			var filteredHours = [];
 			if(interestAreaId) {
@@ -222,7 +265,9 @@ var ExistingUserMgr = function() {
 	};
 
 	this.runInterestAreaReport = function(interestAreaId) {
-		adminReportsSvc.getVolunteersByInterestAreaId(interestAreaId, function(error, volunteers){
+		adminReportsSvc.getVolunteersByInterestAreaId(interestAreaId, function(err, volunteers){
+			if(err) return notificationMgr.notify("An error occurred while retrieving the volunteers. Please refresh the page and try again.", err);
+
 			adminReportsSvc.populateForm(volunteers);
 		});
 	};
@@ -318,7 +363,7 @@ var SessionMgr = function() {
 	//Attach an event handler so that if we get a 401 we know the user's sessions has aexpiored and we send them back to the login screen
 	$(document).ajaxError(function(evt, response, settings) {
 		if(response.status == 401 && self.isAuthenticated()) {
-			notificationMgr.notify("You're session has expired.", function() {
+			notificationMgr.notify("Your session has expired.", function() {
 				loginSvc.logout();
 			});
 		}
@@ -357,7 +402,8 @@ var LoginSvc = function(loginDiv) {
 	};
 
 	this.getAccessToken = function(credentials, callback) {
-		$.ajax("api/accessToken", {
+		var url = "api/accessToken";
+		$.ajax(url, {
 			type: "POST",
 			data: JSON.stringify(credentials),
 			contentType: "application/json",
@@ -372,19 +418,20 @@ var LoginSvc = function(loginDiv) {
 				if(ga) {
 					ga('send', 'event', 'login', 'failure');
 				}
-				callback(errorThrown);
+				callback({"route": "POST " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});				
 	};
 
 	this.getAccessTokenById = function(volunteerId, callback) {
-		$.ajax("api/volunteers/" + volunteerId + "/accessToken", {
+		var url = "api/volunteers/" + volunteerId + "/accessToken";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data.access_token);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				callback(errorThrown);
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
@@ -506,16 +553,21 @@ var VolunteerSvc = function(profileDiv) {
 	};
 
 	this.get = function(id, callback) {
-		$.ajax("api/volunteers/" + id, {
+		var url = "api/volunteers/" + id;
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
 		
 	this.save = function(volunteer, callback) {
-		$.ajax("api/volunteers", {
+		var url = "api/volunteers";
+		$.ajax(url, {
 			type: "POST",
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
@@ -530,14 +582,15 @@ var VolunteerSvc = function(profileDiv) {
 					callback(new Error('Email taken'));
 				}
 				else {
-					callback(new Error(errorThrown));
+					callback({"route": "POST " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 				}
 			}
 		});			
 	};
 
 	this.update = function(volunteer, callback) {
-		$.ajax("api/volunteers/" + volunteer.id, {
+		var url = "api/volunteers/" + volunteer.id;
+		$.ajax(url, {
 			type: "PUT",
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
@@ -546,6 +599,9 @@ var VolunteerSvc = function(profileDiv) {
 					ga('send', 'event', 'profile', 'updated');
 				}
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "PUT " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});			
 	};
@@ -621,25 +677,34 @@ var InterestsSvc = function(interestsDiv) {
 	var _interestAreas = null;
 
 	this.getAll = function(callback) {
-		$.ajax("api/interestAreas", {
+		var url = "api/interestAreas";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
 
 	this.getByUser = function(volunteerId, callback) {
-		$.ajax("api/volunteers/" + volunteerId + "/selectedInterests", {
+		var url = "api/volunteers/" + volunteerId + "/selectedInterests";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
 
 	this.save = function(volunteerId, interests, callback) {
-		$.ajax("api/volunteers/" + volunteerId + "/selectedInterests", {
+		var url = "api/volunteers/" + volunteerId + "/selectedInterests"
+		$.ajax(url, {
 			type: "PUT",
 			data: JSON.stringify(interests),
 			contentType: "application/json",
@@ -648,6 +713,9 @@ var InterestsSvc = function(interestsDiv) {
 					ga('send', 'event', 'interests', 'saved');
 				}
 				callback(null);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "PUT " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});			
 	};
@@ -721,10 +789,14 @@ var InterestsSvc = function(interestsDiv) {
 
 var ClassroomSvc = function() {
 	this.getClassrooms = function(callback) {
-		$.ajax("scripts/classrooms.json", {
+		var url = "scripts/classrooms.json"
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});	
 	};
@@ -739,7 +811,8 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		hours.date = convertStringToDate(hours.date);
 		hours.date = formatDateForJson(hours.date);
 
-		$.ajax("api/volunteers/" + volunteerId + "/hours", {
+		var url = "api/volunteers/" + volunteerId + "/hours";
+		$.ajax(url, {
 			type: "POST",
 			data: JSON.stringify(hours),
 			contentType: "application/json",
@@ -748,15 +821,22 @@ var VolunteerHoursSvc = function(hoursDiv) {
 					ga('send', 'event', 'hours', 'saved');
 				}
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "POST " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
 		
 	this.getHoursByVolunteer = function(volunteerId, callback) {
-		$.ajax("api/volunteers/" + volunteerId + "/familyHours", {
+		var url = "api/volunteers/" + volunteerId + "/familyHours";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});	
 	};
@@ -775,6 +855,8 @@ var VolunteerHoursSvc = function(hoursDiv) {
 			// a must be equal to b
 			return 0;
 		});
+
+		hoursList.empty();
 
 		//Add the right header for the hours listing
 		if(hours.length === 0) {
@@ -933,20 +1015,28 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 	};
 
 	this.getAll = function(callback) {
-		$.ajax("api/volunteers", {
+		var url = "api/volunteers";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
 
 	this.updateRole = function(volunteerId, roleId, callback) {
-		$.ajax("api/volunteers/" + volunteerId + "/role", {
+		var url = "api/volunteers/" + volunteerId + "/role";
+		$.ajax(url, {
 			type: "PUT",
 			data: JSON.stringify({"id": roleId}),
 			success: function(data, textStatus, jqXHR) {
-			callback(null, data);
+				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "PUT " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
@@ -1017,29 +1107,41 @@ var AdminHoursSvc = function(adminHoursDiv) {
 	};
 
 	this.getApprovedTotals = function(callback) {
-		$.ajax("api/hours/approvedTotals", {
+		var url = "api/hours/approvedTotals";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
 
 	this.getHoursByStatus = function(status, callback) {
-		$.ajax("api/hours/" + status, {
+		var url = "api/hours/" + status;
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
 
 	this.updateStatus = function(volunteerId, hoursId, status, callback) {
-		$.ajax("api/volunteers/" + volunteerId + "/hours/" + hoursId + "/status", {
+		var url = "api/volunteers/" + volunteerId + "/hours/" + hoursId + "/status";
+		$.ajax(url, {
 			type: "PUT",
 			data: status,
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "PUT " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
@@ -1117,10 +1219,14 @@ var AdminReportsSvc = function(reportsDiv) {
 	};
 
 	this.getVolunteersByInterestAreaId = function(interestAreaId, callback) {
-		$.ajax("api/interestAreas/" + interestAreaId + "/volunteers", {
+		var url = "api/interestAreas/" + interestAreaId + "/volunteers";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});	
 	};
@@ -1161,10 +1267,14 @@ var AdminReportsSvc = function(reportsDiv) {
 
 var RightSvc = function() {
 	this.getByRoleId = function(roleId, callback) {
-		$.ajax("api/roles/" + roleId + "/rights", {
+		var url = "api/roles/" + roleId + "/rights";
+		$.ajax(url, {
 			type: "GET",
 			success: function(data, textStatus, jqXHR) {
 				callback(null, data);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});
 	};
@@ -1173,7 +1283,23 @@ var RightSvc = function() {
 var NotificationMgr = function() {
 	var self = this;
 
-	this.notify = function(message, callback) {
+	this.notify = function(message, err, callback) {
+		if(typeof(err) == "function") {
+			callback = err;
+			err = undefined;
+		}
+
+		if(err) {
+			message += '<div><br>Details: <pre style="white-space: pre-wrap;">';
+			message += err.route + '\n';
+			message += err.textStatus + '\n';
+			message += err.errorThrown + '\n';
+			if(err.jqXHR && err.jqXHR.responseText) {
+				message += err.jqXHR.responseText.substr(0,600) + '\n';
+			}
+			message += '</pre></div>';
+		}
+
 		var options = {};
 		if(callback) {
 			options.submit = callback;
