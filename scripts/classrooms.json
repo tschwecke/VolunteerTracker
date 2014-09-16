@@ -2,168 +2,168 @@
 	"name": "PreK",
 	"teachers": [{
 		"lastName": "Stalker",
-		"displayName": "D. Stalker"
+		"displayName": "Stalker"
 	}]
 }, {
 	"name": "Kindergarten",
 	"teachers": [{
 		"lastName": "Curtis",
-		"displayName": "K. Curtis"
+		"displayName": "Curtis"
 	}, {
 		"lastName": "Hassen",
-		"displayName": "A. Hassen"
+		"displayName": "Hassen"
 	}, {
 		"lastName": "Jones",
-		"displayName": "M. Jones"
+		"displayName": "Jones"
 	}, {
 		"lastName": "Lapp",
-		"displayName": "J. Lapp"
+		"displayName": "Lapp"
 	}, {
 		"lastName": "Moore",
-		"displayName": "A. Moore"
+		"displayName": "Moore"
 	}]
 }, {
 	"name": "1st Grade",
 	"teachers": [{
 		"lastName": "Hall",
-		"displayName": "K. Hall"
+		"displayName": "Hall"
 	}, {
 		"lastName": "Johnson",
-		"displayName": "C. Johnson"
+		"displayName": "Johnson"
 	}, {
 		"lastName": "Domingos",
-		"displayName": "K. Domingos"
+		"displayName": "Domingos"
 	}, {
 		"lastName": "Schuller",
-		"displayName": "S. Schuller"
+		"displayName": "Schuller"
 	}]
 }, {
 	"name": "2nd Grade",
 	"teachers": [{
 		"lastName": "Kelly",
-		"displayName": "A. Kelly"
+		"displayName": "Kelly"
 	}, {
 		"lastName": "Neufeld",
-		"displayName": "J. Neufeld"
+		"displayName": "Neufeld"
 	}, {
 		"lastName": "Webb",
-		"displayName": "A. Webb"
+		"displayName": "Webb"
 	}, {
 		"lastName": "Winter",
-		"displayName": "E. Winter"
+		"displayName": "Winter"
 	}]
 }, {
 	"name": "3rd Grade",
 	"teachers": [{
 		"lastName": "Cary",
-		"displayName": "A. Cary"
+		"displayName": "Cary"
 	}, {
 		"lastName": "Sharp",
-		"displayName": "J. Sharp"
+		"displayName": "Sharp"
 	}, {
 		"lastName": "Straley",
-		"displayName": "B. Straley"
+		"displayName": "Straley"
 	}, {
 		"lastName": "Power",
-		"displayName": "D. Power"
+		"displayName": "Power"
 	}]
 }, {
 	"name": "4th Grade",
 	"teachers": [{
 		"lastName": "Goettsch",
-		"displayName": "T. Goettsch"
+		"displayName": "Goettsch"
 	}, {
 		"lastName": "Moehlenpah",
-		"displayName": "K. Moehlenpah"
+		"displayName": "Moehlenpah"
 	}, {
 		"lastName": "Waters",
-		"displayName": "T. Waters"
+		"displayName": "Waters"
 	}, {
 		"lastName": "Premschak",
-		"displayName": "B. Premschak"
+		"displayName": "Premschak"
 	}]
 }, {
 	"name": "5th Grade",
 	"teachers": [{
 		"lastName": "Baum",
-		"displayName": "R. Baum"
+		"displayName": "Baum"
 	}, {
 		"lastName": "Godwin",
-		"displayName": "C. Godwin"
+		"displayName": "Godwin"
 	}, {
 		"lastName": "Jenkins",
-		"displayName": "D. Jenkins"
+		"displayName": "Jenkins"
 	}, {
 		"lastName": "Mead",
-		"displayName": "K. Mead"
+		"displayName": "Mead"
 	}]
 }, {
 	"name": "Middle School",
 	"teachers": [{
 		"lastName": "Casinelli",
-		"displayName": "M. Casinelli"
+		"displayName": "Casinelli"
 	}, {
 		"lastName": "Guentensberger",
-		"displayName": "M. Guentensberger"
+		"displayName": "Guentensberger"
 	}, {
 		"lastName": "Williams",
-		"displayName": "E. Williams"
+		"displayName": "Williams"
 	}, {
 		"lastName": "Yanaitis",
-		"displayName": "J. Yanaitis"
+		"displayName": "Yanaitis"
 	}, {
 		"lastName": "Pantou",
-		"displayName": "Y. Pantou"
+		"displayName": "Pantou"
 	}]
 }, {
 	"name": "Latin",
 	"teachers": [{
 		"lastName": "Oldenburg",
-		"displayName": "J. Oldenburg"
+		"displayName": "Oldenburg"
 	}]
 }, {
 	"name": "Technology",
 	"teachers": [{
 		"lastName": "Anderson",
-		"displayName": "M. Anderson"
+		"displayName": "Anderson"
 	}, {
 		"lastName": "Farlow",
-		"displayName": "M. Farlow"
+		"displayName": "Farlow"
 	}]
 }, {
 	"name": "Music",
 	"teachers": [{
 		"lastName": "Becker",
-		"displayName": "B. Becker"
+		"displayName": "Becker"
 	}, {
 		"lastName": "Hanson",
-		"displayName": "B. Hanson"
+		"displayName": "Hanson"
 	}, {
 		"lastName": "Zbryk",
-		"displayName": "A. Zbryk"
+		"displayName": "Zbryk"
 	}]
 }, {
 	"name": "Art",
 	"teachers": [{
 		"lastName": "Hecker",
-		"displayName": "C. Hecker"
+		"displayName": "Hecker"
 	}, {
 		"lastName": "Strelow",
-		"displayName": "B. Strelow"
+		"displayName": "Strelow"
 	}]
 }, {
 	"name": "Library",
 	"teachers": [{
 		"lastName": "Hillman",
-		"displayName": "M. Hillman"
+		"displayName": "Hillman"
 	}]
 }, {
 	"name": "PE",
 	"teachers": [{
 		"lastName": "Holmes",
-		"displayName": "Z. Holmes"
+		"displayName": "Holmes"
 	}, {
 		"lastName": "Yanaitis",
-		"displayName": "A. Yanaitis"
+		"displayName": "Yanaitis"
 	}]
 }]
