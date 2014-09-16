@@ -356,6 +356,7 @@ CROSS JOIN `right` ri
 WHERE ro.Name = 'Administrator';$$
 
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Art Room Assistance');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Athletics');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'AVA Gala');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'BASE Volunteers');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Book Fair');$$
