@@ -1256,7 +1256,7 @@ var AdminReportsSvc = function(reportsDiv) {
 			reportList.append("<tr><th>Email</th></tr>");
 			for(var i=0; i<volunteers.length; i++) {
 				var volunteer = volunteers[i];
-				var td = $("<td />").text("<" + volunteer.firstName + " " + volunteer.lastName + "> " + volunteer.emailAddress + ";");
+				var td = $("<td />").text(volunteer.firstName + " " + volunteer.lastName + " <" + volunteer.emailAddress + ">;");
 				var tr = $("<tr />").append(td);
 				reportList.append(tr);			
 			}
