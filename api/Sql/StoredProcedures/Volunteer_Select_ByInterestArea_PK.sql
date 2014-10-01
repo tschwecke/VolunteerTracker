@@ -19,8 +19,12 @@ FROM
     `volunteer` v 
 INNER JOIN 
     `interest` i ON i.Volunteer_PK = v.Volunteer_PK
+INNER JOIN 
+    `role` r ON r.Role_PK = v.Role_PK
 WHERE
-    i.InterestArea_PK = interestArea_PK;
+    i.InterestArea_PK = interestArea_PK
+AND
+    r.Name = 'Active';
 
 END$$
 
