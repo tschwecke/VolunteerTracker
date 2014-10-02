@@ -1045,7 +1045,8 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 		var statusList = [{'id': 1, 'name': "Pending"}, 
 						{'id': 2, 'name': "Active"}, 
 						{'id': 3, 'name': "Administator"}, 
-						{'id': 4, 'name': "Inactive"}];
+						{'id': 4, 'name': "Inactive"}, 
+						{'id': 5, 'name': "Kiosk Admin"}];
 		var statusDropdownHtml = "<select class=\"volunteerRoleSelect\" data-volunteerId=\"" + volunteer.id + "\">";
 
 		for(var i=0; i<statusList.length; i++) {
