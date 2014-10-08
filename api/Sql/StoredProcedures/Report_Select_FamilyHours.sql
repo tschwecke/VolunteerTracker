@@ -2,7 +2,7 @@ DELIMITER $$
 
 drop procedure if exists `Report_Select_FamilyHours`
 $$
-CREATE PROCEDURE `Report_Select_FamilyHours` ()
+CREATE PROCEDURE `Report_Select_FamilyHours` (schoolYearStartDate date)
 BEGIN
 
 SELECT
@@ -17,7 +17,9 @@ WHERE
 GROUP BY 
   v.FamilyId
 ORDER BY 
-  SUM( h.NbrOfHours );
+  SUM( h.NbrOfHours )
+AND 
+  h.Date >= schoolYearStartDate;
 
 END$$
 
