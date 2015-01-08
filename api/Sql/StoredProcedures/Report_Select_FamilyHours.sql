@@ -7,6 +7,7 @@ BEGIN
 
 SELECT
   v.FamilyId, 
+  GROUP_CONCAT( DISTINCT v.EmailAddress ) as 'EmailAddress',
   SUM( h.NbrOfHours ) as 'NbrHours'
 FROM 
   volunteer v
