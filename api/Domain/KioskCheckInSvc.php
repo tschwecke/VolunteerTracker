@@ -5,24 +5,18 @@ require_once 'Models/DomainObject.php';
 class KioskCheckInSvc {
 
 	public function getById($id) {
-		date_default_timezone_set("UTC"); 
 		$results = Dal::executeQuery("KioskCheckIn_Select_ByPK", $id);
 		$checkIn = new DomainObject('KioskCheckIn', $results[0]);
-		$date = new DateTime($checkIn->checkInTime);
-		$checkIn->checkInTime = $date->format(DATE_ISO8601);
 		$this->assertValidity($checkIn);
 
 		return $checkIn;
 	}
 
 	public function getActive() {
-		date_default_timezone_set("UTC"); 
 		$results = Dal::executeQuery("KioskCheckIn_Select_Active");
 		$checkIns = array();
 		for($i=0; $i<count($results); $i++) {
 			$checkIn = new DomainObject('KioskCheckIn', $results[$i]);
-			$date = new DateTime($checkIn->checkInTime);
-			$checkIn->checkInTime = $date->format(DATE_ISO8601);
 			$this->assertValidity($checkIn);
 			array_push($checkIns, $checkIn);
 		}
@@ -45,7 +39,8 @@ class KioskCheckInSvc {
 									$checkIn->checkOutTime);
 		}
 		else {
-			$checkIn->checkInTime = date(DateTime::ISO8601);
+			$currentTime = new DateTime(NULL, new DateTimeZone("America/Denver"));
+			$checkIn->checkInTime = $currentTime->format(DATE_ISO8601);
 
 			$results = Dal::executeQuery("KioskCheckIn_Insert",
 									$checkIn->volunteerId,

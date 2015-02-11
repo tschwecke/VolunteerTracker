@@ -84,12 +84,12 @@ class KioskCheckInController extends BaseController {
 			return;
 		}
 
-		$checkIn->checkOutTime = $this->getCurrentTime();
+		$checkOutTime = $this->getCurrentTime();
+		$checkIn->checkOutTime = $checkOutTime->format(DATE_ISO8601);
 		$svc->save($checkIn);
 
 		//Determine the number of hours to grant based on the check in check out times
-		$checkInTime = new DateTime($checkIn->checkInTime);
-		$checkOutTime = new DateTime($checkIn->checkOutTime);
+		$checkInTime = new DateTime($checkIn->checkInTime, new DateTimeZone("America/Denver"));
 		$diff = date_diff($checkOutTime, $checkInTime);
 		$minutes = $this->roundOffMinutes($diff->i);
 		$checkIn->nbrHours = $diff->h + ($minutes / 60);
@@ -112,8 +112,7 @@ class KioskCheckInController extends BaseController {
 	}
 
 	private function getCurrentTime() {
-		date_default_timezone_set("UTC");
-		return date("Y-m-d\TH:i:s\Z", time()); 
+		return new DateTime(NULL, new DateTimeZone("America/Denver")); 
 	}
 
 	private function roundOffMinutes($rawMinutes) {
