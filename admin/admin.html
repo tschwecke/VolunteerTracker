@@ -9,17 +9,37 @@
         width: 650px;
     }
 
+    #familyList {
+      display: none;
+    }
+
+    #familyList th {
+      text-align: left;
+      padding-right: 2rem;
+    }
+
   </style>
 </head>
 <body>
   <h3>Percent of Families by Approved Hours</h3>
   <div id="chart"><svg></svg></div>
 
+  <h3>Families with more than 30 hours</h3>
+  <table id="familyList">
+    <tr>
+      <th>Family Number</th>
+      <th>Names</th>
+      <th>Hours</th>
+    </tr>
+  </table>
+  
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.5/d3.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
   <script language="javascript">
     $.get('../api/reports/familyHours', function(families) {
+
+      //Create the chart
       nv.addGraph(function() {
         var chart = nv.models.discreteBarChart()
             .x(function(d) { return d.label })    //Specify the data accessors.
@@ -40,6 +60,41 @@
 
         return chart;
       });
+
+      //Create the list of families over 30 Hours
+      var tableElement = $("#familyList");
+      for(var i=0; i<families.length; i++) {
+        var family = families[i];
+
+        if(family.nbrHours >= 30) {
+
+          //Names is in this format: "John Doe, Jane Doe".  We want it to be displayed like this: "John and Jane Doe"
+          var namesList = family.names.split(', ');
+          var displayNames = [];
+          var currentLastName = '';
+          var firstNamesList = [];
+
+          for (var j = 0; j < namesList.length; j++) {
+            var name = splitName(namesList[j]);
+
+            if(currentLastName !== '' && currentLastName !== name.lastName) {
+              //If we've hit a new last name we can list all of the people with the same last name
+              displayNames.push(firstNamesList.join(' and ') + ' ' + currentLastName);
+              firstNamesList = [];
+            }
+
+            currentLastName = name.lastName;
+            firstNamesList.push(name.firstName);
+          }
+
+          displayNames.push(firstNamesList.join(' and ') + ' ' + currentLastName);
+          var formattedDisplayNames = displayNames.join(' and ');
+
+          tableElement.append("<tr><td>" + family.familyId + "</td><td>" + formattedDisplayNames + "</td><td>" + family.nbrHours + "</td></tr>")
+        }
+      }
+
+      tableElement.show();
     });
 
     //Each bar represents a single discrete quantity.
@@ -91,6 +146,21 @@
       }
 
       return countInRange / totalCount * 100;
+    }
+
+    function splitName(name) {
+      var nameSeparatorIndex = name.lastIndexOf(' ');
+      var firstName = capitalize(name.substring(0, nameSeparatorIndex).trim());
+      var lastName = capitalize(name.substring(nameSeparatorIndex + 1).trim());
+
+      return {
+        "firstName": firstName,
+        "lastName": lastName
+      };
+    }
+
+    function capitalize(string) {
+      return string.substring(0,1).toUpperCase() + string.substring(1);
     }
 
   </script>

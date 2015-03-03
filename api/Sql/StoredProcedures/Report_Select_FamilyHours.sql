@@ -8,6 +8,7 @@ BEGIN
 SELECT
   v.FamilyId, 
   GROUP_CONCAT( DISTINCT v.EmailAddress ) as 'EmailAddress',
+  GROUP_CONCAT( DISTINCT CONCAT_WS(' ', v.FirstName, v.LastName ) ORDER BY v.LastName, v.FirstName SEPARATOR ', ') as 'Names',
   SUM( h.NbrOfHours ) as 'NbrHours'
 FROM 
   volunteer v
