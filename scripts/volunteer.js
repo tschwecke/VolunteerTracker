@@ -409,15 +409,10 @@ var LoginSvc = function(loginDiv) {
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
 
-				if(ga) {
-					ga('send', 'event', 'login', 'success');
-				}
 				callback(null, data.access_token);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				if(ga) {
-					ga('send', 'event', 'login', 'failure');
-				}
+
 				callback({"route": "POST " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
 		});				
@@ -572,9 +567,7 @@ var VolunteerSvc = function(profileDiv) {
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
-				if(ga) {
-					ga('send', 'event', 'profile', 'created');
-				}
+
 				callback(null, data);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -595,9 +588,7 @@ var VolunteerSvc = function(profileDiv) {
 			data: JSON.stringify(volunteer),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
-				if(ga) {
-					ga('send', 'event', 'profile', 'updated');
-				}
+
 				callback(null, data);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -709,9 +700,7 @@ var InterestsSvc = function(interestsDiv) {
 			data: JSON.stringify(interests),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
-				if(ga) {
-					ga('send', 'event', 'interests', 'saved');
-				}
+
 				callback(null);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -817,9 +806,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 			data: JSON.stringify(hours),
 			contentType: "application/json",
 			success: function(data, textStatus, jqXHR) {
-				if(ga) {
-					ga('send', 'event', 'hours', 'saved');
-				}
+
 				callback(null, data);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -919,14 +906,12 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		var classroomList = hoursDiv.find("#hoursClassroom");
 		for(var i=0; i<classrooms.length; i++) {
 			var classroom = classrooms[i];
-			var optgroup = $('<optgroup/>', { 'label': classroom.name});
 
 			for(var j=0; j<classroom.teachers.length; j++) {
 				var teacher = classroom.teachers[j];
-				optgroup.append('<option value="' + teacher.lastName + '">' + teacher.displayName + "</option>");
+				classroomList.append('<option value="' + teacher.lastName + '">' + teacher.displayName + '</option>');
 			}
 
-			classroomList.append(optgroup);
 		}
 	};
 
