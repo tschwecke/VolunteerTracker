@@ -20,6 +20,13 @@ class AccessTokenController extends BaseController {
 			}
 
 			$authenticationMgr = new AuthenticationMgr();
+
+			if(empty($volunteer->passwordHash)) {
+				$defaultPassword = "ava" . $volunteer->familyId;
+				$volunteer->passwordHash = $authenticationMgr->createPasswordHash($defaultPassword, $volunteer->salt);
+				$svc->save($volunteer);
+			}
+
 			$passwordHash = $authenticationMgr->createPasswordHash($credentials->password, $volunteer->salt);
 		
 			if($passwordHash == $volunteer->passwordHash) {
