@@ -1,169 +1,139 @@
 [{
-	"name": "PreK",
+	"name": "All",
 	"teachers": [{
-		"lastName": "Stalker",
-		"displayName": "Stalker"
-	}]
-}, {
-	"name": "Kindergarten",
-	"teachers": [{
+		"lastName": "Alguire",
+		"displayName": "Alguire"
+	}, {
+		"lastName": "Anderson",
+		"displayName": "Anderson"
+	}, {
+		"lastName": "Baun",
+		"displayName": "Baun"
+	}, {
+		"lastName": "Becker",
+		"displayName": "Becker"
+	}, {
+		"lastName": "Bodiker",
+		"displayName": "Bodiker"
+	}, {
+		"lastName": "Bradley",
+		"displayName": "Bradley"
+	}, {
+		"lastName": "Casinelli",
+		"displayName": "Casinelli"
+	}, {
+		"lastName": "Combe",
+		"displayName": "Combe"
+	}, {
 		"lastName": "Curtis",
 		"displayName": "Curtis"
 	}, {
-		"lastName": "Hassen",
-		"displayName": "Hassen"
-	}, {
-		"lastName": "Jones",
-		"displayName": "Jones"
-	}, {
-		"lastName": "Lapp",
-		"displayName": "Lapp"
-	}, {
-		"lastName": "Moore",
-		"displayName": "Moore"
-	}]
-}, {
-	"name": "1st Grade",
-	"teachers": [{
-		"lastName": "Hall",
-		"displayName": "Hall"
-	}, {
-		"lastName": "Johnson",
-		"displayName": "Johnson"
+		"lastName": "Dee",
+		"displayName": "Dee"
 	}, {
 		"lastName": "Domingos",
 		"displayName": "Domingos"
 	}, {
-		"lastName": "Schuller",
-		"displayName": "Schuller"
-	}]
-}, {
-	"name": "2nd Grade",
-	"teachers": [{
-		"lastName": "Kelly",
-		"displayName": "Kelly"
+		"lastName": "Ericson",
+		"displayName": "Ericson"
 	}, {
-		"lastName": "Neufeld",
-		"displayName": "Neufeld"
+		"lastName": "Farlow",
+		"displayName": "Farlow"
 	}, {
-		"lastName": "Webb",
-		"displayName": "Webb"
+		"lastName": "Ford",
+		"displayName": "Ford"
 	}, {
-		"lastName": "Winter",
-		"displayName": "Winter"
-	}]
-}, {
-	"name": "3rd Grade",
-	"teachers": [{
-		"lastName": "Cary",
-		"displayName": "Cary"
-	}, {
-		"lastName": "Sharp",
-		"displayName": "Sharp"
-	}, {
-		"lastName": "Straley",
-		"displayName": "Straley"
-	}, {
-		"lastName": "Power",
-		"displayName": "Power"
-	}]
-}, {
-	"name": "4th Grade",
-	"teachers": [{
 		"lastName": "Goettsch",
 		"displayName": "Goettsch"
-	}, {
-		"lastName": "Moehlenpah",
-		"displayName": "Moehlenpah"
-	}, {
-		"lastName": "Waters",
-		"displayName": "Waters"
-	}, {
-		"lastName": "Premschak",
-		"displayName": "Premschak"
-	}]
-}, {
-	"name": "5th Grade",
-	"teachers": [{
-		"lastName": "Baun",
-		"displayName": "Baun"
-	}, {
-		"lastName": "Godwin",
-		"displayName": "Godwin"
-	}, {
-		"lastName": "Jenkins",
-		"displayName": "Jenkins"
-	}, {
-		"lastName": "Mead",
-		"displayName": "Mead"
-	}]
-}, {
-	"name": "Middle School",
-	"teachers": [{
-		"lastName": "Casinelli",
-		"displayName": "Casinelli"
 	}, {
 		"lastName": "Guentensberger",
 		"displayName": "Guentensberger"
 	}, {
-		"lastName": "Williams",
-		"displayName": "Williams"
-	}, {
-		"lastName": "Yanaitis",
-		"displayName": "Yanaitis"
-	}, {
-		"lastName": "Pantou",
-		"displayName": "Pantou"
-	}]
-}, {
-	"name": "Latin",
-	"teachers": [{
-		"lastName": "Oldenburg",
-		"displayName": "Oldenburg"
-	}]
-}, {
-	"name": "Technology",
-	"teachers": [{
-		"lastName": "Anderson",
-		"displayName": "Anderson"
-	}, {
-		"lastName": "Farlow",
-		"displayName": "Farlow"
-	}]
-}, {
-	"name": "Music",
-	"teachers": [{
-		"lastName": "Becker",
-		"displayName": "Becker"
+		"lastName": "Hall",
+		"displayName": "Hall"
 	}, {
 		"lastName": "Hanson",
 		"displayName": "Hanson"
 	}, {
-		"lastName": "Zbryk",
-		"displayName": "Zbryk"
-	}]
-}, {
-	"name": "Art",
-	"teachers": [{
 		"lastName": "Hecker",
 		"displayName": "Hecker"
 	}, {
-		"lastName": "Strelow",
-		"displayName": "Strelow"
-	}]
-}, {
-	"name": "Library",
-	"teachers": [{
-		"lastName": "Hillman",
-		"displayName": "Hillman"
-	}]
-}, {
-	"name": "PE",
-	"teachers": [{
 		"lastName": "Holmes",
 		"displayName": "Holmes"
 	}, {
+		"lastName": "Johnson",
+		"displayName": "Johnson"
+	}, {
+		"lastName": "Landry",
+		"displayName": "Landry"
+	}, {
+		"lastName": "Lapp",
+		"displayName": "Lapp"
+	}, {
+		"lastName": "Lutjens",
+		"displayName": "Lutjens"
+	}, {
+		"lastName": "Martin",
+		"displayName": "Martin"
+	}, {
+		"lastName": "Moehlenpah",
+		"displayName": "Moehlenpah"
+	}, {
+		"lastName": "Neufeld",
+		"displayName": "Neufeld"
+	}, {
+		"lastName": "Oldenburg",
+		"displayName": "Oldenburg"
+	}, {
+		"lastName": "Partridge",
+		"displayName": "Partridge"
+	}, {
+		"lastName": "Power",
+		"displayName": "Power"
+	}, {
+		"lastName": "Schuller",
+		"displayName": "Schuller"
+	}, {
+		"lastName": "Sims",
+		"displayName": "Sims"
+	}, {
+		"lastName": "Smith",
+		"displayName": "Smith"
+	}, {
+		"lastName": "Straight",
+		"displayName": "Straight"
+	}, {
+		"lastName": "Strelow",
+		"displayName": "Strelow"
+	}, {
+		"lastName": "Strobel",
+		"displayName": "Strobel"
+	}, {
+		"lastName": "Tyler",
+		"displayName": "Tyler"
+	}, {
+		"lastName": "Waters",
+		"displayName": "Waters"
+	}, {
+		"lastName": "Webb",
+		"displayName": "Webb"
+	}, {
+		"lastName": "Williams",
+		"displayName": "Williams"
+	}, {
+		"lastName": "Winter",
+		"displayName": "Winter"
+	}, {
 		"lastName": "Yanaitis",
 		"displayName": "Yanaitis"
+	}, {
+		"lastName": "Yanaitis",
+		"displayName": "Yanaitis"
+	}, {
+		"lastName": "Yonce",
+		"displayName": "Yonce"
+	}, {
+		"lastName": "Zbryk",
+		"displayName": "Zbryk"
 	}]
 }]
