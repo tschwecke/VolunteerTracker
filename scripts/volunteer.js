@@ -115,7 +115,7 @@ var ExistingUserMgr = function() {
 		volunteerSvc.get(sessionMgr.getVolunteerId(), function (err, volunteer) {
 			if(err) return notificationMgr.notify("An error occurred while retrieving your volunteer account. Please refresh the page and try again.", err);
 
-			currentVolunteer = volunteer;			
+			currentVolunteer = volunteer;
 			volunteerSvc.populateForm(volunteer);
 
 			volunteerHoursSvc.getHoursByVolunteer(sessionMgr.getVolunteerId(), function (err, hours) {
@@ -320,7 +320,7 @@ var SessionMgr = function() {
 
 	this.setAccessToken = function(newAccessToken) {
 		accessToken = newAccessToken;
-		
+
 		if(sessionStorage) {
 			sessionStorage["VolunteerAccessToken"] = accessToken;
 		}
@@ -328,7 +328,7 @@ var SessionMgr = function() {
 
 	this.clearSession = function() {
 		accessToken = null;
-		
+
 		if(sessionStorage) {
 			sessionStorage.removeItem("VolunteerAccessToken");
 		}
@@ -384,7 +384,7 @@ var LoginSvc = function(loginDiv) {
 
 	this.validate = function(credentials) {
 		var errors = [];
-			
+
 		//Email
 		if(hasValue(credentials.emailAddress)) {
 			if(!isValidEmail(credentials.emailAddress)) {
@@ -394,7 +394,7 @@ var LoginSvc = function(loginDiv) {
 		else {
 			errors.push(validationErrorCodes.LOGIN_EMAIL_REQUIRED);
 		}
-			
+
 		//Password
 		if(!hasValue(credentials.password)) errors.push(validationErrorCodes.LOGIN_PASSWORD_REQUIRED);
 
@@ -420,7 +420,7 @@ var LoginSvc = function(loginDiv) {
 				}
 				callback({"route": "POST " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
-		});				
+		});
 	};
 
 	this.getAccessTokenById = function(volunteerId, callback) {
@@ -469,10 +469,10 @@ var VolunteerSvc = function(profileDiv) {
 			password: profileDiv.find("#password").val(),
 			confirmPassword:  profileDiv.find("#confirmPassword").val()
 		};
-			
+
 		return volunteer;
 	};
-		
+
 	this.populateForm = function(volunteer) {
 		var UNCHANGED_PASSWORD = "UNCHANGED";
 		if(volunteer) {
@@ -515,7 +515,7 @@ var VolunteerSvc = function(profileDiv) {
 		else {
 			errors.push(validationErrorCodes.EMAIL_REQUIRED);
 		}
-			
+
 		//Password
 		if(hasValue(volunteer.password)) {
 			if(isValidPassword(volunteer.password)) {
@@ -535,7 +535,7 @@ var VolunteerSvc = function(profileDiv) {
 		else {
 			errors.push(validationErrorCodes.PASSWORD_REQUIRED);
 		}
-		
+
 		//Family ID
 		if(!hasValue(volunteer.familyId)) errors.push(validationErrorCodes.FAMILY_ID_REQUIRED);
 
@@ -564,7 +564,7 @@ var VolunteerSvc = function(profileDiv) {
 			}
 		});
 	};
-		
+
 	this.save = function(volunteer, callback) {
 		var url = "api/volunteers";
 		$.ajax(url, {
@@ -585,7 +585,7 @@ var VolunteerSvc = function(profileDiv) {
 					callback({"route": "POST " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 				}
 			}
-		});			
+		});
 	};
 
 	this.update = function(volunteer, callback) {
@@ -603,16 +603,16 @@ var VolunteerSvc = function(profileDiv) {
 			error: function(jqXHR, textStatus, errorThrown) {
 				callback({"route": "PUT " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
-		});			
+		});
 	};
 
 };
 
 
 
-	
+
 var ErrorSvc = function(parentDiv) {
-		
+
 	this.showErrors = function(errors) {
 		clearErrors();
 		if(errors.length > 0) {
@@ -624,22 +624,22 @@ var ErrorSvc = function(parentDiv) {
 			errorString += "</ul>";
 			parentDiv.find(".validationErrorBox .validationErrorMsg").html(errorString);
 			parentDiv.find(".validationErrorBox").show();
-				
+
 			parentDiv.find("#" + errors[0].elementId).focus();
 		}
 	};
-		
+
 	this.hideErrors = function() {
 		parentDiv.find(".validationErrorBox").hide();
 		parentDiv.find(".validationErrorBox .validationErrorMsg").html("");
-		
+
 		clearErrors();
 	};
-		
+
 	var clearErrors = function() {
 		for(var errorCode in validationErrorCodes) {
 			if(validationErrorCodes.hasOwnProperty(errorCode)) {
-				parentDiv.find("#" + validationErrorCodes[errorCode].elementId).removeClass("validationFailed");	
+				parentDiv.find("#" + validationErrorCodes[errorCode].elementId).removeClass("validationFailed");
 			}
 		}
 	};
@@ -672,7 +672,7 @@ var validationErrorCodes = {
 	FAMILY_ID_REQUIRED: {id:29, elementId: "familyId", message: "Family ID is required."},
 	CLASSROOM_REQUIRED: {id:30, elementId: "hoursClassroom", message: "Classroom is required."}
 };
-	
+
 var InterestsSvc = function(interestsDiv) {
 	var _interestAreas = null;
 
@@ -717,7 +717,7 @@ var InterestsSvc = function(interestsDiv) {
 			error: function(jqXHR, textStatus, errorThrown) {
 				callback({"route": "PUT " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
-		});			
+		});
 	};
 
 	this.getFromForm = function() {
@@ -762,17 +762,17 @@ var InterestsSvc = function(interestsDiv) {
 		var interestsList = interestsDiv.find("#interestsList1");
 		for(var i=0; i<columnLength; i++) {
 			var interest = interests[i];
-			interestsList.append("<li><label><input type=\"checkbox\" data-interestAreaId=\"" + interest.interestAreaId + "\" data-id=\"" + interest.id + "\" " + (interest.selected ? "checked" : "") + ">" + interest.name + "</label></li>");			
+			interestsList.append("<li><label><input type=\"checkbox\" data-interestAreaId=\"" + interest.interestAreaId + "\" data-id=\"" + interest.id + "\" " + (interest.selected ? "checked" : "") + ">" + interest.name + "</label></li>");
 		}
 		interestsList = interestsDiv.find("#interestsList2");
 		for(var i=columnLength; i<(2*columnLength); i++) {
 			var interest = interests[i];
-			interestsList.append("<li><label><input type=\"checkbox\" data-interestAreaId=\"" + interest.interestAreaId + "\" data-id=\"" + interest.id + "\" " + (interest.selected ? "checked" : "") + ">" + interest.name + "</label></li>");			
+			interestsList.append("<li><label><input type=\"checkbox\" data-interestAreaId=\"" + interest.interestAreaId + "\" data-id=\"" + interest.id + "\" " + (interest.selected ? "checked" : "") + ">" + interest.name + "</label></li>");
 		}
 		interestsList = interestsDiv.find("#interestsList3");
 		for(var i=(2*columnLength); i<interests.length; i++) {
 			var interest = interests[i];
-			interestsList.append("<li><label><input type=\"checkbox\" data-interestAreaId=\"" + interest.interestAreaId + "\" data-id=\"" + interest.id + "\" " + (interest.selected ? "checked" : "") + ">" + interest.name + "</label></li>");			
+			interestsList.append("<li><label><input type=\"checkbox\" data-interestAreaId=\"" + interest.interestAreaId + "\" data-id=\"" + interest.id + "\" " + (interest.selected ? "checked" : "") + ">" + interest.name + "</label></li>");
 		}
 	};
 
@@ -798,14 +798,14 @@ var ClassroomSvc = function() {
 			error: function(jqXHR, textStatus, errorThrown) {
 				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
-		});	
+		});
 	};
 };
 
 var VolunteerHoursSvc = function(hoursDiv) {
 
 	var interestAreas = null;
-		
+
 	this.save = function(volunteerId, hours, callback) {
 		//Change the date from a string to a date object
 		hours.date = convertStringToDate(hours.date);
@@ -827,7 +827,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 			}
 		});
 	};
-		
+
 	this.getHoursByVolunteer = function(volunteerId, callback) {
 		var url = "api/volunteers/" + volunteerId + "/familyHours";
 		$.ajax(url, {
@@ -838,9 +838,9 @@ var VolunteerHoursSvc = function(hoursDiv) {
 			error: function(jqXHR, textStatus, errorThrown) {
 				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
-		});	
+		});
 	};
-		
+
 	this.populateForm = function(volunteerId, hours, classrooms) {
 		var totalFamilyHours = 0,
 			totalPersonalHours = 0,
@@ -893,7 +893,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		hoursDiv.find("#familyTotalHours").text(totalFamilyHours.toFixed(1));
 		hoursDiv.find("#pendingTotalHours").text(totalPendingHours.toFixed(1));
 	};
-		
+
 	this.populateInterestAreas = function(interests) {
 
 		interests.sort(function (a, b) {
@@ -910,7 +910,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		var interestsList = hoursDiv.find("#hoursArea");
 		for(var i=0; i<interests.length; i++) {
 			var interest = interests[i];
-			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
+			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");
 		}
 	};
 
@@ -953,13 +953,13 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		else {
 			errors.push(validationErrorCodes.DATE_REQUIRED);
 		}
-		if(hasValue(hours.nbrOfHours)) {
+		if(hasValue(hours.nbrOfHours) && hours.nbrOfHours !== 'Select one...') {
 			if(!isNumber(hours.nbrOfHours)) {
 				errors.push(validationErrorCodes.HOURS_INVALID);
 			}
 		}
 		else {
-			errors.push(validationErrorCodes.HOURS_REQUIRED);			
+			errors.push(validationErrorCodes.HOURS_REQUIRED);
 		}
 		if(!hasValue(hours.interestAreaId)) errors.push(validationErrorCodes.AREA_REQUIRED);
 
@@ -984,7 +984,7 @@ var VolunteerHoursSvc = function(hoursDiv) {
 		hoursDiv.find("#hoursDescription").val("");
 	};
 };
-	
+
 var AdminVolunteerSvc = function(adminVolunteerDiv) {
 	var self = this;
 
@@ -1002,7 +1002,7 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 				}
 			}
 
-			volunteerList.append("<tr><td>" + volunteer.lastName + "</td><td>" + volunteer.firstName + "</td><td>" + volunteer.emailAddress + "</td><td>" + getStatusDropdown(volunteer) + "</td><td>" + totalHours + "</td><td><a href=\"javascript:loginSvc.switchUser(" + volunteer.id + ");\" class=\"administrativeLogin\">Login</a></td></tr>");			
+			volunteerList.append("<tr><td>" + volunteer.lastName + "</td><td>" + volunteer.firstName + "</td><td>" + volunteer.emailAddress + "</td><td>" + getStatusDropdown(volunteer) + "</td><td>" + totalHours + "</td><td><a href=\"javascript:loginSvc.switchUser(" + volunteer.id + ");\" class=\"administrativeLogin\">Login</a></td></tr>");
 		}
 
 		$(".volunteerRoleSelect").change(function(eventObject) {
@@ -1042,10 +1042,10 @@ var AdminVolunteerSvc = function(adminVolunteerDiv) {
 	};
 
 	var getStatusDropdown = function(volunteer) {
-		var statusList = [{'id': 1, 'name': "Pending"}, 
-						{'id': 2, 'name': "Active"}, 
-						{'id': 3, 'name': "Administator"}, 
-						{'id': 4, 'name': "Inactive"}, 
+		var statusList = [{'id': 1, 'name': "Pending"},
+						{'id': 2, 'name': "Active"},
+						{'id': 3, 'name': "Administator"},
+						{'id': 4, 'name': "Inactive"},
 						{'id': 5, 'name': "Kiosk Admin"}];
 		var statusDropdownHtml = "<select class=\"volunteerRoleSelect\" data-volunteerId=\"" + volunteer.id + "\">";
 
@@ -1090,7 +1090,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 				var dateString = formatDateForDisplay(date);
 				var interestArea = getInterestArea(interestAreas, hoursSubmission)
 
-				hoursList.append("<tr><td>" + volunteer.familyId + "</td><td>" + volunteer.firstName + " " + volunteer.lastName + "</td><td>" + dateString + "</td><td>" + interestArea + "</td><td>" + hoursSubmission.nbrOfHours + "</td><td>" + getStatusDropdown(hoursSubmission) + "</td><td>" + hoursSubmission.description + "</td></tr>");			
+				hoursList.append("<tr><td>" + volunteer.familyId + "</td><td>" + volunteer.firstName + " " + volunteer.lastName + "</td><td>" + dateString + "</td><td>" + interestArea + "</td><td>" + hoursSubmission.nbrOfHours + "</td><td>" + getStatusDropdown(hoursSubmission) + "</td><td>" + hoursSubmission.description + "</td></tr>");
 			}
 
 			$("#adminHoursTotal").text("Total number of hours: " + totalHours.toFixed(2));
@@ -1191,7 +1191,7 @@ var AdminHoursSvc = function(adminHoursDiv) {
 		var interestsList = adminHoursDiv.find("#adminHoursInterestArea");
 		for(var i=0; i<interests.length; i++) {
 			var interest = interests[i];
-			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
+			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");
 		}
 	};
 
@@ -1215,7 +1215,7 @@ var AdminReportsSvc = function(reportsDiv) {
 		var interestsList = reportsDiv.find("#reportInterestArea");
 		for(var i=0; i<interests.length; i++) {
 			var interest = interests[i];
-			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");			
+			interestsList.append("<option value=\"" + interest.interestAreaId + "\">" + interest.name + "</option>");
 		}
 	};
 
@@ -1229,7 +1229,7 @@ var AdminReportsSvc = function(reportsDiv) {
 			error: function(jqXHR, textStatus, errorThrown) {
 				callback({"route": "GET " + url, "jqXHR": jqXHR, "textStatus": textStatus, "errorThrown": errorThrown});
 			}
-		});	
+		});
 	};
 
 	this.populateForm = function(volunteers) {
@@ -1259,7 +1259,7 @@ var AdminReportsSvc = function(reportsDiv) {
 				var volunteer = volunteers[i];
 				var td = $("<td />").text(volunteer.firstName + " " + volunteer.lastName + " <" + volunteer.emailAddress + ">;");
 				var tr = $("<tr />").append(td);
-				reportList.append(tr);			
+				reportList.append(tr);
 			}
 		}
 	};
@@ -1313,20 +1313,20 @@ var NotificationMgr = function() {
 var hasValue = function(value) {
 	return (value && value != "");
 };
-	
+
 var isValidEmail = function(emailAddress) {
 	var emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	return emailPattern.test(emailAddress);
 };
-	
+
 var isValidPassword = function(password) {
 	return (password && password.length >= 6);
 };
-	
+
 var isNumber = function(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);
 };
-	
+
 var isDate = function(date) {
 	var datePattern = /^\d{1,2}\/\d{1,2}\/(\d{2}|\d{4})$/;
 	return datePattern.test(date);
@@ -1352,16 +1352,16 @@ var convertJsonDateToDate = function(jsonDateString) {
 };
 
 var formatDateForDisplay = function(date) {
-	return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear(); 
+	return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 };
-	
+
 var formatDateForJson = function(date) {
 	var milliseconds = date.getTime();
 	var formattedString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
 	return formattedString;
 };
-	
+
 var getParameterByName = function( name )
 {
 	name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
