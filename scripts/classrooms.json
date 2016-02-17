@@ -43,6 +43,9 @@
 		"lastName": "Ford",
 		"displayName": "Ford"
 	}, {
+		"lastName": "Frieden",
+		"displayName": "Frieden"
+	}, {
 		"lastName": "Goettsch",
 		"displayName": "Goettsch"
 	}, {
@@ -69,9 +72,6 @@
 	}, {
 		"lastName": "Lutjens",
 		"displayName": "Lutjens"
-	}, {
-		"lastName": "Martin",
-		"displayName": "Martin"
 	}, {
 		"lastName": "Moehlenpah",
 		"displayName": "Moehlenpah"
