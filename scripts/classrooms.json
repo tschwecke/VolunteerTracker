@@ -64,9 +64,6 @@
 		"lastName": "Johnson",
 		"displayName": "Johnson"
 	}, {
-		"lastName": "Landry",
-		"displayName": "Landry"
-	}, {
 		"lastName": "Lapp",
 		"displayName": "Lapp"
 	}, {
@@ -87,6 +84,9 @@
 	}, {
 		"lastName": "Partridge",
 		"displayName": "Partridge"
+	}, {
+		"lastName": "Paul",
+		"displayName": "Paul"
 	}, {
 		"lastName": "Power",
 		"displayName": "Power"

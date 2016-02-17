@@ -390,6 +390,7 @@ INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Yearbook');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Finance Committee');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Foundation Council');$$
 INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Literacy');$$
+INSERT INTO `interestarea`(`SortOrder`, `Name`) VALUES (1, 'Family Resource Workshop');$$
 
 
 INSERT INTO `volunteer`
