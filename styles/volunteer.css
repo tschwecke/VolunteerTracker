@@ -38,28 +38,40 @@
 .loginBoxContainer {
 	margin-bottom: 20px;
 }
-		
+
 .loginBoxContainer .validationErrorBox {
 	position: relative;
 	left: 50%;
 	margin-left: -150px;
 	width: 400px;
 }
-		
+
 .loginBox {
 	position: relative;
 	left: 50%;
 	margin-left: -71px;
 }
-		
+
 .loginBox h1 {
 	font-size: 18px;
 }
-		
+
+.emailAddressLabel {
+	margin-top: 15px;
+}
+
+.passwordLabel {
+	margin-top: 15px;
+}
+
+.loginButton {
+	margin-top: 15px;
+}
+
 .hiddenTab {
 	display: none;
 }
-		
+
 div.createProfile {
 	margin-top: 20px;
 }
@@ -67,12 +79,12 @@ div.createProfile {
 .profile {
 	display: table;
 }
-		
+
 .profileColumn {
 	display: table-cell;
 	padding-right: 10px;
 }
-		
+
 .innerProfileColumn {
 	display: table;
 }
@@ -95,24 +107,24 @@ div.createProfile {
 .profileRow #relationshipToOrganization {
 	margin-top: 25px;
 }
-		
+
 .profileRow #preferPhone {
 	margin-top: 25px;
 }
-		
+
 .profileRow #profileSaveButton {
 	margin-top: 20px;
 }
 
 .profile .validationErrorBox {
-	margin-bottom: 10px;	
+	margin-bottom: 10px;
 }
 
 .validationFailed {
 	border-color: red;
 	border-width: 1px;
 }
-		
+
 ul.interests {
 	list-style-type: none;
 	padding-left: 0px;
@@ -120,13 +132,13 @@ ul.interests {
 	display: inline-block;
 	vertical-align: top;
 }
-		
+
 p.availabilityDescription {
 	margin-left: 30px;
 	text-align: center;
 	width: 300px;
 }
-		
+
 table.availability {
 	border-spacing: 0px;
 }
@@ -135,7 +147,7 @@ table.availability th.rowHeader {
 	text-align: right;
 	padding-right: 4px;
 }
-		
+
 table.availability th {
 	border-width: 1px;
 	border-style: none;
@@ -154,54 +166,54 @@ table.availability td {
 	text-align: center;
 	height: 16px;
 }
-		
+
 td.lastColumn {
 	border-right-width: 1px;
-	border-right-style: solid;		
+	border-right-style: solid;
 }
 
 tr.lastRow td {
 	border-bottom-width: 1px;
-	border-bottom-style: solid;		
+	border-bottom-style: solid;
 }
 
 table.availability th.empty {
 	border-width: 0px;
 	border-style: none;
 }
-		
+
 table.availability th.columnHeader {
 	width: 80px;
 }
-		
+
 #interestsSaveButton {
 	margin-left: 265px;
 	margin-top: 20px;
 }
-		
+
 div.interests {
 	display: inline;
 }
-		
+
 div.availability {
 	display: inline;
 }
-		
+
 span.timeSelected {
 	position:relative;
 	left:50%;
 	margin-left:-8px;
 }
-		
+
 .hours {
 	display: table;
 }
-		
+
 .hoursColumn {
 	display: table-cell;
 	padding-right: 10px;
 }
-		
+
 .innerHoursColumn {
 	display: table;
 }
@@ -220,15 +232,15 @@ span.timeSelected {
 	display: table-cell;
 	padding: 1px;
 }
-		
+
 .hoursRow #detailedHoursButton {
 	margin-top: 8px;
 }
-		
+
 input#hours {
 	width: 50px;
 }
-		
+
 input#hoursDate {
 	width: 95px;
 }
@@ -241,7 +253,7 @@ select#hoursClassroom {
 textarea#hoursDescription {
 	width: 460px;
 }
-		
+
 .totalHours {
 	font-weight: bold;
 }
