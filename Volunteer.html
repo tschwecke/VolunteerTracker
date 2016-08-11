@@ -30,12 +30,32 @@
 
 			<div class="loginBox">
 				<h1>Volunteer Login</h1>
-				<div>Email Address</div>
+				<div class="emailAddressLabel">Email Address</div>
 				<div><input type="textbox" id="loginEmailAddress" /></div>
-				<div>Password</div>
+				<div class="passwordLabel">Password</div>
 				<div><input type="password" id="loginPassword" /></div>
 				<div class="loginButton"><button id="loginButton">Login</button></div>
 				<div class="createProfile">Don't have a login?  <a id="createProfileLink" href="javascript: void(0);">Create your volunteer profile.</a></div>
+				<div class="forgotPassword"><a id="forgotPasswordLink" href="javascript: void(0);">Forgot your password?</a></div>
+			</div>
+		</div>
+	</div>
+
+	<div id="forgotPassword" ui-widget>
+		<div class="loginBoxContainer">
+			<div class="ui-widget validationErrorBox" style="display:none;">
+				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+					<strong>There was a problem with your submission:</strong><span class="validationErrorMsg"></span></p>
+				</div>
+			</div>
+
+			<div class="loginBox">
+				<h1>Forgotten Password</h1>
+				<p>Enter your email ebelow and we'll send you a link to reset your password.</p>
+				<div class="emailAddressLabel">Email Address</div>
+				<div><input type="textbox" id="passwordResetEmailAddress" /></div>
+				<div class="loginButton"><button id="loginButton">Login</button></div>
 			</div>
 		</div>
 	</div>
@@ -291,11 +311,28 @@
 	</div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.20/jquery-ui.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.20/jquery-ui.min.js"></script>
 <script type="text/javascript" src="scripts/fancybox/jquery.fancybox.pack.js?v=2.1.5"></script>
-<script src="scripts/Impromptu.js"></script>
-<script src="scripts/volunteer.js"></script>
+<script type="text/javascript" src="scripts/Impromptu.js"></script>
+<script type="text/javascript" src="scripts/AdminHoursSvc.js"></script>
+<script type="text/javascript" src="scripts/AdminReportsSvc.js"></script>
+<script type="text/javascript" src="scripts/AdminVolunteerSvc.js"></script>
+<script type="text/javascript" src="scripts/ClassroomSvc.js"></script>
+<script type="text/javascript" src="scripts/ErrorSvc.js"></script>
+<script type="text/javascript" src="scripts/ExistingUserMgr.js"></script>
+<script type="text/javascript" src="scripts/ForgottenPasswordSvc.js"></script>
+<script type="text/javascript" src="scripts/InterestsSvc.js"></script>
+<script type="text/javascript" src="scripts/LoginSvc.js"></script>
+<script type="text/javascript" src="scripts/NewUserMgr.js"></script>
+<script type="text/javascript" src="scripts/NotificationMgr.js"></script>
+<script type="text/javascript" src="scripts/RightsSvc.js"></script>
+<script type="text/javascript" src="scripts/SessionMgr.js"></script>
+<script type="text/javascript" src="scripts/UserMgrFactory.js"></script>
+<script type="text/javascript" src="scripts/Utils.js"></script>
+<script type="text/javascript" src="scripts/ValidationErrorCodes.js"></script>
+<script type="text/javascript" src="scripts/VolunteerHoursSvc.js"></script>
+<script type="text/javascript" src="scripts/VolunteerSvc.js"></script>
 <script>
 	$(function () {
 		$("#loginButton").button();
@@ -309,6 +346,11 @@
 
 		$("#createProfileLink").bind("click", function() {
 			UserMgrFactory.getUserMgr().init();
+		});
+
+		$("#forgotPasswordLink").bind("click", function() {
+			$("#login").show();
+			$("#forgotPassword").show();
 		});
 
 		$("#loginButton").click(function () {
@@ -335,6 +377,7 @@
 			}
 		});
 
+		$("#forgotPassword").hide();
 		$("#tabs").hide();
 		$("#admin").hide();
 
@@ -414,6 +457,7 @@
 	var sessionMgr = new SessionMgr();
 	var loginSvc = new LoginSvc($("div#login"));
 	var loginErrorSvc = new ErrorSvc($("div#login"));
+	var forgotPasswordSvc = new ForgotPasswordSvc($("div#forgotPassword"));
 	var volunteerSvc = new VolunteerSvc($("div.profile"));
 	var profileErrorSvc = new ErrorSvc($("div.profile"));
 	var interestsSvc = new InterestsSvc($("div.interests"));
