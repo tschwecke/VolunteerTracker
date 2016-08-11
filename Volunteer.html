@@ -36,7 +36,7 @@
 				<div><input type="password" id="loginPassword" /></div>
 				<div class="loginButton"><button id="loginButton">Login</button></div>
 				<div class="createProfile">Don't have a login?  <a id="createProfileLink" href="javascript: void(0);">Create your volunteer profile.</a></div>
-				<div class="forgotPassword"><a id="forgotPasswordLink" href="javascript: void(0);">Forgot your password?</a></div>
+				<!-- <div class="forgotPassword"><a id="forgotPasswordLink" href="javascript: void(0);">Forgot your password?</a></div> -->
 			</div>
 		</div>
 	</div>
@@ -321,7 +321,7 @@
 <script type="text/javascript" src="scripts/ClassroomSvc.js"></script>
 <script type="text/javascript" src="scripts/ErrorSvc.js"></script>
 <script type="text/javascript" src="scripts/ExistingUserMgr.js"></script>
-<script type="text/javascript" src="scripts/ForgottenPasswordSvc.js"></script>
+<script type="text/javascript" src="scripts/ForgotPasswordSvc.js"></script>
 <script type="text/javascript" src="scripts/InterestsSvc.js"></script>
 <script type="text/javascript" src="scripts/LoginSvc.js"></script>
 <script type="text/javascript" src="scripts/NewUserMgr.js"></script>
@@ -366,7 +366,7 @@
 					$('#loginButton').button("enable");
 
 					if(error) {
-						loginErrorSvc.showErrors([validationErrorCodes.LOGIN_CREDENTIALS_INCORRECT]);
+						loginErrorSvc.showErrors([ValidationErrorCodes.LOGIN_CREDENTIALS_INCORRECT]);
 					}
 					else {
 						sessionMgr.setAccessToken(accessToken);
@@ -457,7 +457,6 @@
 	var sessionMgr = new SessionMgr();
 	var loginSvc = new LoginSvc($("div#login"));
 	var loginErrorSvc = new ErrorSvc($("div#login"));
-	var forgotPasswordSvc = new ForgotPasswordSvc($("div#forgotPassword"));
 	var volunteerSvc = new VolunteerSvc($("div.profile"));
 	var profileErrorSvc = new ErrorSvc($("div.profile"));
 	var interestsSvc = new InterestsSvc($("div.interests"));
