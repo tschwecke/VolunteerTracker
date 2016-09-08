@@ -43,7 +43,7 @@ var VolunteerAreaSvc = function(authSvc, restMgr) {
         classroomInterestAreas.push({
           'id': classroomInterestArea.id,
           'name': classroomInterestArea.name + ' - ' + classrooms[i].teachers[j].displayName,
-          'classroom': classrooms[i].teachers[j].lastName
+          'classroom': classrooms[i].teachers[j].displayName
         });
       }
     }
