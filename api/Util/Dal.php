@@ -18,19 +18,16 @@ class Dal {
 		$arg_list = func_get_args();
 
 		//Remove the proc name from the arg list to get the list of proc args
-		$procArgs = array_splice($arg_list, 1);	
+		$procArgs = array_splice($arg_list, 1);
 
 		//Connect to the db
 		$mysqli = Dal::createConnection();
-		
+
 		//Create the statement
 		$stmt = Dal::createStatement($mysqli, $procName, $procArgs);
 
 		//Bind the input parameters
-		$argTypes = Dal::constructArgTypeString($procArgs);
-		array_unshift($procArgs, $argTypes);
-		$method = new ReflectionMethod('mysqli_stmt', 'bind_param'); 
-		$method->invokeArgs($stmt, $procArgs);   
+		Dal::bindParams($stmt, $procArgs);
 
 		//Execute the statement
 		if(!$stmt->execute()) {
@@ -46,26 +43,22 @@ class Dal {
 		$arg_list = func_get_args();
 
 		//Remove the proc name from the arg list to get the list of proc args
-		$procArgs = array_splice($arg_list, 1);	
+		$procArgs = array_splice($arg_list, 1);
 
 		//Connect to the db
 		$mysqli = Dal::createConnection();
-		
+
 		//Create the statement
 		$stmt = Dal::createStatement($mysqli, $procName, $procArgs);
 
 		//Bind the input parameters
-		if(count($procArgs) > 0) {
-			$argTypes = Dal::constructArgTypeString($procArgs);
-			array_unshift($procArgs, $argTypes);
-			$method = new ReflectionMethod('mysqli_stmt', 'bind_param'); 
-			$method->invokeArgs($stmt, $procArgs);   
-		}
+		Dal::bindParams($stmt, $procArgs);
+
 		//Execute the statement
 		if(!$stmt->execute()) {
 			throw new Exception("Execute failed: (" . $mysqli->errno . ") " . $mysqli->error);
 		}
-		
+
 		//Get the results
 		$results = Dal::getResults($stmt);
 
@@ -82,7 +75,7 @@ class Dal {
 		if ($mysqli->connect_errno) {
 			throw new Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 		}
-		
+
 		return $mysqli;
 	}
 
@@ -97,14 +90,53 @@ class Dal {
 		if(!$stmt->prepare($statmentText)) {
 			throw new Exception("Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error);
 		}
-		
+
 		return $stmt;
 	}
 
-	private static function constructArgTypeString($procArgs) {
-			$argTypes = '';
+	private static function bindParams($stmt, $procArgs) {
+		$argTypes = Dal::constructArgTypeString($procArgs);
 
-	    	for ($i = 0; $i < count($procArgs); $i++) {
+		//Couldn't get reflection to work once we switched to the new hosting provider,
+		//so we have to do this the ugly way
+		switch (count($procArgs)) {
+			case 1:
+				$stmt->bind_param($argTypes, $procArgs[0]);
+				break;
+			case 2:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1]);
+				break;
+			case 3:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2]);
+				break;
+			case 4:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2], $procArgs[3]);
+				break;
+			case 5:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2], $procArgs[3], $procArgs[4]);
+				break;
+			case 6:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2], $procArgs[3], $procArgs[4], $procArgs[5]);
+				break;
+			case 7:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2], $procArgs[3], $procArgs[4], $procArgs[5], $procArgs[6]);
+				break;
+			case 8:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2], $procArgs[3], $procArgs[4], $procArgs[5], $procArgs[6], $procArgs[7]);
+				break;
+			case 9:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2], $procArgs[3], $procArgs[4], $procArgs[5], $procArgs[6], $procArgs[7], $procArgs[8]);
+				break;
+			case 10:
+				$stmt->bind_param($argTypes, $procArgs[0], $procArgs[1], $procArgs[2], $procArgs[3], $procArgs[4], $procArgs[5], $procArgs[6], $procArgs[7], $procArgs[8], $procArgs[9]);
+				break;
+		}
+	}
+
+	private static function constructArgTypeString($procArgs) {
+		$argTypes = '';
+
+	  for ($i = 0; $i < count($procArgs); $i++) {
 			switch (gettype($procArgs[$i])) {
 				case 'boolean':
 				case 'integer':
@@ -120,7 +152,7 @@ class Dal {
 					throw new Exception('Unable to handle type ' . gettype($procArgs[$i]) . ' of arg ' . $i. ' for proc ' . $procName);
 			}
 		}
-		
+
 		return $argTypes;
 	}
 
@@ -133,9 +165,9 @@ class Dal {
 			$procArgList = $procArgList . '?';
 		}
 		$procArgList = $procArgList . ')';
-		
+
 		$statementText = 'CALL ' . $procName . $procArgList;
- 
+
 		return $statementText;
 	}
 
@@ -170,11 +202,14 @@ class Dal {
 		$out19 = NULL;
 		$out20 = NULL;
 
+		//$stmt->bind_result($out1, $out2, $out3, $out4, $out5, $out6, $out7, $out8, $out9, $out10, $out11, $out12, $out13, $out14, $out15, $out16, $out17, $out18, $out19, $out20);
+
+
 		$outputVars = array(&$out1, &$out2, &$out3, &$out4, &$out5, &$out6, &$out7, &$out8, &$out9, &$out10, &$out11, &$out12, &$out13, &$out14, &$out15, &$out16, &$out17, &$out18, &$out19, &$out20);
-		
+
 		$row = array_splice($outputVars, 0, count($fields));
-		$method = new ReflectionMethod('mysqli_stmt', 'bind_result'); 
-		$method->invokeArgs($stmt, $row);   
+		$method = new ReflectionMethod('mysqli_stmt', 'bind_result');
+		$method->invokeArgs($stmt, $row);
 
 		//Loop through the results and build up the results to send back
 		$results = array();
@@ -188,7 +223,7 @@ class Dal {
 		}
 
 		$stmt->free_result();
-	
+
 		return $results;
 	}
 }
