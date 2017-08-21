@@ -4,7 +4,7 @@
 <head>
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.css">
   <style>
-  
+
     #chart {
         width: 650px;
     }
@@ -24,6 +24,8 @@
   <h3>Percent of Families by Approved Hours</h3>
   <div id="chart"><svg></svg></div>
 
+  <h3>Total number of volunteer hours: <span id="totalHours"></span></h3>
+
   <h3>Families with more than 30 hours</h3>
   <table id="familyList">
     <tr>
@@ -32,12 +34,24 @@
       <th>Hours</th>
     </tr>
   </table>
-  
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.5/d3.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
   <script language="javascript">
     $.get('../api/reports/familyHours', function(families) {
+
+      //Get the total number of volunteer hours so far
+      var totalHours = families.reduce(function(totalSoFar, family) {
+        var nbrHours = 0.0;
+        if(isNumeric(family.nbrHours)) {
+          nbrHours = parseFloat(family.nbrHours);
+        }
+
+        return totalSoFar + nbrHours;
+      }, 0);
+      var totalHoursElement = $("#totalHours");
+      totalHoursElement.text(totalHours);
 
       //Create the chart
       nv.addGraph(function() {
@@ -50,7 +64,7 @@
             .transitionDuration(350);
 
         chart.yAxis.axisLabel('Percent of Families')
-            
+
 
         d3.select('#chart svg')
             .datum(getData(families))
@@ -100,27 +114,27 @@
     //Each bar represents a single discrete quantity.
     function getData(families) {
 
-     return  [ 
+     return  [
         {
           key: "Family Volunteer Hours",
           values: [
-            { 
+            {
               "label" : "No Hours" ,
               "value" : getPercentInRange(families, 0, 0)
-            } , 
-            { 
-              "label" : "1 - 9 Hours" , 
+            } ,
+            {
+              "label" : "1 - 9 Hours" ,
               "value" : getPercentInRange(families, 0.01, 10)
-            } , 
-            { 
-              "label" : "10 - 19 Hours" , 
+            } ,
+            {
+              "label" : "10 - 19 Hours" ,
               "value" : getPercentInRange(families, 10, 20)
-            } , 
-            { 
-              "label" : "20 - 29 Hours" , 
+            } ,
+            {
+              "label" : "20 - 29 Hours" ,
               "value" : getPercentInRange(families, 20, 30)
-            } , 
-            { 
+            } ,
+            {
               "label" : "30+ Hours" ,
               "value" : getPercentInRange(families, 30, 9999)
             }
@@ -163,6 +177,9 @@
       return string.substring(0,1).toUpperCase() + string.substring(1);
     }
 
+    function isNumeric(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    }
   </script>
 </body>
 </html>
